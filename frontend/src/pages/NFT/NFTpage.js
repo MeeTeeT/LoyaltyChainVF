@@ -203,7 +203,7 @@ export default function NFTPage (props) {
 </div>
         */}
 <div style={{"min-height":"100vh"}}>
-<div className="md:text-xl font-bold  pl-10 text-primary-500" onclick={()=>{navigate(-1);}}>Back to Brand </div>
+<div className="md:text-xl font-bold  pl-10 text-primary-500" onClick={()=>{navigate(-1);}}>Back to Brand </div>
 
                 <div className="flex ml-20 mt-20">
                     <img src={data.image} alt="" className="w-2/5 rounded-2xl " />

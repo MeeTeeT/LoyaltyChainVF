@@ -88,6 +88,23 @@ export default function Marketplace() {
         updateData(items);
     }
 */
+
+async function  TotalValueByBrand(idBrand) {
+       
+    const ethers = require("ethers");
+     
+      let transaction = await contractMarketplace.getNFTsByBrand(idBrand);
+      var totalValueTmp = 0;
+      //Fetch all the details of every NFT from the contract and display
+      const items = await Promise.all(transaction.map(async i => {
+       let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+        totalValueTmp += Number(price);
+      }))
+      return totalValueTmp;
+      
+  }
+
+
     async function getAllBrands() {
        
         const ethers = require("ethers");
@@ -114,14 +131,15 @@ export default function Marketplace() {
             //let meta = await axios.get(i.image);
            // meta = meta.data;
            //console.log("image from pinata",imageFromPinataURL);
-    
+            const totalValue = await TotalValueByBrand(toNumber(i.brandId));
             //let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
             var brandId = toNumber(i.brandId);
             let item = {
                 brandId : brandId,
                 name : i.name,
                 description : i.description,
-                image : i.image
+                image : i.image,
+                totalValue: totalValue
             }
             console.log("item : ",item);
             return item;
@@ -150,7 +168,7 @@ export default function Marketplace() {
                     Top Brands
                 </div>
                 <section id="Projects"
-    class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+    class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-1 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
                     {data.map((value, index) => {
                         return <BrandTile data={value} key={index} dataBrand={value}></BrandTile>;
                     })}

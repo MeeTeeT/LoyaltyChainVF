@@ -194,7 +194,7 @@ export default function SellNFT () {
   </ul>
 </div>
 
-            
+
             </h3>
                 <div className="mb-4">
                     <label className="block text-primary-500 text-sm font-bold mb-2" htmlFor="name">NFT Loyalty Name</label>
@@ -217,7 +217,7 @@ export default function SellNFT () {
                 }
                 <div>
                     <label className="block text-primary-500 text-sm font-bold mb-2" htmlFor="image">Upload Image (&lt;500 KB)</label>
-                    <input type={"file"} onChange={OnChangeFile}></input>
+                     <input type={"file"} onChange={OnChangeFile} className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
                 </div>
 
                 <br></br>

@@ -53,7 +53,7 @@ export default function MarketplaceBrand({dataBrand}) {
     const [dataBrandFetched, updateBrandFetched] = useState(false);
     const [viewNfts, setViewNfts] = useState(false);
     const [CollectionId, setCollectionId] = useState(null);
-
+    const [totalValue, setTotalValue] = useState(0);
 
 
     async function  getNFTsByBrand(idBrand) {
@@ -68,7 +68,7 @@ export default function MarketplaceBrand({dataBrand}) {
         */
         //create an NFT Token
         let transaction = await contractMarketplace.getNFTsByBrand(idBrand);
-    
+        var totalValueTmp = 0;
         //Fetch all the details of every NFT from the contract and display
         const items = await Promise.all(transaction.map(async i => {
             var tokenURI = await contractMarketplace.tokenURI(i.tokenId);
@@ -78,6 +78,9 @@ export default function MarketplaceBrand({dataBrand}) {
             meta = meta.data;
     
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+            console.log("price", price);
+            totalValueTmp += Number(price);
+            console.log("totalValueTmp", totalValueTmp);
             let item = {
                 price,
                 tokenId: i.tokenId.toNumber(),
@@ -87,9 +90,10 @@ export default function MarketplaceBrand({dataBrand}) {
                 name: meta.name,
                 description: meta.description,
             }
+            
             return item;
         }))
-    
+        setTotalValue(totalValueTmp);
         updateFetched(true);
         updateData(items);
     }
@@ -163,18 +167,19 @@ export default function MarketplaceBrand({dataBrand}) {
         <div class="flex grid items-center lg:grid-cols-2">
           <div class="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
             <div
-              class="relative z-[1] block rounded-lg bg-primary px-6 py-12 shadow-[0_2px_15px_-3px_#618bda12,0_10px_20px_-2px_#8599de0a] backdrop-blur-[25px] dark:bg-[hsla(0,0%,5%,0.7)] dark:shadow-black/20 md:px-12 lg:-mr-14">
-              <h2 class="mb-2 text-3xl font-bold text-primary dark:text-primary-400">
+              class="relative z-[1] block rounded-lg bg-primary px-6 py-8 shadow-[0_2px_15px_-3px_#ad45ee12,0_10px_20px_-2px_#8599de0a] opacity-80 backdrop-blur-[25px] dark:bg-secondary dark:shadow-black/20 md:px-12 lg:-mr-16">
+              <h2 class="mb-2 text-3xl font-bold text-white dark:text-primary-400">
               { datasBrand ? datasBrand.name : ""} Loyalty NFT marketplace
               </h2>
               
               <p class="mb-6 text-neutral-500 dark:text-neutral-300">
               { datasBrand ? datasBrand.description : ""}
               </p>
+              <p class="text-neutral-500 dark:text-neutral-300">Total Value {totalValue} ETH</p>
              
             </div>
           </div>
-          <div class="md:mb-12 lg:mb-0 ">
+          <div class="md:mb-12 lg:mb-0 px-10">
             <img src={datasBrand ? datasBrand.image : null}
               class="lg:rotate-[6deg] w-72 rounded-lg shadow-lg dark:shadow-black/20" alt="image" />
           </div>
