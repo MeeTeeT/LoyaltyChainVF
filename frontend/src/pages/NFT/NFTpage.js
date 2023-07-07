@@ -1,27 +1,33 @@
 import Navbar from "../../components/Navbar";
 //import axie from "../../tile.jpeg";
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import MarketplaceJSON from "../../LoyaltyMarketplace.json";
 import axios from "axios";
-import { useState , useContext} from "react";
+import { useState, useContext } from "react";
 import { GetIpfsUrlFromPinata } from "../../utils";
-import { WalletContext} from '../../contexts/walletProvider';
+import { WalletContext } from "../../contexts/walletProvider";
 
+export default function NFTPage(props) {
+  const {
+    account,
+    provider,
+    setAccount,
+    chainId,
+    connect,
+    contractMarketplace,
+    contractLTYMarketplace,
+  } = useContext(WalletContext);
+  const [data, updateData] = useState({});
+  const [dataFetched, updateDataFetched] = useState(false);
+  const [message, updateMessage] = useState("");
+  const [currAddress, updateCurrAddress] = useState("0x");
+  const [addressApprove, setAddressApprove] = useState("0x");
+  const navigate = useNavigate();
 
-export default function NFTPage (props) {
-    const {account, provider, setAccount, chainId, connect, contractMarketplace} = useContext(WalletContext);
-    const [data, updateData] = useState({});
-    const [dataFetched, updateDataFetched] = useState(false);
-    const [message, updateMessage] = useState("");
-    const [currAddress, updateCurrAddress] = useState("0x");
-    const [addressApprove, setAddressApprove] = useState("0x");
-    const navigate = useNavigate();
+  const [formParams, updateFormParams] = useState({ price: "" });
 
-    const [formParams, updateFormParams] = useState({  price: ''});
-
-    async function getNFTData(tokenId) {
-       
-       /* const ethers = require("ethers");
+  async function getNFTData(tokenId) {
+    /* const ethers = require("ethers");
         //After adding your Hardhat network to your metamask, this code will get providers and signers
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
@@ -32,38 +38,40 @@ export default function NFTPage (props) {
         //Pull the deployed contract instance
         let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
         */
-        //create an NFT Token
-        var tokenURI = await contractMarketplace.tokenURI(tokenId);
-        const listedToken = await contractMarketplace.getListedTokenForId(tokenId);
-        tokenURI = GetIpfsUrlFromPinata(tokenURI);
-        let meta = await axios.get(tokenURI);
-        meta = meta.data;
-        console.log(listedToken);
-    
-        let item = {
-            price: ((listedToken.price)/1e18).toString(),
-            tokenId: tokenId,
-            seller: listedToken.seller,
-            owner: listedToken.owner,
-            image: meta.image,
-            name: meta.name,
-            description: meta.description,
-            currentlyListed: listedToken.currentlyListed,
-        }
-        console.log(item);
-        updateData(item);
-        updateDataFetched(true);
-        console.log("address account", account);
-        console.log("address seller", listedToken.seller)
-        updateCurrAddress(account);
+    //create an NFT Token
+    var tokenURI = await contractLTYMarketplace.tokenURI(tokenId);
+    const listedToken = await contractLTYMarketplace.getListedTokenForId(
+      tokenId
+    );
+    tokenURI = GetIpfsUrlFromPinata(tokenURI);
+    let meta = await axios.get(tokenURI);
+    meta = meta.data;
+    console.log(listedToken);
 
-        const addressApproveTmp = await contractMarketplace.getApproved(tokenId);
-        setAddressApprove(addressApproveTmp);
-    }
-    
-    async function removeToken(tokenId) {
-        try {
-            /*
+    let item = {
+      price: (listedToken.price / 1e18).toString(),
+      tokenId: tokenId,
+      seller: listedToken.seller,
+      owner: listedToken.owner,
+      image: meta.image,
+      name: meta.name,
+      description: meta.description,
+      currentlyListed: listedToken.currentlyListed,
+    };
+    console.log(item);
+    updateData(item);
+    updateDataFetched(true);
+    console.log("address account", account);
+    console.log("address seller", listedToken.seller);
+    updateCurrAddress(account);
+
+    const addressApproveTmp = await contractLTYMarketplace.getApproved(tokenId);
+    setAddressApprove(addressApproveTmp);
+  }
+
+  async function removeToken(tokenId) {
+    try {
+      /*
             const ethers = require("ethers");
             
             //After adding your Hardhat network to your metamask, this code will get providers and signers
@@ -73,58 +81,30 @@ export default function NFTPage (props) {
             //Pull the deployed contract instance
             let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
             */
-           // const salePrice = ethers.utils.parseUnits(data.price, 'ether')
-           // updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
-            //run the removeTokenFromMarket function
-            let transaction = await contractMarketplace.removeTokenFromMarket(tokenId);
-            await transaction.wait();
-    
-            alert('You successfully remove the NFT from marketplace!');
-            updateMessage("");
-        }
-        catch(e) {
-            alert("Upload Error"+e)
-        }
-    }
-    async function resale(tokenId) {
-       // tokenId.preventDefault();
-       //Make sure that none of the fields are empty
-       if( !formParams.price )
-       {
-           updateMessage("Please fill a price")
-           return -1;
-       }
-        try {
-            
-            const ethers = require("ethers");
-            /*
-            //After adding your Hardhat network to your metamask, this code will get providers and signers
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-    
-            //Pull the deployed contract instance
-            let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
-            */
-            const price = ethers.utils.parseUnits(formParams.price, 'ether')
-            console.log("price : ",price);
-            //updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
-            //run the executeSale function
-            let transaction = await contractMarketplace.addTokenToSaleOnTheMarket(tokenId, price);
-            await transaction.wait();
-    
-            alert('You successfully set the Loyalty NFT on the market!');
-            updateMessage("");
-        }
-        catch(e) {
-            alert("Upload Error"+e)
-        }
-        //console.log("fonctoin sell en cours de creation");
-    }
+      // const salePrice = ethers.utils.parseUnits(data.price, 'ether')
+      // updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
+      //run the removeTokenFromMarket function
+      let transaction = await contractLTYMarketplace.removeTokenFromMarket(
+        tokenId
+      );
+      await transaction.wait();
 
-    async function buyNFT(tokenId) {
-        try {
-            const ethers = require("ethers");
-            /*
+      alert("You successfully remove the NFT from marketplace!");
+      updateMessage("");
+    } catch (e) {
+      alert("Upload Error" + e);
+    }
+  }
+  async function resale(tokenId) {
+    // tokenId.preventDefault();
+    //Make sure that none of the fields are empty
+    if (!formParams.price) {
+      updateMessage("Please fill a price");
+      return -1;
+    }
+    try {
+      const ethers = require("ethers");
+      /*
             //After adding your Hardhat network to your metamask, this code will get providers and signers
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
@@ -132,32 +112,61 @@ export default function NFTPage (props) {
             //Pull the deployed contract instance
             let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
             */
-            const salePrice = ethers.utils.parseUnits(data.price, 'ether')
-            updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
-            //run the executeSale function
-            let transaction = await contractMarketplace.executeSale(tokenId, {value:salePrice});
-            await transaction.wait();
-    
-            alert('You successfully bought the NFT!');
-            updateMessage("");
-        }
-        catch(e) {
-            alert("Upload Error"+e)
-        }
+      const price = ethers.utils.parseUnits(formParams.price, "ether");
+      console.log("price : ", price);
+      //updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
+      //run the executeSale function
+      let transaction = await contractLTYMarketplace.addTokenToSaleOnTheMarket(
+        tokenId,
+        price
+      );
+      await transaction.wait();
+
+      alert("You successfully set the Loyalty NFT on the market!");
+      updateMessage("");
+    } catch (e) {
+      alert("Upload Error" + e);
     }
+    //console.log("fonctoin sell en cours de creation");
+  }
+
+  async function buyNFT(tokenId) {
+    try {
+      const ethers = require("ethers");
+      /*
+            //After adding your Hardhat network to your metamask, this code will get providers and signers
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
     
-        const params = useParams();
-        const tokenId = params.tokenId;
-        if(!dataFetched)
-             getNFTData(tokenId);
-        if(typeof data.image == "string"){
-            data.image = GetIpfsUrlFromPinata(data.image);
-            data.seller = (data.seller).toLowerCase();
-}
-    
-        return(
-            <>
-{/*
+            //Pull the deployed contract instance
+            let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
+            */
+      const salePrice = ethers.utils.parseUnits(data.price, "ether");
+      updateMessage("Buying the NFT... Please Wait (Upto 5 mins)");
+      //run the executeSale function
+      let transaction = await contractLTYMarketplace.executeSale(tokenId, {
+        value: salePrice,
+      });
+      await transaction.wait();
+
+      alert("You successfully bought the NFT!");
+      updateMessage("");
+    } catch (e) {
+      alert("Upload Error" + e);
+    }
+  }
+
+  const params = useParams();
+  const tokenId = params.tokenId;
+  if (!dataFetched) getNFTData(tokenId);
+  if (typeof data.image == "string") {
+    data.image = GetIpfsUrlFromPinata(data.image);
+    data.seller = data.seller.toLowerCase();
+  }
+
+  return (
+    <>
+      {/*
             <div style={{"min-height":"100vh"}}>
                 <Navbar></Navbar>
                 <div class=" py-8">
@@ -202,69 +211,94 @@ export default function NFTPage (props) {
     </div>
 </div>
         */}
-<div style={{"min-height":"100vh"}}>
-<div className="md:text-xl font-bold  pl-10 text-primary-500" onClick={()=>{navigate(-1);}}>Back to Brand </div>
+      <div style={{ "min-height": "100vh" }}>
+        <div
+          className="md:text-xl font-bold  pl-10 text-primary-500"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Back to Brand{" "}
+        </div>
 
-                <div className="flex ml-20 mt-20">
-                    <img src={data.image} alt="" className="w-2/5 rounded-2xl " />
-                    <div className="text-xl ml-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
-                        <div>
-                            Name: {data.name}
-                        </div>
-                        <div>
-                            Description: {data.description}
-                        </div>
-                        <div>
-                            Price: <span className="text-primary-500">{data.price + " ETH"}</span>
-                        </div>
-                        <div>
-                            Owner: <span className="text-sm text-primary-500">{data.owner}</span>
-                        </div>
-                        <div>
-                            Seller: <span className="text-sm">{data.seller}</span>
-                        </div>
-                        <div>
-                            Approve: <span className="text-sm">{addressApprove} {data.seller} {account}</span>
-                        </div>
-                        <div>
-                        { (account != (data.owner) && account != (data.seller)) ?
-                            <button className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm" onClick={() => buyNFT(tokenId)}>Buy this NFT</button>
-                            : 
-                                data.currentlyListed ==false ?
-                                <>
-                                <div className="mb-6">
-                                <label className="block text-primary-500 text-sm font-bold mb-2" htmlFor="price">Price (in ETH)</label>
-                                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" placeholder="Min 0.01 ETH" step="0.01" value={formParams.price} onChange={e => updateFormParams({...formParams, price: e.target.value})}></input>
-                            </div>
-                                <button className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm" onClick={()=>{
-                                    resale(tokenId);}
-                                }>Sell</button>
-                                </>
-                                :
-                                
-                                <button className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm" onClick={()=>{
-                                removeToken(tokenId);}
-                            }>Remove listing from marketplace</button>
-                            
-
-
-
-
-
-
-                       
-
-
-                            
-                        }
-                        
-            
-                        <div className="text-green text-center mt-3">{message}</div>
-                        </div>
-                    </div>
-                </div>
-                    
+        <div className="flex ml-20 mt-20">
+          <img src={data.image} alt="" className="w-2/5 rounded-2xl " />
+          <div className="text-xl ml-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
+            <div>Name: {data.name}</div>
+            <div>Description: {data.description}</div>
+            <div>
+              Price:{" "}
+              <span className="text-primary-500">{data.price + " ETH"}</span>
             </div>
-            </>
-        )
-    }
+            <div>
+              Owner:{" "}
+              <span className="text-sm text-primary-500">{data.owner}</span>
+            </div>
+            <div>
+              Seller: <span className="text-sm">{data.seller}</span>
+            </div>
+            <div>
+              Approve:{" "}
+              <span className="text-sm">
+                {addressApprove} {data.seller} {account}
+              </span>
+            </div>
+            <div>
+              {account != data.owner && account != data.seller ? (
+                <button
+                  className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                  onClick={() => buyNFT(tokenId)}
+                >
+                  Buy this NFT
+                </button>
+              ) : data.currentlyListed == false ? (
+                <>
+                  <div className="mb-6">
+                    <label
+                      className="block text-primary-500 text-sm font-bold mb-2"
+                      htmlFor="price"
+                    >
+                      Price (in ETH)
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      type="number"
+                      placeholder="Min 0.01 ETH"
+                      step="0.01"
+                      value={formParams.price}
+                      onChange={(e) =>
+                        updateFormParams({
+                          ...formParams,
+                          price: e.target.value,
+                        })
+                      }
+                    ></input>
+                  </div>
+                  <button
+                    className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                    onClick={() => {
+                      resale(tokenId);
+                    }}
+                  >
+                    Sell
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                  onClick={() => {
+                    removeToken(tokenId);
+                  }}
+                >
+                  Remove listing from marketplace
+                </button>
+              )}
+
+              <div className="text-green text-center mt-3">{message}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

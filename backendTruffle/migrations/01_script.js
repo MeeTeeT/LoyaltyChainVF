@@ -1,22 +1,53 @@
 const LoyaltyMarketplace = artifacts.require("LoyaltyMarketplace");
+const LTYAccount = artifacts.require("LTYAccount");
+const LTYMarketplace = artifacts.require("LTYMarketplace");
 const fs = require("fs");
 
-module.exports = (deployer) => {
-    deployer.deploy(LoyaltyMarketplace);
+module.exports = async (deployer) => {
+  //deployer.deploy(LoyaltyMarketplace);
 
-    
+  const ltyAccount = await deployer.deploy(LTYAccount);
+  const ltyAccountDeployed = await LTYAccount.deployed();
 
-   /*
-    const data = {
-      address: LoyaltyMarketplace.address,
-      abi: JSON.parse(LoyaltyMarketplace.interface.format('json'))
-    }
-    console.log(data);
-*/
-    //This writes the ABI and address to the mktplace.json
-   //fs.writeFileSync('../../../frontend/src/LoyaltyMarketplace.json', JSON.stringify(data))
-  
-}
+  const ltyAccountContractAddress = ltyAccountDeployed.address;
+  const ltyAccountContractABI = ltyAccountDeployed.abi;
+
+  const ltyMarketplace = await deployer.deploy(
+    LTYMarketplace,
+    ltyAccountDeployed.address
+  );
+  const ltyMarketplaceDeployed = await LTYMarketplace.deployed();
+
+  const ltyAccountContractData = {
+    address: ltyAccountDeployed.address,
+    abi: ltyAccountDeployed.abi,
+  };
+
+  const ltyMarketplaceContractData = {
+    address: ltyMarketplaceDeployed.address,
+    abi: ltyMarketplaceDeployed.abi,
+  };
+
+  if (fs.existsSync("../frontend/src/LTYAccount.json")) {
+    fs.unlinkSync("../frontend/src/LTYAccount.json");
+  }
+
+  if (fs.existsSync("../frontend/src/LTYMarketplace.json")) {
+    fs.unlinkSync("../frontend/src/LTYMarketplace.json");
+  }
+
+  fs.writeFileSync(
+    "../frontend/src/LTYAccount.json",
+    JSON.stringify(ltyAccountContractData, null, 2)
+  );
+  fs.writeFileSync(
+    "../frontend/src/LTYMarketplace.json",
+    JSON.stringify(ltyMarketplaceContractData, null, 2)
+  );
+
+  //This writes the ABI and address to the mktplace.json
+  //fs.writeFileSync('../../../frontend/src/LoyaltyMarketplace.json', JSON.stringify(data))
+};
 
 /*
 module.exports = async function (deployer,network,account) => {
@@ -49,8 +80,8 @@ module.exports = async function (callback) {
   };
   */
 
-  /*** correction cours */
-  /*const Storage = artifacts.require("Storage");
+/*** correction cours */
+/*const Storage = artifacts.require("Storage");
 
   module.exports = async function (deployer, network, accounts) {
     await deployer.deploy(Storage, 5, {from: accounts[0], value: 1000000000000000});
@@ -76,4 +107,4 @@ module.exports = async function (callback) {
   
   };
 */
-  /** fin correction cours */
+/** fin correction cours */

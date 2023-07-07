@@ -1,0 +1,299 @@
+{
+  "address": "0xfF31F07703f8905AA79c92A94351562643840044",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "EventBrandRegisterOnPlatform",
+      "type": "event",
+      "signature": "0xf3b01f304a6fefd18b9d8bc9829e5d5d38204f8c3227ca5f1b0119f3bb6c940a"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "brandId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "image",
+          "type": "string"
+        }
+      ],
+      "name": "EventUserAccountCreated",
+      "type": "event",
+      "signature": "0xe00519c095c5ff5bf8367c25679e5f06b1116d5b6e15c077a4fb7eda610214c1"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "EventUserIsABrand",
+      "type": "event",
+      "signature": "0x36ffaad55cc247449809f68d9e11c0e594b038d81969bc8df55b1fc07db84700"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userAccounts",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "brandId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "image",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isABrand",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isBrandRegisterOnPlatform",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isAddressAlreadyCreatedAccount",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x5251d91c"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_image",
+          "type": "string"
+        }
+      ],
+      "name": "createUserAccount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x4450e06d"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setIsBrandRegisterOnPlatform",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x886d07e2"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setUserIsABrand",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x69a015b9"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "getIdBrandFromAddress",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_id",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0xb2a90087"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_idBrand",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBrandFromId",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "brandId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "image",
+              "type": "string"
+            },
+            {
+              "internalType": "bool",
+              "name": "isABrand",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isBrandRegisterOnPlatform",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isAddressAlreadyCreatedAccount",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct LTYAccount.UserAccount",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0xa07e7236"
+    },
+    {
+      "inputs": [],
+      "name": "getAllBrands",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "brandId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "image",
+              "type": "string"
+            },
+            {
+              "internalType": "bool",
+              "name": "isABrand",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isBrandRegisterOnPlatform",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isAddressAlreadyCreatedAccount",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct LTYAccount.UserAccount[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x60e8ddb0"
+    }
+  ]
+}
