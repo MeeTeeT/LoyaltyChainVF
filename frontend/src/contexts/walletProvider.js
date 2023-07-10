@@ -36,6 +36,7 @@ const WalletProvider = ({ children }) => {
   // Connexion function
   const connect = async () => {
     const provider = await detectEthereumProvider();
+    setProvider(provider);
     console.log("provider", provider);
     if (provider) {
       startApp(provider);
@@ -141,6 +142,7 @@ const WalletProvider = ({ children }) => {
       setAccount(currentAccount);
 
       const provider = new ethers.providers.Web3Provider(window.ethereum);
+      setProvider(provider);
       const signer = provider.getSigner();
 
       //updateMessage("please wait...")

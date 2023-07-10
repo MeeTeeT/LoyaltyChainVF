@@ -3,9 +3,10 @@ import Navbar from "../../components/Navbar";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import MarketplaceJSON from "../../LoyaltyMarketplace.json";
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { GetIpfsUrlFromPinata } from "../../utils";
 import { WalletContext } from "../../contexts/walletProvider";
+import { NFTHistory } from "../../components/NFTHistory";
 
 export default function NFTPage(props) {
   const {
@@ -17,8 +18,10 @@ export default function NFTPage(props) {
     contractMarketplace,
     contractLTYMarketplace,
   } = useContext(WalletContext);
+
   const [data, updateData] = useState({});
   const [dataFetched, updateDataFetched] = useState(false);
+  const [historyNFT, setHistoryNFT] = useState();
   const [message, updateMessage] = useState("");
   const [currAddress, updateCurrAddress] = useState("0x");
   const [addressApprove, setAddressApprove] = useState("0x");
@@ -130,6 +133,39 @@ export default function NFTPage(props) {
     //console.log("fonctoin sell en cours de creation");
   }
 
+  async function getHistory(tokenId) {
+    console.log("-----", contractLTYMarketplace);
+
+    const startBlockNumber = 0;
+    const currentBlockNumber = await provider.getBlockNumber();
+
+    const filter = contractLTYMarketplace.filters.EventTokenTransaction();
+
+    const events = await contractLTYMarketplace.queryFilter(
+      filter,
+      startBlockNumber,
+      currentBlockNumber
+    );
+
+    const items = await Promise.all(
+      events.map(async (i) => {
+        let item = {
+          tokenId: i.args.tokenId,
+          ownerFrom: i.args.ownerFrom,
+          ownerTo: i.args.ownerTo,
+          sellerFrom: i.args.sellerFrom,
+          sellerTo: i.args.sellerTo,
+          price: i.args.price,
+          transactionType: i.args.transactionType,
+        };
+        console.log("item : ", item);
+
+        return item;
+      })
+    );
+    setHistoryNFT(items);
+  }
+
   async function buyNFT(tokenId) {
     try {
       const ethers = require("ethers");
@@ -163,6 +199,10 @@ export default function NFTPage(props) {
     data.image = GetIpfsUrlFromPinata(data.image);
     data.seller = data.seller.toLowerCase();
   }
+
+  useEffect(() => {
+    //getHistory(tokenId);
+  }, []);
 
   return (
     <>
@@ -298,6 +338,7 @@ export default function NFTPage(props) {
             </div>
           </div>
         </div>
+        <NFTHistory data={historyNFT} />
       </div>
     </>
   );
