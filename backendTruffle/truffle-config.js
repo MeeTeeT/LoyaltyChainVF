@@ -1,19 +1,16 @@
-const HDWalletProvider = require('@truffle/hdwallet-provider');
-require('dotenv').config();
-
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+require("dotenv").config();
 
 module.exports = {
-  
   //contracts_build_directory : "src/",
 
   networks: {
-   
-     development: {
-      host: "127.0.0.1",     // Localhost (default: none)
-      port: 8545,            // Standard Ethereum port (default: none)
-      network_id: "*",       // Any network (default: none)
-     },
-/*
+    development: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 8545, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+    },
+    /*
      goerli: {
          provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://goerli.infura.io/v3/${process.env.INFURA_ID}`),
        
@@ -36,22 +33,23 @@ module.exports = {
    */
   },
 
-   mocha: {
-   
+  plugins: ["solidity-coverage"],
+
+  mocha: {
+    reporter: "eth-gas-reporter",
+    showTimeSpent: true,
   },
 
- 
   compilers: {
     solc: {
-      version: "0.8.19",      // Fetch exact version from solc-bin (default: truffle's version)
-       settings: {          // See the solidity docs for advice about optimization and evmVersion
+      version: "0.8.19", // Fetch exact version from solc-bin (default: truffle's version)
+      settings: {
+        // See the solidity docs for advice about optimization and evmVersion
         optimizer: {
           enabled: false,
-          runs: 200
+          runs: 200,
         },
-     
-       }
-    }
+      },
+    },
   },
-
 };

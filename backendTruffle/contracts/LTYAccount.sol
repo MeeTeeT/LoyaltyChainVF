@@ -2,8 +2,9 @@
 pragma solidity ^0.8.19;
 
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
+import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
  
-contract LTYAccount {
+contract LTYAccount is Ownable{
 
     using Counters for Counters.Counter;
 
@@ -51,9 +52,7 @@ contract LTYAccount {
         string memory _description,
         string memory _image
     ) public {
-
-        //ajouter un ownable
-        require(!userAccounts[msg.sender].isAddressAlreadyCreatedAccount, "You alerady have an account");
+        require(!userAccounts[msg.sender].isAddressAlreadyCreatedAccount, "You already have an account");
         userAccounts[msg.sender].name = _name;
         userAccounts[msg.sender].description = _description;
         userAccounts[msg.sender].image = _image;
@@ -87,7 +86,7 @@ contract LTYAccount {
     /// @notice Set brand account as registered => Functionnaly, it allows account to mint NFT
     /// @param _addr Address to registered
     ///TO DO  a mettre Ownable
-    function setIsBrandRegisterOnPlatform(address _addr) public {
+    function setIsBrandRegisterOnPlatform(address _addr) public onlyOwner{
         userAccounts[_addr].isBrandRegisterOnPlatform = true;  
         emit EventBrandRegisterOnPlatform(_addr);
     }
@@ -95,7 +94,7 @@ contract LTYAccount {
     /// @notice Set account as a brand account
     /// @param _addr Address to registered as a brand
     ///TO DO  a mettre Ownable
-    function setUserIsABrand(address _addr) public{
+    function setUserIsABrand(address _addr) public onlyOwner{
         userAccounts[_addr].isABrand = true;
         emit EventUserIsABrand(_addr);
     }
