@@ -1,5 +1,7 @@
-export function NFTHistory(data) {
-  console.log("---data : ", data);
+export function NFTHistory({ data }) {
+  //console.log("---data : ", JSON.stringify(data));
+  // alert(JSON.stringify(data));
+  //const data = JSON.stringify(data);
   return (
     <>
       <div className="overflow-x-auto">
@@ -14,18 +16,20 @@ export function NFTHistory(data) {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, i) => {
-              return (
-                <>
-                  <tr>
-                    <th>1</th>
-                    <td>{item.transactionType}</td>
-                    <td>{item.sellerFrom}</td>
-                    <td>{item.To}</td>
-                  </tr>
-                </>
-              );
-            })}
+            {data
+              ? data.map((item, i) => {
+                  return (
+                    <>
+                      <tr>
+                        <th>{i}</th>
+                        <td>{item.transactionType}</td>
+                        <td>{item.ownerFrom}</td>
+                        <td>{item.ownerTo}</td>
+                      </tr>
+                    </>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>

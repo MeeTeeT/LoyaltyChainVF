@@ -21,7 +21,8 @@ export default function NFTPage(props) {
 
   const [data, updateData] = useState({});
   const [dataFetched, updateDataFetched] = useState(false);
-  const [historyNFT, setHistoryNFT] = useState();
+  const [historyNFT, setHistoryNFT] = useState(null);
+  const [dataHistoryFetched, updateDataHistoryFetched] = useState(false);
   const [message, updateMessage] = useState("");
   const [currAddress, updateCurrAddress] = useState("0x");
   const [addressApprove, setAddressApprove] = useState("0x");
@@ -49,7 +50,7 @@ export default function NFTPage(props) {
     tokenURI = GetIpfsUrlFromPinata(tokenURI);
     let meta = await axios.get(tokenURI);
     meta = meta.data;
-    console.log(listedToken);
+    //console.log(listedToken);
 
     let item = {
       price: (listedToken.price / 1e18).toString(),
@@ -61,11 +62,11 @@ export default function NFTPage(props) {
       description: meta.description,
       currentlyListed: listedToken.currentlyListed,
     };
-    console.log(item);
+    //console.log(item);
     updateData(item);
     updateDataFetched(true);
-    console.log("address account", account);
-    console.log("address seller", listedToken.seller);
+    //console.log("address account", account);
+    //console.log("address seller", listedToken.seller);
     updateCurrAddress(account);
 
     const addressApproveTmp = await contractLTYMarketplace.getApproved(tokenId);
@@ -94,6 +95,7 @@ export default function NFTPage(props) {
 
       alert("You successfully remove the NFT from marketplace!");
       updateMessage("");
+      updateDataFetched(false);
     } catch (e) {
       alert("Upload Error" + e);
     }
@@ -127,6 +129,7 @@ export default function NFTPage(props) {
 
       alert("You successfully set the Loyalty NFT on the market!");
       updateMessage("");
+      updateDataFetched(false);
     } catch (e) {
       alert("Upload Error" + e);
     }
@@ -134,12 +137,12 @@ export default function NFTPage(props) {
   }
 
   async function getHistory(tokenId) {
-    console.log("-----", contractLTYMarketplace);
+    // console.log("-----", contractLTYMarketplace);
 
     const startBlockNumber = 0;
     const currentBlockNumber = await provider.getBlockNumber();
 
-    const filter = contractLTYMarketplace.filters.EventTokenTransaction();
+    const filter = await contractLTYMarketplace.filters.EventTokenTransaction();
 
     const events = await contractLTYMarketplace.queryFilter(
       filter,
@@ -158,11 +161,13 @@ export default function NFTPage(props) {
           price: i.args.price,
           transactionType: i.args.transactionType,
         };
-        console.log("item : ", item);
+        // console.log("item : ", item);
 
         return item;
       })
     );
+    //updateDataHistoryFetched(true);
+    console.log("items", items);
     setHistoryNFT(items);
   }
 
@@ -187,6 +192,7 @@ export default function NFTPage(props) {
 
       alert("You successfully bought the NFT!");
       updateMessage("");
+      updateDataFetched(false);
     } catch (e) {
       alert("Upload Error" + e);
     }
@@ -199,10 +205,48 @@ export default function NFTPage(props) {
     data.image = GetIpfsUrlFromPinata(data.image);
     data.seller = data.seller.toLowerCase();
   }
+  //if (!dataHistoryFetched) getHistory(tokenId);
 
   useEffect(() => {
-    //getHistory(tokenId);
-  }, []);
+    const fetchEventHistory = async () => {
+      const startBlockNumber = 0;
+      const currentBlockNumber = await provider.getBlockNumber();
+      // currentBlockNumber.wait();
+      const filter =
+        await contractLTYMarketplace.filters.EventTokenTransaction();
+
+      const events = await contractLTYMarketplace.queryFilter(
+        filter,
+        startBlockNumber,
+        currentBlockNumber
+      );
+
+      const items = await Promise.all(
+        events.map(async (i) => {
+          if (i.args.tokenId == tokenId) {
+            let item = {
+              tokenId: i.args.tokenId,
+              ownerFrom: i.args.ownerFrom,
+              ownerTo: i.args.ownerTo,
+              sellerFrom: i.args.sellerFrom,
+              sellerTo: i.args.sellerTo,
+              price: i.args.price,
+              transactionType: i.args.transactionType,
+            };
+            // console.log("item : ", item);
+
+            return item;
+          }
+        })
+      );
+      //updateDataHistoryFetched(true);
+      console.log("items", items);
+      setHistoryNFT(items);
+      console.log("historyNFT 1 : ", historyNFT);
+    };
+    fetchEventHistory();
+    console.log("historyNFT 2: ", historyNFT);
+  }, [data]);
 
   return (
     <>
@@ -338,7 +382,13 @@ export default function NFTPage(props) {
             </div>
           </div>
         </div>
-        <NFTHistory data={historyNFT} />
+        {historyNFT && (
+          <div className="flex ml-0 mt-20 pb-10">
+            <div className="text-xl ml-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
+              <NFTHistory data={historyNFT} />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
