@@ -1,5 +1,5 @@
 {
-  "address": "0x38eae05827eEb863D1Ed1B66166122e93AF04303",
+  "address": "0x22450c0525c9442e4D9B0E6475D7aD293e8b46d9",
   "abi": [
     {
       "inputs": [
@@ -317,6 +317,21 @@
     },
     {
       "inputs": [],
+      "name": "listPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x6eb588d9"
+    },
+    {
+      "inputs": [],
       "name": "name",
       "outputs": [
         {
@@ -329,6 +344,21 @@
       "type": "function",
       "constant": true,
       "signature": "0x06fdde03"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address payable",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x8da5cb5b"
     },
     {
       "inputs": [

@@ -4,8 +4,33 @@ import { uploadFileToIPFS, uploadJSONToIPFS } from "../../pinata";
 import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
 import { WalletContext } from "../../contexts/walletProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CreateBrand() {
+  const notifySuccess = (message) =>
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = (message) =>
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   // const {provider, account} = useContext(ContractContext);
   const {
     account,
@@ -56,7 +81,8 @@ export default function CreateBrand() {
         setFileURL(response.pinataURL);
       }
     } catch (e) {
-      console.log("Error during file upload", e);
+      notifyError("Error during file upload!");
+      //  console.log("Error during file upload", e);
     }
   }
   /*
@@ -114,13 +140,15 @@ export default function CreateBrand() {
       );
       await transaction.wait();
 
-      alert("Account successfully created !");
+      notifySuccess("Account successfully created !");
+      // alert("Account successfully created !");
       enableButton();
       updateMessage("");
       updateFormParams({ name: "", description: "" });
       window.location.replace("/");
     } catch (e) {
-      alert("Upload error" + e);
+      notifyError("Error while creating account");
+      // alert("Upload error" + e);
     }
   }
   /*
@@ -221,7 +249,11 @@ export default function CreateBrand() {
               >
                 Upload Image (&lt;500 KB)
               </label>
-              <input type={"file"} onChange={OnChangeFile}></input>
+              <input
+                type={"file"}
+                onChange={OnChangeFile}
+                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+              />
             </div>
             <br></br>
             <div className="text-red-500 text-center">{message}</div>

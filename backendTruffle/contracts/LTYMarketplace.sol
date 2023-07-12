@@ -4,6 +4,8 @@ pragma solidity ^0.8.19;
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+
 import "./LTYAccount.sol";
 
 /// @title Loyalty Marketplace
@@ -14,7 +16,7 @@ contract LTYMarketplace is ERC721URIStorage {
     using Counters for Counters.Counter;
 
     LTYAccount public LTYAccountContract;
-
+   // address LTYAccountAddress;
     //_tokenIds variable has the most recent minted tokenId
     Counters.Counter private _tokenIds;
 
@@ -25,10 +27,10 @@ contract LTYMarketplace is ERC721URIStorage {
     Counters.Counter private _brandsIds;
 
     //owner of the contract
-    address payable owner;
+    address payable public owner;
 
     //The fee charged by the marketplace to be allowed to list an NFT
-    uint256 listPrice = 0.01 ether;
+    uint256 public listPrice = 0.01 ether;
 
     //Structure to store info about an NFT
     struct ListedToken {

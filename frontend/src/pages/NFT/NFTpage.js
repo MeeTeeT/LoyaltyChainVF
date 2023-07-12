@@ -7,8 +7,34 @@ import { useState, useContext, useEffect } from "react";
 import { GetIpfsUrlFromPinata } from "../../utils";
 import { WalletContext } from "../../contexts/walletProvider";
 import { NFTHistory } from "../../components/NFTHistory";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function NFTPage(props) {
+  const notifySuccess = (message) =>
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = (message) =>
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   const {
     account,
     provider,
@@ -93,11 +119,15 @@ export default function NFTPage(props) {
       );
       await transaction.wait();
 
-      alert("You successfully remove the NFT from marketplace!");
+      // alert("You successfully remove the NFT from marketplace!");
+      notifySuccess(
+        "You successfully remove the Loyalty NFT from marketplace!"
+      );
       updateMessage("");
       updateDataFetched(false);
     } catch (e) {
-      alert("Upload Error" + e);
+      notifyError("Error while removing Loyalty NFT from marketplace");
+      // alert("Upload Error" + e);
     }
   }
   async function resale(tokenId) {
@@ -127,11 +157,13 @@ export default function NFTPage(props) {
       );
       await transaction.wait();
 
-      alert("You successfully set the Loyalty NFT on the market!");
+      notifySuccess("🦄 Loyalty NFT Successfully listed on marketplace !");
+      //alert("You successfully set the Loyalty NFT on the market!");
       updateMessage("");
       updateDataFetched(false);
     } catch (e) {
-      alert("Upload Error" + e);
+      notifyError("Error while listing Loyalty NFT on marketplace");
+      // alert("Upload Error" + e);
     }
     //console.log("fonctoin sell en cours de creation");
   }
@@ -183,18 +215,20 @@ export default function NFTPage(props) {
             let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
             */
       const salePrice = ethers.utils.parseUnits(data.price, "ether");
-      updateMessage("Buying the NFT... Please Wait (Upto 5 mins)");
+      updateMessage("Buying the Loyalty NFT... Please Wait (Up to 5 mins)");
       //run the executeSale function
       let transaction = await contractLTYMarketplace.executeSale(tokenId, {
         value: salePrice,
       });
       await transaction.wait();
 
-      alert("You successfully bought the NFT!");
+      notifySuccess("You successfully bought the Loyalty NFT!");
+      //alert("You successfully bought the NFT!");
       updateMessage("");
       updateDataFetched(false);
     } catch (e) {
-      alert("Upload Error" + e);
+      notifyError("Error while removing Loyalty NFT from marketplace");
+      //alert("Upload Error" + e);
     }
   }
 
@@ -304,10 +338,10 @@ export default function NFTPage(props) {
         >
           Back to Brand{" "}
         </div>
+        <div className="hero-content flex-col lg:flex-row">
+          <img src={data.image} className="max-w-sm rounded-lg shadow-2xl" />
 
-        <div className="flex ml-20 mt-20">
-          <img src={data.image} alt="" className="w-2/5 rounded-2xl " />
-          <div className="text-xl ml-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
+          <div className="text-xl mr-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
             <div>Name: {data.name}</div>
             <div>Description: {data.description}</div>
             <div>
@@ -382,6 +416,7 @@ export default function NFTPage(props) {
             </div>
           </div>
         </div>
+
         {historyNFT && (
           <div className="flex ml-0 mt-20 pb-10">
             <div className="text-xl ml-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">

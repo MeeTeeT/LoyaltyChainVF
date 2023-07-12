@@ -86,7 +86,7 @@ contract LTYAccount is Ownable{
     /// @notice Set brand account as registered => Functionnaly, it allows account to mint NFT
     /// @param _addr Address to registered
     ///TO DO  a mettre Ownable
-    function setIsBrandRegisterOnPlatform(address _addr) public onlyOwner{
+    function setIsBrandRegisterOnPlatform(address _addr) public{
         userAccounts[_addr].isBrandRegisterOnPlatform = true;  
         emit EventBrandRegisterOnPlatform(_addr);
     }
@@ -94,7 +94,7 @@ contract LTYAccount is Ownable{
     /// @notice Set account as a brand account
     /// @param _addr Address to registered as a brand
     ///TO DO  a mettre Ownable
-    function setUserIsABrand(address _addr) public onlyOwner{
+    function setUserIsABrand(address _addr) public{
         userAccounts[_addr].isABrand = true;
         emit EventUserIsABrand(_addr);
     }

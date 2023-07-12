@@ -4,8 +4,8 @@ export function NFTHistory({ data }) {
   //const data = JSON.stringify(data);
   return (
     <>
-      <div className="overflow-x-auto">
-        <table className="table">
+      <div className="overflow-x-auto h-400">
+        <table className="table table-pin-rows">
           {/* head */}
           <thead>
             <tr>
@@ -18,16 +18,18 @@ export function NFTHistory({ data }) {
           <tbody>
             {data
               ? data.map((item, i) => {
-                  return (
-                    <>
-                      <tr>
-                        <th>{i}</th>
-                        <td>{item.transactionType}</td>
-                        <td>{item.ownerFrom}</td>
-                        <td>{item.ownerTo}</td>
-                      </tr>
-                    </>
-                  );
+                  if (item) {
+                    return (
+                      <>
+                        <tr key={i}>
+                          <th>{i}</th>
+                          <td>{item.transactionType}</td>
+                          <td>{item.ownerFrom}</td>
+                          <td>{item.ownerTo}</td>
+                        </tr>
+                      </>
+                    );
+                  }
                 })
               : null}
           </tbody>

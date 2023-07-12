@@ -168,7 +168,7 @@ export default function MarketplaceBrand({ dataBrand }) {
         </div>
         <br />
 
-        <section class="mb-32 text-center lg:text-left">
+        <section class="mb-2 text-center lg:text-left">
           <div class="py-6 md:px-6 md:px-6">
             <div class="container mx-auto xl:px-32">
               <div class="flex grid items-center lg:grid-cols-2">

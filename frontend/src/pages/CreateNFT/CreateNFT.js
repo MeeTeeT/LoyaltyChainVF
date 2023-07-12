@@ -9,9 +9,34 @@ import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
 import { Toast } from "../../components/Toast";
 import { WalletContext } from "../../contexts/walletProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const fs = require("fs");
 
 export default function SellNFT() {
+  const notifySuccess = (message) =>
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = (message) =>
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const {
     account,
     provider,
@@ -142,13 +167,15 @@ export default function SellNFT() {
       console.log("apres createtoken");
       await transaction.wait();
       console.log("apres wait");
-      alert("Successfully listed your Loyalty NFT!");
+      notifySuccess("Successfully listed your Loyalty NFT!");
+      //alert("Successfully listed your Loyalty NFT!");
       enableButton();
       updateMessage("");
       updateFormParams({ name: "", description: "", price: "" });
       window.location.replace("/");
     } catch (e) {
-      console.log("Upload error" + e);
+      notifyError("Error while minting Loyalty NFT");
+      // console.log("Upload error" + e);
     }
   }
   async function listNFTtoAddress(e) {
@@ -170,13 +197,15 @@ export default function SellNFT() {
       );
       await transaction.wait();
 
-      alert("Successfully send your Loyalty NFT to customer !");
+      notifySuccess("Successfully send your Loyalty NFT to customer");
+      // alert("Successfully send your Loyalty NFT to customer !");
       enableButton();
       updateMessage("");
       updateFormParams({ name: "", description: "", address: "" });
       window.location.replace("/");
     } catch (e) {
-      alert("Upload error" + e);
+      notifyError("Error while minting Loyalty NFT");
+      //alert("Upload error" + e);
     }
   }
 
