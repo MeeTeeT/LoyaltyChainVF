@@ -285,145 +285,143 @@ export default function NFTPage(props) {
   return (
     <>
       {/*
-            <div style={{"min-height":"100vh"}}>
-                <Navbar></Navbar>
-                <div class=" py-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row -mx-4">
-            <div class="md:flex-1 px-4">
-                <div class="h-[460px] rounded-lg bg-gray-300 mb-4">
-                    <img class="w-full h-full object-cover" src={data.image} alt="Product Image" />
-                </div>
-                <div class="flex -mx-2 mb-4">
-                    <div class="w-1/2 px-2">
-                        <button class="w-full bg-gray-900 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">Buy</button>
-                    </div>
-                    <div class="w-1/2 px-2">
-                        <button class="w-full bg-gray-400 text-gray-800 py-2 px-4 rounded-full font-bold hover:bg-gray-300">Sell</button>
-                    </div>
-                </div>
-            </div>
-            <div class="md:flex-1 px-4">
-                <h2 class="text-2xl font-bold text-white mb-2">{data.name}</h2>
-                <p class=" text-sm text-white mb-4">{data.description}</p>
-                <div class="flex mb-4">
-                    <div class="mr-4">
-                        <span class="font-bold text-white">Price:</span>
-                        <span class="text-white">{data.price + " ETH"}</span>
-                    </div>
-                    <div>
-                        <span class="font-bold text-white">Availability :</span>
-                        <span class="text-white">3 left</span>
-                    </div>
-                </div>
-               
-               
-                <div>
-                    <span class="font-bold text-white">NFT Loyalty Description :</span>
-                    <p class="text-white text-sm mt-2">{data.description}
-                    </p>
-                </div>
-            </div>
+      <div className="navbar bg-neutral text-neutral-content">
+        <div className="text-sm breadcrumbs">
+          <ul>
+            <li>
+              <a>Home</a>
+            </li>
+            <li>
+              <a>Documents</a>
+            </li>
+            <li>Add Document</li>
+          </ul>
         </div>
+      </div>
+      */}
+      <div
+        className="md:text-xl font-bold  pl-10 text-primary-500"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        Back to Brand{" "}
+      </div>
 
-    </div>
-</div>
-        */}
-      <div style={{ "min-height": "100vh" }}>
-        <div
-          className="md:text-xl font-bold  pl-10 text-primary-500"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Back to Brand{" "}
-        </div>
-        <div className="hero-content flex-col lg:flex-row">
-          <img src={data.image} className="max-w-sm rounded-lg shadow-2xl" />
+      <div className="hero min-h-screen bg-base-100">
+        <div className="hero-content flex-col">
+          <div className="hero-content flex-col min-h-[50%] lg:flex-row w-full">
+            <img
+              src={data.image}
+              className="max-w-sm rounded-lg shadow-2xl object-fill w-1/2"
+            />
+            <section className=" rounded-lg p-3  min-h-[50%] w-1/2">
+              <div className="flex justify-center">
+                <div className="text-xl mr-20 space-y-2 text-primary  rounded-2xl  p-5">
+                  <div>{data.name}</div>
+                  <div className="stats shadow">
+                    <div className="stat">
+                      <div className="stat-figure text-secondary">
+                        <div className="avatar online">
+                          <div className="w-16 rounded-full">
+                            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                          </div>
+                        </div>
+                      </div>
 
-          <div className="text-xl mr-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
-            <div>Name: {data.name}</div>
-            <div>Description: {data.description}</div>
-            <div>
-              Price:{" "}
-              <span className="text-primary-500">{data.price + " ETH"}</span>
-            </div>
-            <div>
-              Owner:{" "}
-              <span className="text-sm text-primary-500">{data.owner}</span>
-            </div>
-            <div>
-              Seller: <span className="text-sm">{data.seller}</span>
-            </div>
-            <div>
-              Approve:{" "}
-              <span className="text-sm">
-                {addressApprove} {data.seller} {account}
-              </span>
-            </div>
-            <div>
-              {account != data.owner && account != data.seller ? (
-                <button
-                  className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
-                  onClick={() => buyNFT(tokenId)}
-                >
-                  Buy this NFT
-                </button>
-              ) : data.currentlyListed == false ? (
-                <>
-                  <div className="mb-6">
-                    <label
-                      className="block text-primary-500 text-sm font-bold mb-2"
-                      htmlFor="price"
-                    >
-                      Price (in ETH)
-                    </label>
-                    <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      type="number"
-                      placeholder="Min 0.01 ETH"
-                      step="0.01"
-                      value={formParams.price}
-                      onChange={(e) =>
-                        updateFormParams({
-                          ...formParams,
-                          price: e.target.value,
-                        })
-                      }
-                    ></input>
+                      <div className="stat-title">Own by</div>
+                      <div className="stat-desc text-secondary">
+                        {data.owner}
+                      </div>
+                    </div>
                   </div>
-                  <button
-                    className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
-                    onClick={() => {
-                      resale(tokenId);
-                    }}
-                  >
-                    Sell
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
-                  onClick={() => {
-                    removeToken(tokenId);
-                  }}
-                >
-                  Remove listing from marketplace
-                </button>
-              )}
+                  <div>{data.description}</div>
+                  <div>
+                    Price:{" "}
+                    <span className="text-primary">{data.price + " ETH"}</span>
+                  </div>
+                  <div>
+                    Owner:{" "}
+                    <span className="text-sm text-primary-500">
+                      {data.owner}
+                    </span>
+                  </div>
+                  <div>
+                    Seller: <span className="text-sm">{data.seller}</span>
+                  </div>
+                  <div>
+                    Approve: <span className="text-sm">{addressApprove}</span>
+                  </div>
+                  <br />
+                  <div>
+                    {account != data.owner && account != data.seller ? (
+                      <button
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                        onClick={() => buyNFT(tokenId)}
+                      >
+                        Buy this NFT
+                      </button>
+                    ) : data.currentlyListed == false ? (
+                      <>
+                        <div className="mb-6">
+                          <label
+                            className="block text-primary-500 text-sm font-bold mb-2"
+                            htmlFor="price"
+                          >
+                            Price (in ETH)
+                          </label>
+                          <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            type="number"
+                            placeholder="Min 0.01 ETH"
+                            step="0.01"
+                            value={formParams.price}
+                            onChange={(e) =>
+                              updateFormParams({
+                                ...formParams,
+                                price: e.target.value,
+                              })
+                            }
+                          ></input>
+                        </div>
+                        <button
+                          className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm "
+                          onClick={() => {
+                            resale(tokenId);
+                          }}
+                        >
+                          Sell
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                        onClick={() => {
+                          removeToken(tokenId);
+                        }}
+                      >
+                        Remove listing from marketplace
+                      </button>
+                    )}
 
-              <div className="text-green text-center mt-3">{message}</div>
-            </div>
+                    <div className="text-green text-center mt-3">{message}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-x-6 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-12"></div>
+            </section>
           </div>
+          {historyNFT && (
+            <div className="flex ml-0 mt-1 pb-10 w-full">
+              <div className="text-xl ml-5 mr-5 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-1 p-5">
+                <NFTHistory data={historyNFT} />
+              </div>
+            </div>
+          )}
+          <br />
+          <br />
         </div>
-
-        {historyNFT && (
-          <div className="flex ml-0 mt-20 pb-10">
-            <div className="text-xl ml-20 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-2 p-5">
-              <NFTHistory data={historyNFT} />
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

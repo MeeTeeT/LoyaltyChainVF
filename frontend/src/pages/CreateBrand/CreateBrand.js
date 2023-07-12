@@ -1,5 +1,5 @@
 import Navbar from "../../components/Navbar";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "../../pinata";
 import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
@@ -8,8 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function CreateBrand() {
+  const toastId = useRef(null);
+
+  const dismiss = () => toast.dismiss(toastId.current);
+
   const notifySuccess = (message) =>
-    toast.success(message, {
+    (toastId.current = toast.success(message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -18,10 +22,22 @@ export default function CreateBrand() {
       draggable: true,
       progress: undefined,
       theme: "light",
-    });
+    }));
+
+  const notifyInfo = (message) =>
+    (toastId.current = toast.info(message, {
+      position: "top-right",
+      autoClose: 0,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }));
 
   const notifyError = (message) =>
-    toast.error(message, {
+    (toastId.current = toast.error(message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -30,7 +46,7 @@ export default function CreateBrand() {
       draggable: true,
       progress: undefined,
       theme: "light",
-    });
+    }));
   // const {provider, account} = useContext(ContractContext);
   const {
     account,
@@ -61,7 +77,7 @@ export default function CreateBrand() {
   async function enableButton() {
     const listButton = document.getElementById("list-button");
     listButton.disabled = false;
-    listButton.style.backgroundColor = "#A500FF";
+    listButton.style.backgroundColor = "#057AFF";
     listButton.style.opacity = 1;
   }
 
@@ -72,11 +88,13 @@ export default function CreateBrand() {
     try {
       //upload the file to IPFS
       disableButton();
-      updateMessage("Uploading image.. please dont click anything!");
+      notifyInfo("Uploading image.. please wait...");
+      //updateMessage("Uploading image.. please dont click anything!");
       const response = await uploadFileToIPFS(file);
       if (response.success === true) {
         enableButton();
         updateMessage("");
+        dismiss();
         console.log("Uploaded image to Pinata: ", response.pinataURL);
         setFileURL(response.pinataURL);
       }

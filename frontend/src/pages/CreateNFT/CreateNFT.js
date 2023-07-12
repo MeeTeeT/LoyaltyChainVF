@@ -1,5 +1,5 @@
 import Navbar from "../../components/Navbar";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import {
   uploadFileToIPFS,
   uploadJSONToIPFS,
@@ -14,8 +14,24 @@ import "react-toastify/dist/ReactToastify.css";
 const fs = require("fs");
 
 export default function SellNFT() {
+  const toastId = useRef(null);
+
+  const dismiss = () => toast.dismiss(toastId.current);
+
+  const notifyInfo = (message) =>
+    (toastId.current = toast.info(message, {
+      position: "top-right",
+      autoClose: 0,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }));
+
   const notifySuccess = (message) =>
-    toast.success(message, {
+    (toastId.current = toast.success(message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -24,10 +40,10 @@ export default function SellNFT() {
       draggable: true,
       progress: undefined,
       theme: "light",
-    });
+    }));
 
   const notifyError = (message) =>
-    toast.error(message, {
+    (toastId.current = toast.error(message, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -36,7 +52,7 @@ export default function SellNFT() {
       draggable: true,
       progress: undefined,
       theme: "light",
-    });
+    }));
   const {
     account,
     provider,
@@ -68,7 +84,7 @@ export default function SellNFT() {
   async function enableButton() {
     const listButton = document.getElementById("list-button");
     listButton.disabled = false;
-    listButton.style.backgroundColor = "#A500FF";
+    listButton.style.backgroundColor = "#057AFF";
     listButton.style.opacity = 1;
   }
 
@@ -85,11 +101,13 @@ export default function SellNFT() {
     try {
       //upload the file to IPFS
       disableButton();
-      updateMessage("Uploading image.. please dont click anything!");
+      notifyInfo("Uploading image.. please wait");
+      //updateMessage("Uploading image.. please dont click anything!");
       const response = await uploadFileToIPFS(file);
       if (response.success === true) {
         enableButton();
-        updateMessage("");
+        dismiss();
+        //updateMessage("");
         console.log("Uploaded image to Pinata: ", response.pinataURL);
         setFileURL(response.pinataURL);
       }
@@ -140,6 +158,7 @@ export default function SellNFT() {
     console.log("contractLTYMarketplace", contractLTYMarketplace);
     //Upload data to IPFS
     try {
+      notifyInfo("Generating Loyalty NFT.. Please wait");
       const metadataURL = await uploadMetadataToIPFS();
       if (metadataURL === -1) return;
       //After adding your Hardhat network to your metamask, this code will get providers and signers
@@ -166,6 +185,7 @@ export default function SellNFT() {
       );
       console.log("apres createtoken");
       await transaction.wait();
+      dismiss();
       console.log("apres wait");
       notifySuccess("Successfully listed your Loyalty NFT!");
       //alert("Successfully listed your Loyalty NFT!");
@@ -174,6 +194,7 @@ export default function SellNFT() {
       updateFormParams({ name: "", description: "", price: "" });
       window.location.replace("/");
     } catch (e) {
+      dismiss();
       notifyError("Error while minting Loyalty NFT");
       // console.log("Upload error" + e);
     }
@@ -183,6 +204,7 @@ export default function SellNFT() {
 
     //Upload data to IPFS
     try {
+      notifyInfo("Generating Loyalty NFT.. Please wait");
       const metadataURL = await uploadMetadataToIPFS();
       if (metadataURL === -1) return;
 
@@ -196,7 +218,7 @@ export default function SellNFT() {
         { value: listingPrice }
       );
       await transaction.wait();
-
+      dismiss();
       notifySuccess("Successfully send your Loyalty NFT to customer");
       // alert("Successfully send your Loyalty NFT to customer !");
       enableButton();
@@ -204,6 +226,7 @@ export default function SellNFT() {
       updateFormParams({ name: "", description: "", address: "" });
       window.location.replace("/");
     } catch (e) {
+      dismiss();
       notifyError("Error while minting Loyalty NFT");
       //alert("Upload error" + e);
     }
