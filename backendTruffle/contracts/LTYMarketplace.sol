@@ -16,6 +16,7 @@ contract LTYMarketplace is ERC721URIStorage {
     using Counters for Counters.Counter;
 
     LTYAccount public LTYAccountContract;
+
    // address LTYAccountAddress;
     //_tokenIds variable has the most recent minted tokenId
     Counters.Counter private _tokenIds;
@@ -62,6 +63,11 @@ contract LTYMarketplace is ERC721URIStorage {
         string transactionType
     );
 
+    //the event emit when listing price is updated
+    event EventUpdateListPrice(
+        uint256 price
+    );
+
     //This mapping maps tokenId to token info and is helpful when retrieving details about a tokenId
     mapping(uint256 => ListedToken) private idToListedToken;
 
@@ -82,6 +88,8 @@ contract LTYMarketplace is ERC721URIStorage {
     function updateListPrice(uint256 _listPrice) public payable {
         require(owner == msg.sender, "Only owner can update listing price");
         listPrice = _listPrice;
+
+        emit EventUpdateListPrice(_listPrice);
     }
 
     /// @notice Get detail of NFT Token from Id
@@ -193,15 +201,15 @@ contract LTYMarketplace is ERC721URIStorage {
     /// @param _price of the listed NFT
     function createListedToken(uint256 _tokenId, uint256 _price) private {
         //Check if the minter is a authorized to mint NFT
-        /*
+       /*
         require(
-            LTYAccountContract.userAccounts[msg.sender].isBrandRegisterOnPlatform == true,
+            (LTYAccountContract.userAccounts(msg.sender)).isBrandRegisterOnPlatform == true,
             "You need to be a registred brand to mint NFT"
         );
         */
         //Make sure the sender sent enough ETH to pay for listing
         require(msg.value == listPrice, "You need to send the listing fee");
-        require(_price > 0, "Price need to be positive");
+        require(_price >= 0, "Price need to be positive");
 
         //Update the mapping of tokenId to Token details
         idToListedToken[_tokenId] = ListedToken(

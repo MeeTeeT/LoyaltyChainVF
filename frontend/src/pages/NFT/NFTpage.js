@@ -352,6 +352,9 @@ export default function NFTPage(props) {
                   <div>
                     Approve: <span className="text-sm">{addressApprove}</span>
                   </div>
+                  <div>
+                    tokeId: <span className="text-sm">{data.tokenId}</span>
+                  </div>
                   <br />
                   <div>
                     {account != data.owner && account != data.seller ? (

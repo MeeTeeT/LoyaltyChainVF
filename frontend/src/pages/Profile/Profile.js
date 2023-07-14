@@ -150,7 +150,7 @@ export default function Profile() {
             </section>
             <div className="mt-10 text-xl">
               {data.length == 0
-                ? "Oops, No NFT data to display (Are you logged in?)"
+                ? "It seems you don't have any Loyalty NFT"
                 : ""}
             </div>
           </div>

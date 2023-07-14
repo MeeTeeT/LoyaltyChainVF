@@ -114,7 +114,8 @@ export default function MarketplaceBrand({ dataBrand }) {
 
     var brandDetail = await contractLTYAccount.getBrandFromId(idBrand);
     const IPFSUrl = await GetIpfsUrlFromPinata(
-      "https://gateway.pinata.cloud/ipfs/QmeiYiTRip2TByG9FBZHzbpwBhozHAf3UAVXMd9wGUPrvk"
+      //"https://gateway.pinata.cloud/ipfs/QmeiYiTRip2TByG9FBZHzbpwBhozHAf3UAVXMd9wGUPrvk"
+      brandDetail.image
     );
     //  brandDetail.image = IPFSUrl;
     console.log("brand detail", brandDetail);

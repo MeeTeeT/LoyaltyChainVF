@@ -277,7 +277,7 @@ export default function CreateBrand() {
             <div className="text-red-500 text-center">{message}</div>
             <button
               onClick={createAccount}
-              className="font-bold mt-10 w-full btn-primary text-white rounded p-2 shadow-lg"
+              className="font-bold mt-10 w-full btn-primary text-white rounded-xl p-2 shadow-lg"
               id="list-button"
             >
               Create my account

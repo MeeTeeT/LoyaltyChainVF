@@ -391,7 +391,7 @@ export default function SellNFT() {
                           ? listNFT
                           : listNFTtoAddress
                       }
-                      className="font-bold mt-10 w-full btn-primary text-white rounded p-2 shadow-lg"
+                      className="font-bold mt-10 w-full btn-primary text-white rounded-xl p-2 shadow-lg"
                       id="list-button"
                     >
                       {nftDestination == "to the marketplace"

@@ -20,6 +20,7 @@ src/.env
 .env.test.local
 .env.production.local
 .env
+/backendTruffle/.env
 
 npm-debug.log*
 yarn-debug.log*

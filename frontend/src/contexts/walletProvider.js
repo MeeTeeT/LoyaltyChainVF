@@ -115,9 +115,20 @@ const WalletProvider = ({ children }) => {
               console.log(err);
             }
           });
+      } else if (chainId.toString() === "0x13881") {
+        window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then(handleAccountsChanged)
+          .catch((err) => {
+            if (err.code === 4001) {
+              console.log("Please connect to Metamask");
+            } else {
+              console.log(err);
+            }
+          });
       } else {
         console.log(
-          "Please change your network on Metamask, you need to be connected to Goerli test network"
+          "Please change your network on Metamask, you need to be connected to the appropriate test network"
         );
       }
     } else {

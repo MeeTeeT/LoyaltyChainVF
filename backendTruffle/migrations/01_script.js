@@ -45,8 +45,69 @@ module.exports = async (deployer) => {
     JSON.stringify(ltyMarketplaceContractData, null, 2)
   );
 
-  //This writes the ABI and address to the mktplace.json
-  //fs.writeFileSync('../../../frontend/src/LoyaltyMarketplace.json', JSON.stringify(data))
+  try {
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
+    console.log(accounts[1]);
+    console.log(accounts[2]);
+    console.log(accounts[3]);
+    const imageBrasserie =
+      "https://gateway.pinata.cloud/ipfs/Qmd6nRQvBtQAqqDAwtL1QWCdkHEuMD8CBYnESPdhkqUqGG";
+    const imageSpurs =
+      "https://gateway.pinata.cloud/ipfs/QmdV7PdujeDgRc43SbGdcFW6pjNkvyZVN96wteMPkVQKTn";
+    const imageChanel =
+      "https://gateway.pinata.cloud/ipfs/QmStBVi2rjdbDWQXgww1CgnwLpNmFw78sWyVWx9CKVxqGH";
+    const imageNike =
+      "https://gateway.pinata.cloud/ipfs/QmdqVGhs2Xegwpvvj1pcxYk3XMHbxuL9xnmVSKVr7K88js";
+    const imageAirFrance =
+      "https://gateway.pinata.cloud/ipfs/QmNV8WaZN2Gy4oKMiykbTRSTePbPnW94vUBbqo7KXF7j6N ";
+
+    try {
+      await ltyAccountDeployed.createUserAccount(
+        "Brasserie Belge",
+        "Venez déceouvrir nos offres de réduction sur nos bierres du moment",
+        imageBrasserie,
+        { from: accounts[1] }
+      );
+    } catch (e) {
+      console.log("erreur dans la creation du compte 1", e);
+    }
+
+    await ltyAccountDeployed.createUserAccount(
+      "San Antonio Spurs",
+      "Des réductions sur toutes nos collections de maillots, ainsi que des réductions sur les places des matchs PlayOff",
+      imageSpurs,
+      { from: accounts[2] }
+    );
+
+    await ltyAccountDeployed.createUserAccount(
+      "Chanel",
+      "Des invitations à tous nos évenements privés",
+      imageChanel,
+      { from: accounts[3] }
+    );
+
+    await ltyAccountDeployed.createUserAccount(
+      "Nike",
+      "Des prix cassés sur nos dernières collections",
+      imageNike,
+      { from: accounts[4] }
+    );
+
+    await ltyAccountDeployed.createUserAccount(
+      "Air France",
+      "Des promos exclusives pour nos plus fidèles clients",
+      imageAirFrance,
+      { from: accounts[5] }
+    );
+
+    result = await ltyAccountDeployed.getAllBrands();
+
+    console.log(result);
+  } catch (error) {
+    console.error("Erreur :", error); // Afficher les erreurs éventuelles dans les logs
+    callback(error); // Terminer le script Truffle avec une erreur
+  }
 };
 
 /*
