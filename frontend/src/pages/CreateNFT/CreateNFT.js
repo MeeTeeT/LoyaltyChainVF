@@ -235,9 +235,9 @@ export default function SellNFT() {
   console.log("Working", process.env);
   return (
     <div className="">
-      <section class="mb-32 bg-white text-center dark:bg-white-100 lg:text-left">
+      <section class="mb-32 bg-white text-center dark:bg-white-100 lg:text-left rounded-xl shadow-lg p-3  border border-white  bg-white">
         <div class="px-6 py-12 md:px-12">
-          <div class="flex grid items-center gap-12 lg:grid-cols-2">
+          <div class="flex grid items-center gap-6 lg:grid-cols-2">
             <div class="mt-12 lg:mt-0">
               <h1 class="mb-12 text-5xl font-bold leading-tight tracking-tight">
                 Create <br />
@@ -289,7 +289,7 @@ export default function SellNFT() {
                         NFT Loyalty Name
                       </label>
                       <input
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="input input-bordered input-primary w-full max-w-xs focus:input-bordered "
                         id="name"
                         type="text"
                         placeholder="Promo 10% on everything"
@@ -310,7 +310,7 @@ export default function SellNFT() {
                         Loyalty Description
                       </label>
                       <textarea
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="textarea textarea-bordered textarea-primary w-full max-w-xs focus:textarea-bordered "
                         cols="40"
                         rows="5"
                         id="description"
@@ -334,7 +334,7 @@ export default function SellNFT() {
                           Price (in ETH)
                         </label>
                         <input
-                          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          className="input input-bordered input-primary w-full max-w-xs focus:input-bordered "
                           type="number"
                           placeholder="Min 0.01 ETH"
                           step="0.01"

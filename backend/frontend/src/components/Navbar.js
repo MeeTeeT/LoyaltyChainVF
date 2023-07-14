@@ -1,35 +1,43 @@
-import logo from '../logo_3.png';
-import fullLogo from '../full_logo.png';
-import React from 'react';
+import logo from "../logo_3.png";
+import fullLogo from "../full_logo.png";
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
 } from "react-router-dom";
-import { useEffect, useState, useContext } from 'react';
-import { useLocation } from 'react-router';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { ethers } from 'ethers'
-//import { useWalletProvider } from '../hooks/useWalletProvider';
-import { WalletContext} from '../contexts/walletProvider';
+import { useEffect, useState, useContext } from "react";
+import { useLocation } from "react-router";
 
+import { ethers } from "ethers";
+//import { useWalletProvider } from '../hooks/useWalletProvider';
+import { WalletContext } from "../contexts/walletProvider";
 
 function Navbar() {
-//const {account, contract} = useContext(ContractContext);
-//console.log("account",account);
-//const { account, provider, setAccount, chainId, connect } = WalletProvider();// useWalletProvider()
+  //const {account, contract} = useContext(ContractContext);
+  //console.log("account",account);
+  //const { account, provider, setAccount, chainId, connect } = WalletProvider();// useWalletProvider()
 
-//const {account, provider, setAccount, chainId, connect} = useWalletProvider();
-const {account, provider, setAccount, chainId, connect, contract, isRegisteredBrand,isAddressAlreadyCreatedAccount} = useContext(WalletContext);
+  //const {account, provider, setAccount, chainId, connect} = useWalletProvider();
+  const {
+    account,
+    provider,
+    setAccount,
+    chainId,
+    connect,
+    contract,
+    isRegisteredBrand,
+    isAddressAlreadyCreatedAccount,
+  } = useContext(WalletContext);
 
-//const [connected, toggleConnect] = useState(false);
-const location = useLocation();
-//const [currAddress, updateAddress] = useState('0x');
+  //const [connected, toggleConnect] = useState(false);
+  const location = useLocation();
+  //const [currAddress, updateAddress] = useState('0x');
 
-/*
+  /*
 async function getAddress() {
   const ethers = require("ethers");
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -38,7 +46,7 @@ async function getAddress() {
   updateAddress(addr);
 }
 */
-/*
+  /*
 function updateButton() {
   const ethereumButton = document.querySelector('.enableEthereumButton');
   ethereumButton.textContent = "Connected";
@@ -49,8 +57,7 @@ function updateButton() {
 }
 */
 
-
-/*
+  /*
 async function connectWebsite() {
 
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
@@ -64,7 +71,7 @@ async function connectWebsite() {
       });
 }
 */
-/*
+  /*
   useEffect(() => {
     if(window.ethereum == undefined)
       return;
@@ -85,129 +92,135 @@ async function connectWebsite() {
     })
   });
 */
-    return (
+  return (
     <>
-     
-     <div className="navbar bg-base-100">
-  <div className="navbar-start">
-    <div className="dropdown">
-      <label tabIndex={0} className="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-      </label>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-      {
-      !isAddressAlreadyCreatedAccount && (
-      location.pathname === "/createBrand" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/createBrand">Create Account</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/createBrand">Create Account</Link>
-              </li>    
-    )          
-              }
-              {location.pathname === "/marketplace" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/marketplace">Marketplace</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/marketplace">Marketplace</Link>
-              </li>              
-              }
-             {
-             isRegisteredBrand && (
-             location.pathname === "/sellNFT" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/sellNFT">Create My NFT</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/sellNFT">Create My NFT</Link>
-              </li>     
-             )         
-              }  
-                
-                         
-              {location.pathname === "/profile" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/profile">My Profile</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/profile">My Profile</Link>
-              </li>              
-              }  
-      </ul>
-    </div>
-    <a className="btn btn-ghost normal-case text-xl"> <Link to="/">Loyalty Chain</Link></a>
-  </div>
-  <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-    {
-    !isAddressAlreadyCreatedAccount && (
-    location.pathname === "/createBrand" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/createBrand">Create Account</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/createBrand">Create Account</Link>
-              </li>  
-    )            
-              }
-              {location.pathname === "/marketplace" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/marketplace">Marketplace</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/marketplace">Marketplace</Link>
-              </li>              
-              }
-             {
-             isRegisteredBrand && (
-             location.pathname === "/sellNFT" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/sellNFT">Create My NFT</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/sellNFT">Create My NFT</Link>
-              </li>  )          
-              }  
-                
-                         
-              {location.pathname === "/profile" ? 
-              <li className='hover:pb-0 p-2'>
-                <Link to="/profile">My Profile</Link>
-              </li>
-              :
-              <li className='hover:pb-0 p-2'>
-                <Link to="/profile">My Profile</Link>
-              </li>              
-              }  
-    </ul>
-  </div>
-  <div className="navbar-end">
-  
-    <a className="btn enableEthereumButton" onClick={connect}>
-      {account !== "0x" && account !== null ? "Connected to "+(account.substring(0,3)+'...'+account.slice(-3)):"Connect to wallet"}
-       </a>
-  </div>
-</div>
+      <div className="navbar bg-base-100">
+        <div className="navbar-start">
+          <div className="dropdown">
+            <label tabIndex={0} className="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              {!isAddressAlreadyCreatedAccount &&
+                (location.pathname === "/createBrand" ? (
+                  <li className="hover:pb-0 p-2">
+                    <Link to="/createBrand">Create Account</Link>
+                  </li>
+                ) : (
+                  <li className="hover:pb-0 p-2">
+                    <Link to="/createBrand">Create Account</Link>
+                  </li>
+                ))}
+              {location.pathname === "/marketplace" ? (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/marketplace">Marketplace</Link>
+                </li>
+              ) : (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/marketplace">Marketplace</Link>
+                </li>
+              )}
+              {isRegisteredBrand &&
+                (location.pathname === "/sellNFT" ? (
+                  <li className="hover:pb-0 p-2">
+                    <Link to="/sellNFT">Create My NFT</Link>
+                  </li>
+                ) : (
+                  <li className="hover:pb-0 p-2">
+                    <Link to="/sellNFT">Create My NFT</Link>
+                  </li>
+                ))}
 
+              {location.pathname === "/profile" ? (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/profile">My Profile</Link>
+                </li>
+              ) : (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/profile">My Profile</Link>
+                </li>
+              )}
+            </ul>
+          </div>
+          <a className="btn btn-ghost normal-case text-xl">
+            {" "}
+            <Link to="/">Loyalty Chain</Link>
+          </a>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+            {!isAddressAlreadyCreatedAccount &&
+              (location.pathname === "/createBrand" ? (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/createBrand">Create Account</Link>
+                </li>
+              ) : (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/createBrand">Create Account</Link>
+                </li>
+              ))}
+            {location.pathname === "/marketplace" ? (
+              <li className="hover:pb-0 p-2">
+                <Link to="/marketplace">Marketplace</Link>
+              </li>
+            ) : (
+              <li className="hover:pb-0 p-2">
+                <Link to="/marketplace">Marketplace</Link>
+              </li>
+            )}
+            {isRegisteredBrand &&
+              (location.pathname === "/sellNFT" ? (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/sellNFT">Create My NFT</Link>
+                </li>
+              ) : (
+                <li className="hover:pb-0 p-2">
+                  <Link to="/sellNFT">Create My NFT</Link>
+                </li>
+              ))}
 
-      
-  
-      
-      </>  
-    );
-  }
+            {location.pathname === "/profile" ? (
+              <li className="hover:pb-0 p-2">
+                <Link to="/profile">My Profile</Link>
+              </li>
+            ) : (
+              <li className="hover:pb-0 p-2">
+                <Link to="/profile">My Profile</Link>
+              </li>
+            )}
+          </ul>
+        </div>
+        <div className="navbar-end">
+          <a className="btn enableEthereumButton" onClick={connect}>
+            {account !== "0x" && account !== null
+              ? "Connected to " +
+                (account.substring(0, 3) + "..." + account.slice(-3))
+              : "Connect to wallet"}
+          </a>
+        </div>
+      </div>
+    </>
+  );
+}
 
-  export default Navbar;
-  
+export default Navbar;
+
 /*
   import React, { useState } from 'react';
 

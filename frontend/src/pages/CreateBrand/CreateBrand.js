@@ -212,9 +212,9 @@ export default function CreateBrand() {
   console.log("Working", process.env);
   return (
     <div className="flex flex-col w-full lg:flex-row">
-      <div className="grid flex-grow h-500 card  rounded-box place-items-center">
+      <div className="grid flex-grow h-500  card  rounded-box place-items-center">
         <div className="flex flex-col place-items-center mt-10" id="nftForm">
-          <form className="bg-white shadow-md rounded px-8 pt-4 pb-8 mb-4">
+          <form className="text-center mb-4  px-20 dark:bg-primary-100 lg:text-left rounded-xl shadow-xl p-3  border border-white  bg-base-100">
             <h3 className="text-center font-bold text-primary-500 mb-8">
               Create your brand account
             </h3>
@@ -226,7 +226,7 @@ export default function CreateBrand() {
                 Brand name
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="input input-bordered input-primary w-full max-w-xs focus:input-bordered"
                 id="name"
                 type="text"
                 placeholder="Airplane company"
@@ -244,7 +244,7 @@ export default function CreateBrand() {
                 Description
               </label>
               <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="textarea textarea-bordered textarea-primary w-full max-w-xs focus:textarea-bordered"
                 cols="40"
                 rows="5"
                 id="description"
@@ -265,7 +265,7 @@ export default function CreateBrand() {
                 className="block text-primary-500 text-sm font-bold mb-2"
                 htmlFor="image"
               >
-                Upload Image (&lt;500 KB)
+                Upload your logo (&lt;200 KB)
               </label>
               <input
                 type={"file"}
@@ -285,7 +285,7 @@ export default function CreateBrand() {
           </form>
         </div>
       </div>
-      <div className="divider lg:divider-horizontal"></div>
+
       <div className="grid flex-grow h-500 card rounded-box place-items-center">
         {" "}
         <img
