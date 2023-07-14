@@ -1,11 +1,15 @@
 import Navbar from "../../components/Navbar";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "../../pinata";
 import { useNavigate, Link } from "react-router-dom";
 import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
+import { WalletContext } from "../../contexts/walletProvider";
 
 export default function Landing() {
+  const { isAddressAlreadyCreatedAccount, isRegisteredBrand } =
+    useContext(WalletContext);
+
   return (
     <div className="hero  min-h-screen bg-base-100">
       <div className="hero-content flex-col">
@@ -23,21 +27,39 @@ export default function Landing() {
               new customers, and for customers to really benefit from their
               different loyalty programs.
             </p>
-            <div className="flex flex-col w-full lg:flex-row py-8">
-              <Link
-                to={{ pathname: "/createBrand" }}
-                className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
-              >
-                Start as brand
-              </Link>
-              <div className="divider lg:divider-horizontal"></div>
-              <Link
-                to={{ pathname: "/marketplace" }}
-                className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
-              >
-                Go to marketplace
-              </Link>
-            </div>
+            {!isRegisteredBrand ? (
+              <div className="flex flex-col w-full lg:flex-row py-8">
+                <Link
+                  to={{ pathname: "/createBrand" }}
+                  className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
+                >
+                  Start as brand
+                </Link>
+                <div className="divider lg:divider-horizontal"></div>
+                <Link
+                  to={{ pathname: "/marketplace" }}
+                  className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
+                >
+                  Go to marketplace
+                </Link>
+              </div>
+            ) : (
+              <div className="flex flex-col w-full lg:flex-row py-8">
+                <Link
+                  to={{ pathname: "/sellNFT" }}
+                  className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
+                >
+                  Create Loyalty NFT
+                </Link>
+                <div className="divider lg:divider-horizontal"></div>
+                <Link
+                  to={{ pathname: "/marketplace" }}
+                  className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
+                >
+                  Go to marketplace
+                </Link>
+              </div>
+            )}
           </div>
         </div>
         <br />
