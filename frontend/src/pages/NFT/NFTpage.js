@@ -305,7 +305,7 @@ export default function NFTPage(props) {
           navigate(-1);
         }}
       >
-        Back to Brand{" "}
+        Back{" "}
       </div>
 
       <div className="hero min-h-screen bg-base-100">

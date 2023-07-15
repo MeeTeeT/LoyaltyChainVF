@@ -32,7 +32,7 @@ contract LTYMarketplace is ERC721URIStorage {
 
     //The fee charged by the marketplace to be allowed to list an NFT
     uint256 public listPrice = 0.01 ether;
-
+    
     //Structure to store info about an NFT
     struct ListedToken {
         uint256 tokenId;
@@ -120,10 +120,9 @@ contract LTYMarketplace is ERC721URIStorage {
         returns (uint256)
     {
         //Check if the minter is a authorized to mint NFT
-
-       require( 
-            //LTYAccountContract.userAccounts[msg.sender].isBrandRegisterOnPlatform == true
-            LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender),
+       require(
+           // LTYAccountContract.userAccounts[msg.sender].isBrandRegisterOnPlatform == true,
+            LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender) == true,
             "You need to be a registred brand to mint NFT"
         );
         
@@ -166,7 +165,7 @@ contract LTYMarketplace is ERC721URIStorage {
         
         //Check if the minter is a authorized to mint NFT
         require(
-              LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender),
+             LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender) == true,
             "You need to be a registred brand to mint NFT"
         );
         //Increment the tokenId counter, which is keeping track of the number of minted NFTs

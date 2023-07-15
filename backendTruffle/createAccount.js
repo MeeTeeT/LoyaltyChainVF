@@ -3,8 +3,366 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 
 const contractAbstraction = require("../frontend/src/LTYAccount.json");
-const contractABI = contractAbstraction.abi;
-const contractAddress = contractAbstraction.address;
+const contractABI = [
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "EventBrandRegisterOnPlatform",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "brandId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "image",
+        type: "string",
+      },
+    ],
+    name: "EventUserAccountCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "EventUserIsABrand",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "userAccounts",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "brandId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "image",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isABrand",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isBrandRegisterOnPlatform",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isAddressAlreadyCreatedAccount",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_image",
+        type: "string",
+      },
+    ],
+    name: "createUserAccount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "setIsBrandRegisterOnPlatform",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "getIsBrandRegisterOnPlatform",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "_isRegistered",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "setUserIsABrand",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_addr",
+        type: "address",
+      },
+    ],
+    name: "getIdBrandFromAddress",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_idBrand",
+        type: "uint256",
+      },
+    ],
+    name: "getBrandFromId",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "brandId",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "image",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "isABrand",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isBrandRegisterOnPlatform",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isAddressAlreadyCreatedAccount",
+            type: "bool",
+          },
+        ],
+        internalType: "struct LTYAccount.UserAccount",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [],
+    name: "getAllBrands",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "brandId",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "image",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "isABrand",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isBrandRegisterOnPlatform",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isAddressAlreadyCreatedAccount",
+            type: "bool",
+          },
+        ],
+        internalType: "struct LTYAccount.UserAccount[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+]; //contractAbstraction.abi;
+const contractAddress = "0x75eb543ae23a1d030432cee4b1bb0772e9b2f55c"; //contractAbstraction.address;
 //const connection = `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_ID}`; //pour mumbai
 const connection = "http://localhost:8545";
 // Initialise une instance Web3 avec le fournisseur Ethereum approprié
@@ -17,9 +375,10 @@ const contract = new web3.eth.Contract(contractABI, contractAddress);
 // Exemple de fonction pour interagir avec une fonction view ou pure du contrat
 async function createAccount(name, description, image) {
   try {
+    const accounts = await web3.eth.getAccounts();
     const result = await contract.methods
       .createUserAccount(name, description, image)
-      .call();
+      .call({ from: accounts[1] });
     console.log("Résultat de la fonction :", result);
   } catch (e) {
     console.log("erreur de la creation du compte", e);
