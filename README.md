@@ -28,8 +28,8 @@ Front End :
 Smart Contract :
 2 SC :
 
-- LTYAccount.sol : Gère les comptes des enseignes qui peuvent créer des LoyaltyNFT
-- LTYMarketplace.sol : Gère la création de NFT par les enseignes ainsi que la marketplace (achat/vente/retrait de la marketplace)
+- LTYAccount.sol : Gère les comptes des enseignes qui peuvent créer des LoyaltyNFT.
+- LTYMarketplace.sol : Gère la création de NFT par les enseignes ainsi que la marketplace (achat/vente/retrait de la marketplace).
 
 Front :
 
