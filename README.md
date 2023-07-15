@@ -1,6 +1,8 @@
-# Projet de certification LoyaltyChain
+# Projet de certification "Exploiter la blockchain dans le développement d’applications - RS5000"
 
 ## Rendu
+
+Projet LoyaltyChain
 
 - Déploiement de la dApp sur Vercel : https://loyalty-chain-vf.vercel.app/
 - Lien vers la vidéo de démo de dApp :
