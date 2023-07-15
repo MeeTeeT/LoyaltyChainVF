@@ -9,15 +9,15 @@ Projet LoyaltyChain
 
 ## Environnement
 
-<u>_BackEnd :_</u>  
+BackEnd :  
 📁 Repertoire backendTruffle
 
 - Déploiement avec Truffle (possibilité dans le script de déploiement pré-créer des comptes de marque)
 - Script web3
 
-<u>\_Remarque : Il existe un repertoire "backend" que j'ai créé pour réaliser le déploiement sous hardhat mais j'ai rencontré des soucis dans la configuration. Par manque de temps pour corriger le problème de configuration, je suis passé sous truffle.\_</u>
+<u>_Remarque : Il existe un repertoire "backend" que j'ai créé pour réaliser le déploiement sous hardhat mais j'ai rencontré des soucis dans la configuration. Par manque de temps pour corriger le problème de configuration, je suis passé sous truffle._</u>
 
-<u>_Front End :_</u>  
+Front End :  
 📁 Repertoire frontend
 
 - React + etherjs
