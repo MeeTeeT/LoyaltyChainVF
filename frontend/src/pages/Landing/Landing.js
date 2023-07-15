@@ -15,14 +15,14 @@ export default function Landing() {
       <div className="hero-content flex-col">
         <div className="hero-content flex-col lg:flex-row-reverse py-20">
           <img
-            src="https://i.guim.co.uk/img/media/ef8492feb3715ed4de705727d9f513c168a8b196/37_0_1125_675/master/1125.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d456a2af571d980d8b2985472c262b31"
-            className="max-w-sm rounded-lg shadow-2xl"
+            src="https://media.istockphoto.com/id/1348670624/vector/vector-set-of-illustration-loyalty-program-concept-line-art-style-background-design-for-web.jpg?s=612x612&w=0&k=20&c=6hw0CX3DjiHDttIK51RmYnlIxqdnPvZGcJt0ddPBuv0="
+            className="max-w-sm rounded-3xl shadow-2xl"
           />
-          <div>
+          <div className="pr-16">
             <h1 className="text-6xl font-bold">
               Buy, Trade, Exchange your loyalty rewards
             </h1>
-            <p className="py-10">
+            <p className="py-9">
               Loyalty Chain is a web3 platform that allows both brands to engage
               new customers, and for customers to really benefit from their
               different loyalty programs.
