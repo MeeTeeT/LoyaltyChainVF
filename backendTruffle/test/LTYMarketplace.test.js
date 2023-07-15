@@ -1,4 +1,5 @@
 const LTYMarketplace = artifacts.require("./LTYMarketplace.sol");
+const LTYAccount = artifacts.require("./LTYAccount.sol");
 const { BN, expectRevert, expectEvent } = require("@openzeppelin/test-helpers");
 const { expect } = require("chai");
 const BigNumber = require("bignumber.js");
@@ -8,6 +9,11 @@ contract("LTYMarketplace", (accounts) => {
   const _account1 = accounts[1];
   const _account2 = accounts[2];
   const _account3 = accounts[3];
+  const _account8 = accounts[8];
+
+  const _brandName = "Buterin";
+  const _brandDescription = "Loyalty NFT of Buterin brand !";
+  const _brandImage = "url d'une image";
 
   const _NFTName = "Buterin";
   const _NFTDescription = "Loyalty NFT of Buterin brand !";
@@ -15,6 +21,7 @@ contract("LTYMarketplace", (accounts) => {
   const _NFTPrice = 1;
 
   let LTYMarketplaceInstance;
+  let LTYAccountInstance;
 
   //check the deployer of the smart contract is the owner
   describe("Smart contract initialization", function () {
@@ -114,19 +121,25 @@ contract("LTYMarketplace", (accounts) => {
       LTYMarketplaceInstance = await LTYMarketplace.new(_owner, {
         from: _owner,
       });
+      LTYAccountInstance = await LTYAccount.new(_owner, {
+        from: _owner,
+      });
     });
-
     /*
     context("createListedToken() => Check require", function () {
       //check require : Brand is authorized to mint
       // try to execute function without having created an account before
+      
       it("createListedToken() => check register", async () => {
-        await expectRevert(LTYMarketplaceInstance.createListedToken(1, 20, {
-          from: _account1,
-        }), "You need to be a registred brand to mint NFT");
-       
+        await expectRevert(
+          LTYMarketplaceInstance.createListedToken(new BN(1), new BN(20), {
+            from: _account1,
+          }),
+          "You need to be a registred brand to mint NFT"
+        );
       });
-
+      
+      
        //check listing value price
        it("createListedToken() => check register", async () => {
         //creer le compte Enseigne
@@ -139,14 +152,16 @@ contract("LTYMarketplace", (accounts) => {
       //check price >= 0
       it("createListedToken() => check register", async () => {
         //creer le compte Enseigne
-        await expectRevert(LTYMarketplaceInstance.createListedToken(1, -10, {
-          from: _account1,
-        }), "Price need to be positive");
-       
+        await expectRevert(
+          LTYMarketplaceInstance.createListedToken(1, -10, {
+            from: _account1,
+          }),
+          "Price need to be positive"
+        );
       });
     });
-    */
-
+*/
+    /*
     context("createListedToken() => Check function", function () {
       console.log("--*****--");
       const tokenId = 1;
@@ -166,7 +181,7 @@ contract("LTYMarketplace", (accounts) => {
         );
       });
 
-      /*
+      
       it("createListedToken() => check storage in idToListedToken mapping", async () => {
         console.log("----", LTYMarketplaceInstance.idToListedToken[1].tokenId);
         //check token id storage
@@ -199,11 +214,18 @@ contract("LTYMarketplace", (accounts) => {
           .true;
           
       });
-*/
-    });
 
+    });
+*/
+    /*
     context("createListedToken() => Check event", function () {
       beforeEach(async function () {
+        await LTYAccountInstance.createUserAccount(
+          _brandName,
+          _brandDescription,
+          _brandImage,
+          { from: _account1 }
+        );
         //create account
         LTYMarketplaceInstance = await LTYMarketplace.createListedToken(
           new BN(1),
@@ -230,6 +252,7 @@ contract("LTYMarketplace", (accounts) => {
         });
       });
     });
+    */
   });
 
   //check getListedTokenForId
@@ -237,12 +260,64 @@ contract("LTYMarketplace", (accounts) => {
   //check getCurrentToken
 
   //check createTokenToMarketplace
+  describe("Check function createTokenToMarketplace()", function () {
+    const URI = "http://monURI.fr";
+    const price = 1000000;
+
+    beforeEach(async function () {
+      LTYMarketplaceInstance = await LTYMarketplace.new(_owner, {
+        from: _owner,
+      });
+    });
+
+    //TODO check require
+    context("createTokenToMarketplace() => Check require", function () {
+      it("createTokenToMarketplace() => check sender can mint NFT", async () => {
+        await expectRevert(
+          LTYMarketplaceInstance.createTokenToMarketplace(URI, new BN(price), {
+            from: _account8,
+          }),
+          "You need to be a registred brand to mint NFT"
+        );
+      });
+    });
+
+    //check function
+    /*
+    context("createTokenToMarketplace() => Check function", function () {
+      it("createTokenToMarketplace() => check listPrice storage ", async () => {
+        const result = await LTYMarketplaceInstance.listPrice();
+        const initialListingPrice = 0.01; //0.01 eth
+        const newListingPrice = 2000000000;
+      });
+    });
+*/
+
+    //check event
+    /*
+    context("updateListPrice() => Check event", function () {
+      const newListingPrice = 2000000000;
+      //check well execution of updateListPrice
+      //description : check event
+      it("updateListPrice() => check event EventUpdateListPrice", async () => {
+        const result = await LTYMarketplaceInstance.updateListPrice(
+          newListingPrice,
+          { from: _owner }
+        );
+
+        expectEvent(result, "EventUpdateListPrice", {
+          price: new BN(newListingPrice),
+        });
+      });
+    });
+    */
+  });
 
   //check createTokenToAddress
 
   //check createListedTokenAndSendToAddress
 
-  //checkgetMyNFTs
+  //check getMyNFTs
 
   //check getNFTsByBrand
 

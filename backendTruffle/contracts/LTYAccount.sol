@@ -91,6 +91,12 @@ contract LTYAccount is Ownable{
         emit EventBrandRegisterOnPlatform(_addr);
     }
 
+    /// @notice get true if brand account is registered 
+    /// @param _addr Address to check
+    function getIsBrandRegisterOnPlatform(address _addr) public view returns(bool _isRegistered){
+       return userAccounts[_addr].isBrandRegisterOnPlatform;
+    }
+
     /// @notice Set account as a brand account
     /// @param _addr Address to registered as a brand
     ///TO DO  a mettre Ownable

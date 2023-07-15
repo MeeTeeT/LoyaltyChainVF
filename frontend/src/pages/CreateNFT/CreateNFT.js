@@ -289,7 +289,7 @@ export default function SellNFT() {
                         NFT Loyalty Name
                       </label>
                       <input
-                        className="input input-bordered input-primary w-full max-w-xs focus:input-bordered "
+                        className=" h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         id="name"
                         type="text"
                         placeholder="Promo 10% on everything"
@@ -310,7 +310,7 @@ export default function SellNFT() {
                         Loyalty Description
                       </label>
                       <textarea
-                        className="textarea textarea-bordered textarea-primary w-full max-w-xs focus:textarea-bordered "
+                        className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
                         cols="40"
                         rows="5"
                         id="description"
@@ -334,7 +334,7 @@ export default function SellNFT() {
                           Price (in ETH)
                         </label>
                         <input
-                          className="input input-bordered input-primary w-full max-w-xs focus:input-bordered "
+                          className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
                           type="number"
                           placeholder="Min 0.01 ETH"
                           step="0.01"

@@ -109,24 +109,11 @@ export default function Profile() {
               </div>
 
               <div className="stat">
-                <div className="stat-figure text-secondary">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    className="inline-block w-8 h-8 stroke-current"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    ></path>
-                  </svg>
-                </div>
                 <div className="stat-title">No of NFT</div>
                 <div className="stat-value text-secondary">{data.length}</div>
-                <div className="stat-desc">Well Done !</div>
+                <div className="stat-desc">
+                  {data.length > 0 && "Well Done !"}
+                </div>
               </div>
 
               <div className="stat">
@@ -139,7 +126,7 @@ export default function Profile() {
           </div>
 
           <div className="flex flex-col text-center items-center mt-11 text-primary-500">
-            <h2 className="font-bold">Your NFTs</h2>
+            <h2 className="font-bold">{data.length > 0 && "My NFTs"}</h2>
             <section
               id="Projects"
               class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5"

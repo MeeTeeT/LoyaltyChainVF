@@ -1,5 +1,5 @@
 {
-  "address": "0xA484c3856F28b6De53D55b7B972af25A1d972d6a",
+  "address": "0x7Db6aB9348293e499E5eaD0c2BA6232b652aF6D1",
   "abi": [
     {
       "anonymous": false,
@@ -206,6 +206,27 @@
       "stateMutability": "nonpayable",
       "type": "function",
       "signature": "0x886d07e2"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "getIsBrandRegisterOnPlatform",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "_isRegistered",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x107781fd"
     },
     {
       "inputs": [

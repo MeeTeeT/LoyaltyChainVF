@@ -35,7 +35,7 @@ export default function Landing() {
                 >
                   Start as brand
                 </Link>
-                <div className="divider lg:divider-horizontal"></div>
+                <div className=" lg:divider-horizontal"></div>
                 <Link
                   to={{ pathname: "/marketplace" }}
                   className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
@@ -47,11 +47,11 @@ export default function Landing() {
               <div className="flex flex-col w-full lg:flex-row py-8">
                 <Link
                   to={{ pathname: "/sellNFT" }}
-                  className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"
+                  className="grid flex-grow h-32 card bg-base-content text-base-100 rounded-box place-items-center"
                 >
                   Create Loyalty NFT
                 </Link>
-                <div className="divider lg:divider-horizontal"></div>
+                <div className=" lg:divider-horizontal"></div>
                 <Link
                   to={{ pathname: "/marketplace" }}
                   className="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center"

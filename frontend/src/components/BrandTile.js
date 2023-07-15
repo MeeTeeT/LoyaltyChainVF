@@ -1,21 +1,17 @@
 //import axie from "../tile.jpeg";
-import {
-    BrowserRouter as Router,
-    Link,
-  } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { GetIpfsUrlFromPinata } from "../utils";
 
-function BrandTile (data) {
-    const newTo = {
-        pathname:"/brand/"+data.data.brandId
-    }
+function BrandTile(data) {
+  const newTo = {
+    pathname: "/brand/" + data.data.brandId,
+  };
 
-    const IPFSUrl = GetIpfsUrlFromPinata(data.data.image);
+  const IPFSUrl = GetIpfsUrlFromPinata(data.data.image);
 
-    return (
-      
-     <>
-       {/* <div className="border-2 ml-12 mt-5 mb-12 flex flex-col items-center rounded-lg w-48 md:w-72 shadow-2xl">
+  return (
+    <>
+      {/* <div className="border-2 ml-12 mt-5 mb-12 flex flex-col items-center rounded-lg w-48 md:w-72 shadow-2xl">
         <img src={IPFSUrl} alt="" className="w-72 h-80 rounded-lg object-cover" />
         <div className= "text-white w-full p-2 bg-gradient-to-t from-[#454545] to-transparent rounded-lg pt-5 -mt-20">
             <strong className="text-xl">{data.data.name}</strong>
@@ -25,18 +21,15 @@ function BrandTile (data) {
         </div>
     </div>
     */}
- <Link to={newTo}>
-
- 
-	<div
-		class="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white  bg-white w-[32rem]">
-		<div class="w-full md:w-1/3 bg-white grid place-items-center">
-			<img src={IPFSUrl} alt="tailwind logo" class="rounded-xl" />
-    </div>
-			<div class="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
-				<div class="flex justify-between item-center">
-					<p class="text-gray-500 font-medium hidden md:block">Category</p>
-					{/*
+      <Link to={newTo}>
+        <div class="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-lg p-3 max-w-xs md:max-w-3xl mx-auto border border-white  bg-white w-[32rem]">
+          <div class="w-full md:w-1/3 bg-white grid place-items-center">
+            <img src={IPFSUrl} alt="tailwind logo" class="rounded-xl" />
+          </div>
+          <div class="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
+            <div class="flex justify-between item-center">
+              <p class="text-gray-500 font-medium hidden md:block"></p>
+              {/*
           <div class="flex items-center">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20"
 							fill="currentColor">
@@ -49,22 +42,26 @@ function BrandTile (data) {
 						</p>
 					</div>
 					*/}
-					<div class="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
-						New</div>
-				</div>
-				<h3 class="font-black text-gray-800 md:text-3xl text-xl">{data.data.name}</h3>
-				<p class="md:text-lg text-gray-500 text-base">{data.data.description}</p>
-				<p class="text-xl font-black text-gray-800">
-					
-					<span class="font-normal text-gray-600 text-base"> {data.data.totalValue} ETH (Total Value)</span>
-				</p>
-			</div>
-		</div>
+              <div class="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
+                New
+              </div>
+            </div>
+            <h3 class="font-black text-gray-800 md:text-3xl text-xl">
+              {data.data.name}
+            </h3>
+            <p class="md:text-lg text-gray-500 text-base">
+              {data.data.description}
+            </p>
+            <p class="text-xl font-black text-gray-800">
+              <span class="font-normal text-gray-600 text-base">
+                {" "}
+                {data.data.totalValue} ETH (Total Value)
+              </span>
+            </p>
+          </div>
+        </div>
 
-
-
-
- {/*
+        {/*
  <div class="relative p-4 w-full bg-white rounded-lg overflow-hidden shadow hover:shadow-md" style={{minHeight: "160px"}}>
 	<div>
 	  <div class="absolute top-0 right-0 mt-2 mr-2 p-4 z-20 flex justify-between">
@@ -158,7 +155,7 @@ function BrandTile (data) {
       </div>
 */}
 
-{/*
+        {/*
       <div class="mb-6 block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 lg:mb-0">
         <div class="relative overflow-hidden bg-cover bg-no-repeat" data-te-ripple-init data-te-ripple-color="light">
           <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/114.jpg" class="w-full rounded-t-lg" />
@@ -212,8 +209,7 @@ function BrandTile (data) {
       </div>
       */}
 
-
-    {/*
+        {/*
  <div class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4">
         <img class="w-full h-56 object-cover object-center" src={IPFSUrl}  alt="avatar"/>
         <div class="flex items-center px-6 py-3 bg-gray-900">
@@ -233,7 +229,7 @@ function BrandTile (data) {
         </div>
     </div>
     */}
-{/*
+        {/*
  <div class="!z-5 relative flex flex-col rounded-[20px] max-w-[300px] bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full !p-4 3xl:p-![18px] bg-white undefined">
                 <div class="h-full w-full">
                     <div class="relative w-full">
@@ -260,9 +256,9 @@ function BrandTile (data) {
                 </div>
             </div>
 */}
-</Link>
-</>
-    )
+      </Link>
+    </>
+  );
 }
 
 export default BrandTile;

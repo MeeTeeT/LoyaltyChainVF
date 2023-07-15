@@ -165,8 +165,7 @@ export default function Marketplace() {
 
   return (
     <section className="mb-32  bg-base-200 min-h-screen rounded-lg p-8">
-      <div className="flex flex-col place-items-center mt-20">
-        <div className="md:text-xl font-bold text-primary-500">Top Brands</div>
+      <div className="flex flex-col place-items-center mt-0">
         <section
           id="Projects"
           class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-1 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5"

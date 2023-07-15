@@ -120,12 +120,13 @@ contract LTYMarketplace is ERC721URIStorage {
         returns (uint256)
     {
         //Check if the minter is a authorized to mint NFT
-       /* 
+
        require( 
-            LTYAccountContract.userAccounts[msg.sender].isBrandRegisterOnPlatform == true,
+            //LTYAccountContract.userAccounts[msg.sender].isBrandRegisterOnPlatform == true
+            LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender),
             "You need to be a registred brand to mint NFT"
         );
-        */
+        
         //Increment the tokenId counter, which is keeping track of the number of minted NFTs
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
@@ -162,13 +163,12 @@ contract LTYMarketplace is ERC721URIStorage {
         payable
         returns (uint256)
     {
+        
         //Check if the minter is a authorized to mint NFT
-        /*
         require(
-            LTYAccountContract.userAccounts[msg.sender].isBrandRegisterOnPlatform == true,
+              LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender),
             "You need to be a registred brand to mint NFT"
         );
-        */
         //Increment the tokenId counter, which is keeping track of the number of minted NFTs
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
@@ -201,12 +201,11 @@ contract LTYMarketplace is ERC721URIStorage {
     /// @param _price of the listed NFT
     function createListedToken(uint256 _tokenId, uint256 _price) private {
         //Check if the minter is a authorized to mint NFT
-       /*
         require(
-            (LTYAccountContract.userAccounts(msg.sender)).isBrandRegisterOnPlatform == true,
+              LTYAccountContract.getIsBrandRegisterOnPlatform(msg.sender),
             "You need to be a registred brand to mint NFT"
         );
-        */
+        
         //Make sure the sender sent enough ETH to pay for listing
         require(msg.value == listPrice, "You need to send the listing fee");
         require(_price >= 0, "Price need to be positive");
