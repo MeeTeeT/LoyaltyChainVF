@@ -319,22 +319,7 @@ export default function NFTPage(props) {
               <div className="flex justify-center">
                 <div className="text-xl mr-20 space-y-2 text-primary  rounded-2xl  p-5">
                   <div>{data.name}</div>
-                  <div className="stats shadow">
-                    <div className="stat">
-                      <div className="stat-figure text-secondary">
-                        <div className="avatar online">
-                          <div className="w-16 rounded-full">
-                            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-                          </div>
-                        </div>
-                      </div>
 
-                      <div className="stat-title">Own by</div>
-                      <div className="stat-desc text-secondary">
-                        {data.owner}
-                      </div>
-                    </div>
-                  </div>
                   <div>{data.description}</div>
                   <div>
                     Price:{" "}

@@ -11,7 +11,7 @@ import "./LTYAccount.sol";
 /// @title Loyalty Marketplace
 /// @author Thibaut Pauget
 /// @notice Loyalty NFT Marketplace : Mint, Send, Buy, Sell NFT
-/// @dev All function calls are currently implemented without side effects
+/// @dev This is a PMV non usable in production environment
 contract LTYMarketplace is ERC721URIStorage {
     using Counters for Counters.Counter;
 
