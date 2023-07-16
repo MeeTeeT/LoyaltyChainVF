@@ -17,23 +17,13 @@ async function interactWithContract() {
     mnemonic: {
       phrase: mnemonicGanache,
     },
-    providerOrUrl: "http://localhost:8545", // Modifier l'URL pour correspondre à votre instance de Ganache
+    providerOrUrl: "http://localhost:8545",
   });
 
   const web3 = new Web3(provider);
 
-  // Obtenir l'adresse du compte connecté
-  //const accounts = await web3.eth.getAccounts();
-  //const account = accounts[0];
+  const providerUrl = "http://localhost:8545";
 
-  const providerUrl = "http://localhost:8545"; // Remplacez par l'URL de votre nœud Ganache local
-
-  // const web3 = new Web3(providerUrl);
-  /*
-  const account = web3.eth.accounts.privateKeyToAccount(
-   
-  );
-*/
   const accounts = await web3.eth.getAccounts();
 
   console.log("address du compte 0: ", accounts[0]);
@@ -45,10 +35,9 @@ async function interactWithContract() {
   console.log("address du compte 6: ", accounts[6]);
   console.log("address du compte 7: ", accounts[7]);
   //console.log("address du compte: ", account);
-  // Créer une instance du contrat avec l'adresse du smart contract et l'ABI
+
   const contract = new web3.eth.Contract(contractAbi, contractAddress);
-  //console.log(contract);
-  // Appeler une fonction du smart contract
+
   try {
     const result = await contract.methods
       .createUserAccount(
