@@ -24,12 +24,21 @@ async function main() {
 */
 
 async function main() {
+  const loyaltyMarketplace = await hre.ethers.deployContract("LTYMarketplace");
+  const loyaltyAccount = await hre.ethers.deployContract("LTYAccount");
 
-  const loyaltyMarketplace = await hre.ethers.deployContract("LoyaltyMarketplace");
+  await loyaltyAccount.waitForDeployment();
+  console.log(
+    "Adresse du contrat loyaltyAccount déployé :",
+    loyaltyAccount.target
+  );
 
   await loyaltyMarketplace.waitForDeployment();
-  console.log("Adresse du contrat déployé :", loyaltyMarketplace.target);
- // console.log("ABI du contrat déployé :", JSON.stringify(loyaltyMarketplace.interface.format('json')));
+  console.log(
+    "Adresse du contratloyaltyMarketplace  déployé :",
+    loyaltyMarketplace.target
+  );
+  // console.log("ABI du contrat déployé :", JSON.stringify(loyaltyMarketplace.interface.format('json')));
   /*
  const data = {
     address: loyaltyMarketplace.target,
@@ -39,16 +48,13 @@ async function main() {
   //This writes the ABI and address to the mktplace.json
   fs.writeFileSync('../../frontend/src/LoyaltyMarketplace.json', JSON.stringify(data))
 */
-  console.log(
-    `loyaltyMarketplace deployed to ${loyaltyMarketplace.target}`
-  );
+  console.log(`loyaltyMarketplace deployed to ${loyaltyMarketplace.target}`);
 }
 
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-
 
 /*const { ethers } = require("hardhat");
 const hre = require("hardhat");

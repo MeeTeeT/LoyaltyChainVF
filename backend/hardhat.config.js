@@ -1,9 +1,10 @@
-require("@nomicfoundation/hardhat-toolbox")
-require("dotenv").config()
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-truffle5");
+require("dotenv").config();
 //require("@nomiclabs/hardhat-etherscan")
 
-const PK = process.env.PK || ""
-const RPC_URL = process.env.RPC_URL || ""
+const PK = process.env.PK || "";
+const RPC_URL = process.env.RPC_URL || "";
 //const ETHERSCAN = process.env.ETHERSCAN || ""
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -12,27 +13,27 @@ module.exports = {
   networks: {
     localhost: {
       url: "http://127.0.0.1:8545",
-      chainId: 31337
+      chainId: 31337,
     },
     sepolia: {
       url: RPC_URL,
       accounts: [`0x${PK}`],
-      chainId: 11155111
-    }
+      chainId: 11155111,
+    },
   },
   solidity: {
     compilers: [
       {
-        version: "0.8.19"
-      }
-    ]
-  },/*
+        version: "0.8.19",
+      },
+    ],
+  } /*
   etherscan: {
     apiKey: {
       sepolia: ETHERSCAN
     }
   }
-  */
+  */,
 };
 
 /*
