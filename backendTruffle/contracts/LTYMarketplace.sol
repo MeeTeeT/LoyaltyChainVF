@@ -206,9 +206,9 @@ contract LTYMarketplace is ERC721URIStorage {
         );
         
         //Make sure the sender sent enough ETH to pay for listing
-        require(msg.value == listPrice, "You need to send the listing fee");
+       // require(msg.value == listPrice, "You need to send the listing fee");
         require(_price >= 0, "Price need to be positive");
-
+        
         //Update the mapping of tokenId to Token details
         idToListedToken[_tokenId] = ListedToken(
             _tokenId,

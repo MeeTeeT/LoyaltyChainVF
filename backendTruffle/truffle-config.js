@@ -41,7 +41,7 @@ module.exports = {
   plugins: ["solidity-coverage"],
 
   mocha: {
-    reporter: "eth-gas-reporter",
+    // reporter: "eth-gas-reporter",
     showTimeSpent: true,
   },
 

@@ -40,10 +40,6 @@ contract("LTYMarketplace", (accounts) => {
           from: _owner,
         }
       );
-
-      LTYMarketplaceInstance = await LTYMarketplace.new(_owner, {
-        from: _owner,
-      });
     });
 
     it("check owner of the smart contract is the deployer", async function () {
@@ -170,9 +166,8 @@ contract("LTYMarketplace", (accounts) => {
         await expectRevert(
           LTYMarketplaceInstance.createListedToken(
             new BN(1),
-            new BN(200000000000000),
+            new BN(200000000000000000n),
             {
-              value: BN(100000000000000000), //BigNumber(listingPrice).toNumber(),
               from: _account8,
             }
           ),
@@ -271,11 +266,11 @@ contract("LTYMarketplace", (accounts) => {
         //create account
         LTYMarketplaceInstance = await LTYMarketplace.createListedToken(
           new BN(1),
-          new BN(1000000000000000000),
-          {
-            from: _account1,
-          }
-        );
+          new BN(1000000000000000000)
+        ).call({
+          value: new BN(listingPrice),
+          from: _account1,
+        });
       });
 
       //check well execution of updateListPrice
