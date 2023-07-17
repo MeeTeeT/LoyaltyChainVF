@@ -1,5 +1,5 @@
 {
-  "address": "0x20f85d403681715a49684c08eF757E3787C8aC5d",
+  "address": "0x97e4f2F66789efc2f9F2CD4068EFa3AABef19744",
   "abi": [
     {
       "anonymous": false,
@@ -80,6 +80,57 @@
       "name": "OwnershipTransferred",
       "type": "event",
       "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "idToListedBrand",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "brandId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "image",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isABrand",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isBrandRegisterOnPlatform",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "isAddressAlreadyCreatedAccount",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0x52e694e9"
     },
     {
       "inputs": [],

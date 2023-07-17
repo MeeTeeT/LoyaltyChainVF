@@ -1,5 +1,5 @@
 {
-  "address": "0x31731530FAA20c1Bffad3C07F3fD5b86ccDB27fb",
+  "address": "0x6e8CD15742bb3126aF7538bc9a1B27C9E58C937A",
   "abi": [
     {
       "inputs": [
@@ -302,6 +302,52 @@
       "type": "function",
       "constant": true,
       "signature": "0x081812fc"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "idToListedToken",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "brandId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address payable",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address payable",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "currentlyListed",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true,
+      "signature": "0xe57a497a"
     },
     {
       "inputs": [

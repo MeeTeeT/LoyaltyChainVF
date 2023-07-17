@@ -69,7 +69,7 @@ contract LTYMarketplace is ERC721URIStorage {
     );
 
     //This mapping maps tokenId to token info and is helpful when retrieving details about a tokenId
-    mapping(uint256 => ListedToken) private idToListedToken;
+    mapping(uint256 => ListedToken) public idToListedToken;
 
     //mapping to store all brands
     //mapping(uint256 => UserAccount) private idToListedBrand;
@@ -411,7 +411,7 @@ contract LTYMarketplace is ERC721URIStorage {
 
         require(
             msg.value == price,
-            "You need to set the asking price in order to complete the purchase"
+            "You need to set the asking price in order to purchase"
         );
 
         //update the details of the token

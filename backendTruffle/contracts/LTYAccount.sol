@@ -36,7 +36,7 @@ contract LTYAccount is Ownable{
     event EventUserIsABrand(address _addr);
 
     //mapping to store all brands
-    mapping(uint256 => UserAccount) private idToListedBrand;
+    mapping(uint256 => UserAccount) public idToListedBrand;
 
     //Mapping of brand
     mapping(address => UserAccount) public userAccounts;

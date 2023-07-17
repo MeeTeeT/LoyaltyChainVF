@@ -3,7 +3,7 @@ const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 
 const mnemonicGanache =
-  "mixture predict olympic enhance cycle address taste again congress replace caught interest";
+  "absorb hawk able account couple cattle bonus raw print mandate diagram all";
 
 const contractAbstraction = require("../frontend/src/LTYAccount.json");
 const contractAbi = contractAbstraction.abi;

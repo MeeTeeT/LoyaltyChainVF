@@ -351,10 +351,10 @@ contract("LTYAccount", (accounts) => {
 
         const brands = await LTYAccountInstance.getAllBrands();
         expect(brands.length).to.equal(3);
-        expect(brands[1].name).to.equal("Brand2");
+        expect(brands[1].name).to.equal("brand2");
         expect(brands[1].description).to.equal("brand2 description");
         expect(brands[1].image).to.equal("brand2 image");
-        expect(brands[2].name).to.equal("Brand3");
+        expect(brands[2].name).to.equal("brand3");
         expect(brands[2].description).to.equal("brand3 description");
         expect(brands[2].image).to.equal("brand3 image");
       });
