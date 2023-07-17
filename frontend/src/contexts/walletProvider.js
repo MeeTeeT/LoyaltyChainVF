@@ -24,13 +24,20 @@ const WalletProvider = ({ children }) => {
   //EVENTS METAMASK
   useEffect(() => {
     connect();
-    window.ethereum.on("accountsChanged", handleAccountsChanged);
-    window.ethereum.on("chainChanged", handleChainChanged);
-    //Faire ici le return pour remove les listeners
-    return () => {
-      window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
-      window.ethereum.removeListener("chainChanged", handleChainChanged);
-    };
+    try {
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+      window.ethereum.on("chainChanged", handleChainChanged);
+      //Faire ici le return pour remove les listeners
+      return () => {
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+        window.ethereum.removeListener("chainChanged", handleChainChanged);
+      };
+    } catch (e) {
+      alert("You need to install metamask !");
+    }
   }, []);
 
   // Connexion function
