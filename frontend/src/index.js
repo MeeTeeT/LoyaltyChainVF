@@ -24,7 +24,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <WalletProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Navbar></Navbar>
         <ToastContainer />
         <Routes>
@@ -37,7 +37,7 @@ root.render(
           <Route path="/createBrand" element={<CreateBrand />} />
         </Routes>
         <Footer></Footer>
-      </HashRouter>
+      </BrowserRouter>
     </WalletProvider>
   </React.StrictMode>
 );
