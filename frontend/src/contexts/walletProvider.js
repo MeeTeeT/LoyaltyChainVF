@@ -101,6 +101,7 @@ const WalletProvider = ({ children }) => {
             if (err.code === 4001) {
               console.log("Please connect to Metamask");
             } else {
+              alert("You need to install metamask");
               console.log(err);
             }
           });
@@ -112,6 +113,7 @@ const WalletProvider = ({ children }) => {
             if (err.code === 4001) {
               console.log("Please connect to Metamask");
             } else {
+              alert("You need to install metamask");
               console.log(err);
             }
           });
@@ -123,6 +125,7 @@ const WalletProvider = ({ children }) => {
             if (err.code === 4001) {
               console.log("Please connect to Metamask");
             } else {
+              alert("You need to install metamask");
               console.log(err);
             }
           });
