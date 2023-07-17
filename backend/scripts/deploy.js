@@ -3,7 +3,7 @@ const fs = require("fs");
 
 /*
 async function main() {
-  // Déploiement du contrat
+  // Déploiement du contrats
   const LoyaltyMarketplace = await hre.ethers.getContractFactory("LoyaltyMarketplace");
   const loyaltyMarketplace = await LoyaltyMarketplace.deploy();
 
