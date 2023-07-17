@@ -75,31 +75,6 @@ const WalletProvider = ({ children }) => {
       );
       setContractLTYAccount(contractLTYAccount);
 
-      /***** listen event */
-      /*
-      contractLTYAccount
-        .on("UserAccountCreated", (event) => {
-          // Traitez l'événement ici
-          console.log(event);
-        })
-        .on("error", (error) => {
-          console.log("erreur lors de lecoute des evenement", error);
-        });
-*/
-      /*
-              UserAccountCreated(
-                currentBrandId,
-                 _name,
-                 _description,
-                 _image,
-                 true, 
-                 true,
-                 true
-         );
-         */
-
-      /** end listening event */
-
       if (chainId.toString() === "0x539") {
         window.ethereum
           .request({ method: "eth_requestAccounts" })
@@ -142,6 +117,7 @@ const WalletProvider = ({ children }) => {
         );
       }
     } else {
+      alert("Please install Metamask!");
       console.log("Please install Metamask!");
     }
   };
