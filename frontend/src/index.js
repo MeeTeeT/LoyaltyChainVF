@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 
 import CreateBrand from "./pages/CreateBrand/CreateBrand";
 import SellNFT from "./pages/CreateNFT/CreateNFT";
@@ -24,7 +24,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <WalletProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Navbar></Navbar>
         <ToastContainer />
         <Routes>
@@ -37,7 +37,7 @@ root.render(
           <Route path="/createBrand" element={<CreateBrand />} />
         </Routes>
         <Footer></Footer>
-      </BrowserRouter>
+      </HashRouter>
     </WalletProvider>
   </React.StrictMode>
 );
