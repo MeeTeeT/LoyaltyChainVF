@@ -2,8 +2,8 @@ const Web3 = require("web3");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 
-const mnemonicGanache =
-  "absorb hawk able account couple cattle bonus raw print mandate diagram all";
+const mnemonicGanache = process.env.MNEMONICGANACHE;
+//"chuckle color crop boy total anxiety very unfold cup awesome embody plunge";
 
 const contractAbstraction = require("../frontend/src/LTYAccount.json");
 const contractAbi = contractAbstraction.abi;

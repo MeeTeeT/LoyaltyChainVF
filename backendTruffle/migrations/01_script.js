@@ -2,7 +2,7 @@ const LoyaltyMarketplace = artifacts.require("LoyaltyMarketplace");
 const LTYAccount = artifacts.require("LTYAccount");
 const LTYMarketplace = artifacts.require("LTYMarketplace");
 const fs = require("fs");
-const initialiseAccount = false;
+const initialiseAccount = true;
 
 module.exports = async (deployer) => {
   //deployer.deploy(LoyaltyMarketplace);

@@ -45036,10 +45036,16 @@
       "links": {},
       "address": "0x6e8CD15742bb3126aF7538bc9a1B27C9E58C937A",
       "transactionHash": "0xac6c55ab91088ec2f700996424d017ec847d0ff520f42555fa21ba78eba4db73"
+    },
+    "1689664598975": {
+      "events": {},
+      "links": {},
+      "address": "0xa44DB9203c92747acC6cA806F510faB396b005D5",
+      "transactionHash": "0x7dbf84f33d09d4817d328e1159e669637c538a19c87bf10f8ee2152197fe25fc"
     }
   },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-17T22:25:02.580Z",
+  "updatedAt": "2023-07-18T09:58:13.900Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Thibaut Pauget",

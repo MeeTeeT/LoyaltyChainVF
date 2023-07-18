@@ -409,6 +409,7 @@ contract LTYMarketplace is ERC721URIStorage {
         uint256 price = idToListedToken[_tokenId].price;
         address seller = idToListedToken[_tokenId].seller;
 
+
         require(
             msg.value == price,
             "You need to set the asking price in order to purchase"
@@ -423,7 +424,7 @@ contract LTYMarketplace is ERC721URIStorage {
         //transfer the NFT to the new owner
         _transfer(address(this), msg.sender, _tokenId);
         //approve the marketplace to sell NFTs for user
-        approve(address(this), _tokenId); // a verif l'utilité
+        approve(address(this), _tokenId); 
         //Transfer the listing fee to the marketplace
         payable(owner).transfer(listPrice);
         //Transfer the buying price to the seller of the NFT

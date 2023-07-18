@@ -2,6 +2,7 @@ const LTYMarketplace = artifacts.require("./LTYMarketplace.sol");
 const LTYAccount = artifacts.require("./LTYAccount.sol");
 const { BN, expectRevert, expectEvent } = require("@openzeppelin/test-helpers");
 const { expect } = require("chai");
+const truffleAssert = require("truffle-assertions");
 const BigNumber = require("bignumber.js");
 
 contract("LTYMarketplace", (accounts) => {
@@ -67,8 +68,6 @@ contract("LTYMarketplace", (accounts) => {
         }
       );
     });
-
-    //TODO check require
 
     //check function
     context("updateListPrice() => Check function", function () {
@@ -166,7 +165,7 @@ contract("LTYMarketplace", (accounts) => {
         await expectRevert(
           LTYMarketplaceInstance.createListedToken(
             new BN(1),
-            new BN(20000000000),
+            new BN(20000000),
             {
               from: _account8,
             }
@@ -174,66 +173,74 @@ contract("LTYMarketplace", (accounts) => {
           "You need to be a registred brand to mint NFT"
         );
       });
-      */
-      /*
-      
-       //check listing value price
-       it("createListedToken() => check listing price", async () => {
-        //creer le compte Enseigne
-        await expectRevert(LTYMarketplaceInstance.createListedToken(1, 100000, {
-          from: _account1, value: new BN(100000000000000000)
-        }), "Price need to be positive");
-       
-      });
 */
-      //check price >= 0
-      /*
-      it("createListedToken() => check price", async () => {
+      //check listing value price
+
+      it("createListedToken() => check listing price", async () => {
+        //creer le compte Enseigne
+        /*
         await LTYAccountInstance.createUserAccount(
           _brandName,
           _brandDescription,
           _brandImage,
           { from: _account1 }
         );
-        await expectRevert(
+
+        await truffleAssert.reverts(
           LTYMarketplaceInstance.createListedToken(new BN(1), new BN(-10), {
             from: _account1,
+            value: new BN("1000000000000"),
           }),
           "Price need to be positive"
         );
+*/
+        /*
+        await expectRevert(
+          LTYMarketplaceInstance.createListedToken(1, new BN(-10), {
+            from: _account1,
+            value: new BN("1000000000000"),
+          }),
+          "Price need to be positive"
+        );
+        */
       });
-      */
     });
 
-    /*
     context("createListedToken() => Check function", function () {
       console.log("--*****--");
       const tokenId = 1;
-      const price = 100;
+      const price = new BN(100);
 
+      /*
       beforeEach(async function () {
-        //create Account
+        await LTYAccountInstance.createUserAccount(
+          _brandName,
+          _brandDescription,
+          _brandImage,
+          { from: _account1 }
+        );
 
         await LTYMarketplaceInstance.createListedToken(tokenId, price, {
           from: _account1,
-          value: new BN(100000000000000000),
+          value: new BN(10000000000000),
         });
 
+        
         console.log(
           "----storage id : ",
-          LTYMarketplaceInstance.idToListedToken[1].tokenId
+          LTYMarketplaceInstance.idToListedToken(1).tokenId
         );
-      });
 
-      
+      });
+*/
       it("createListedToken() => check storage in idToListedToken mapping", async () => {
-        console.log("----", LTYMarketplaceInstance.idToListedToken[1].tokenId);
+        // console.log("----", LTYMarketplaceInstance.idToListedToken(1).tokenId);
         //check token id storage
-        
-        expect(LTYMarketplaceInstance.idToListedToken[1].tokenId).to.equal(
+        /*
+        expect(LTYMarketplaceInstance.idToListedToken(1).tokenId).to.equal(
           BN(1)
         );
-       
+        
         //check brandId
         expect(LTYMarketplaceInstance.idToListedToken[1].brandId).to.equal(
           BN(1)
@@ -256,11 +263,10 @@ contract("LTYMarketplace", (accounts) => {
         //check bool currentlyListed
         expect(LTYMarketplaceInstance.idToListedToken[1].currentlyListed).to.be
           .true;
-          
+          */
       });
-
     });
-*/
+
     /*
     context("createListedToken() => Check event", function () {
       beforeEach(async function () {
@@ -300,8 +306,94 @@ contract("LTYMarketplace", (accounts) => {
   });
 
   //check getListedTokenForId
+  describe("Check function getListedTokenForId()", function () {
+    const URI = "http://monURI.fr";
+    const price = 1000000;
+
+    beforeEach(async function () {
+      LTYAccountInstance = await LTYAccount.new({
+        from: _owner,
+      });
+      LTYAccountInstanceAddress = LTYAccountInstance.address;
+
+      LTYMarketplaceInstance = await LTYMarketplace.new(
+        LTYAccountInstanceAddress,
+        {
+          from: _owner,
+        }
+      );
+      await LTYAccountInstance.createUserAccount(
+        _brandName,
+        _brandDescription,
+        _brandImage,
+        { from: _account1 }
+      );
+      const result = await LTYMarketplaceInstance.createTokenToMarketplace(
+        "http://test.fr",
+        new BN(10000000000000),
+        {
+          from: _account1,
+        }
+      );
+    });
+
+    //check require
+    context("createTokenToMarketplace() => Check function", function () {
+      it("createTokenToMarketplace() => check storage", async () => {
+        const result = await LTYMarketplaceInstance.getListedTokenForId(
+          new BN(1)
+        );
+
+        // Vérifier si les détails du ListedToken correspondent à ceux attendus
+        expect(result.tokenId).equal(new BN(1));
+        expect(result.owner).equal(LTYMarketplaceInstance.address);
+        expect(result.seller).equal(_account1);
+        expect(result.price).equal(new BN(10000000000000));
+        expect(result.currentlyListed).equal(true);
+      });
+    });
+  });
 
   //check getCurrentToken
+  describe("Check function getCurrentToken()", function () {
+    const URI = "http://monURI.fr";
+    const price = 1000000;
+
+    beforeEach(async function () {
+      LTYAccountInstance = await LTYAccount.new({
+        from: _owner,
+      });
+      LTYAccountInstanceAddress = LTYAccountInstance.address;
+
+      LTYMarketplaceInstance = await LTYMarketplace.new(
+        LTYAccountInstanceAddress,
+        {
+          from: _owner,
+        }
+      );
+      await LTYAccountInstance.createUserAccount(
+        _brandName,
+        _brandDescription,
+        _brandImage,
+        { from: _account1 }
+      );
+      const result = await LTYMarketplaceInstance.createTokenToMarketplace(
+        "http://test.fr",
+        new BN(10000000000000),
+        {
+          from: _account1,
+        }
+      );
+    });
+
+    //check require
+    context("createTokenToMarketplace() => Check function", function () {
+      it("createTokenToMarketplace() => check storage", async () => {
+        const result = await LTYMarketplaceInstance.getCurrentToken();
+        expect(result).equal(new BN(1));
+      });
+    });
+  });
 
   //check createTokenToMarketplace
   describe("Check function createTokenToMarketplace()", function () {
@@ -722,7 +814,7 @@ contract("LTYMarketplace", (accounts) => {
       // let tokenId = 1;
       await LTYMarketplaceInstance.createTokenToMarketplace(
         "http://test.fr",
-        new BN(10000000000000),
+        new BN("10000000000000"),
         {
           from: _account1,
         }
@@ -731,10 +823,11 @@ contract("LTYMarketplace", (accounts) => {
     context("executeSale() => Check require", function () {
       it("executeSale() => check price", async () => {
         //  try {
+
         await expectRevert(
           LTYMarketplaceInstance.executeSale(new BN(1), {
             from: _account1,
-            value: new BN(10000000000),
+            value: new BN("10000000000"),
           }),
           "You need to set the asking price in order to purchase"
         );
@@ -745,13 +838,12 @@ contract("LTYMarketplace", (accounts) => {
     });
 
     context("executeSale() => Check function", function () {
-      /*
       it("executeSale() => check storage", async function () {
         await LTYMarketplaceInstance.executeSale(new BN(1), {
-          from: _account2,
-          value: new BN(10000000000000),
+          from: _account3,
+          value: new BN("10000000000000"),
         });
-
+        /*
         let currentlyListed = (
           await LTYMarketplaceInstance.idToListedToken(new BN(1))
         ).currentlyListed;
@@ -764,16 +856,18 @@ contract("LTYMarketplace", (accounts) => {
         let seller = (await LTYMarketplaceInstance.idToListedToken(new BN(1)))
           .seller;
         expect(_account2).to.equal(seller);
+        */
       });
-*/
-      /*
+    });
+
+    /*
       context("executeSale() => Check event", function () {
         it("executeSale() => check event EventTokenTransaction", async function () {
           let result = await LTYMarketplaceInstance.executeSale(new BN(1), {
-            from: _account1,
-            value: new BN(10000000000000),
+            from: _account2,
+            value: new BN("10000000000000", 10),
           });
-
+          
           expectEvent(result, "EventTokenTransaction", {
             tokenId: new BN(1),
             ownerFrom: LTYMarketplaceInstance.address,
@@ -783,10 +877,11 @@ contract("LTYMarketplace", (accounts) => {
             price: new BN(10000000000000),
             transactionType: "Buy NFT",
           });
+          
         });
+        
       });
       */
-    });
   });
 
   //addTokenToSaleOnTheMarket
@@ -836,7 +931,7 @@ contract("LTYMarketplace", (accounts) => {
         );
       });
 
-      it("createTokenToMarketplace() => check the seller it the owner", async () => {
+      it("addTokenToSaleOnTheMarket() => check the seller it the owner", async () => {
         await expectRevert(
           LTYMarketplaceInstance.addTokenToSaleOnTheMarket(
             new BN(1),
@@ -849,7 +944,7 @@ contract("LTYMarketplace", (accounts) => {
         );
       });
 
-      it("createTokenToMarketplace() => check price > 0", async () => {
+      it("addTokenToSaleOnTheMarket() => check price > 0", async () => {
         await expectRevert(
           LTYMarketplaceInstance.addTokenToSaleOnTheMarket(
             new BN(1),
@@ -863,8 +958,8 @@ contract("LTYMarketplace", (accounts) => {
       });
     });
 
-    context("createTokenToMarketplace() => Check function", function () {
-      it("createTokenToMarketplace() => check storage", async function () {
+    context("addTokenToSaleOnTheMarket() => Check function", function () {
+      it("addTokenToSaleOnTheMarket() => check storage", async function () {
         await LTYMarketplaceInstance.addTokenToSaleOnTheMarket(
           new BN(1),
           new BN(10000000000),
@@ -891,8 +986,8 @@ contract("LTYMarketplace", (accounts) => {
         expect(_account1).to.equal(seller);
       });
 
-      context("createTokenToMarketplace() => Check event", function () {
-        it("createTokenToMarketplace() => check event EventTokenTransaction", async function () {
+      context("addTokenToSaleOnTheMarket() => Check event", function () {
+        it("addTokenToSaleOnTheMarket() => check event EventTokenTransaction", async function () {
           let result = await LTYMarketplaceInstance.addTokenToSaleOnTheMarket(
             new BN(1),
             new BN(10000000000),
@@ -912,7 +1007,7 @@ contract("LTYMarketplace", (accounts) => {
           });
         });
       });
-      it("createTokenToMarketplace() => check event EventTokenListedSuccess", async function () {
+      it("addTokenToSaleOnTheMarket() => check event EventTokenListedSuccess", async function () {
         let result = await LTYMarketplaceInstance.addTokenToSaleOnTheMarket(
           new BN(1),
           new BN(10000000000),
