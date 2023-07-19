@@ -5,7 +5,6 @@ const secret =
 
 const axios = require("axios");
 const FormData = require("form-data");
-
 const pinataSDK = require("@pinata/sdk");
 const pinata = new pinataSDK(key, secret);
 const fs = require("fs");
@@ -111,6 +110,7 @@ export const uploadFileToIPFS = async (file) => {
   //pinataOptions are optional
   const pinataOptions = JSON.stringify({
     cidVersion: 0,
+    /*
     customPinPolicy: {
       regions: [
         {
@@ -123,6 +123,7 @@ export const uploadFileToIPFS = async (file) => {
         },
       ],
     },
+    */
   });
   data.append("pinataOptions", pinataOptions);
 
