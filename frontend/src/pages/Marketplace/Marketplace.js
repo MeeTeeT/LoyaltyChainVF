@@ -113,7 +113,7 @@ export default function Marketplace() {
         //console.log("image from pinata",imageFromPinataURL);
         const totalValue = await TotalValueByBrand(i.brandId);
         //let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-        let brandId = toNumber(i.brandId);
+        let brandId = i.brandId;
         let item = {
           brandId: brandId,
           name: i.name,
