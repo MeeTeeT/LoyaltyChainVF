@@ -295,7 +295,7 @@ export default function NFTPage(props) {
   }, [data]);
 
   return (
-    <>
+    <div className="bg-base-200">
       {/*
       <div className="navbar bg-neutral text-neutral-content">
         <div className="text-sm breadcrumbs">
@@ -312,7 +312,7 @@ export default function NFTPage(props) {
       </div>
       */}
       <div
-        className="md:text-xl font-bold  pl-10 text-primary-500"
+        className="md:text-xl pt-5 font-bold  pl-10 text-primary-500"
         onClick={() => {
           navigate(-1);
         }}
@@ -344,39 +344,32 @@ export default function NFTPage(props) {
       </div>
       */}
 
-      <div className="hero min-h-screen bg-base-100">
-        <div className="hero-content flex-col bg-base-100 shadow-2xl rounded-xl">
-          <div className="hero-content flex-col min-h-[50%] lg:flex-row w-full">
+      <div>
+        <div className="flex ml-10 mt-5 mb-5 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 w-4/5 border-slate-300 ">
+          <div className="hero-content flex-col min-h-[50%] lg:flex-row w-full pt-5 pb-0 content-center">
             <img
               src={data.image}
-              className="max-w-sm rounded-lg shadow-2xl object-fill w-1/2"
+              className="max-w-sm rounded-lg s object-fill w-1/2 aspect-square object-contain"
             />
             <section className=" rounded-lg p-3  min-h-[50%] w-1/2">
               <div className="flex justify-center">
-                <div className="text-xl mr-20 space-y-2 text-primary  rounded-2xl  p-5">
-                  <div>{data.name}</div>
+                <div className=" mr-20 space-y-2 text-secondary  rounded-2xl  p-5">
+                  <div className="text-4xl   text-slate-700 ">
+                    {data.name} #{data.tokenId}
+                  </div>
 
-                  <div>{data.description}</div>
-                  <div>
-                    Price:{" "}
-                    <span className="text-primary">{data.price + " ETH"}</span>
+                  <div className="text-lg  text-slate-700 pb-6">
+                    {data.description}
                   </div>
-                  <div>
-                    Owner:{" "}
-                    <span className="text-sm text-primary-500">
-                      {data.owner}
-                    </span>
+                  <div className="text-xl  mt-10  text-slate-700 ">Price</div>
+                  <div className="text-m  text-slate-700 pb-4">
+                    {data.price + " ETH"}
                   </div>
-                  <div>
-                    Seller: <span className="text-sm">{data.seller}</span>
+                  <div className="text-2xl  mt-10  text-slate-700 ">Seller</div>
+                  <div className="text-m text-slate-700 pb-4">
+                    {data.seller}
                   </div>
-                  <div>
-                    Approve: <span className="text-sm">{addressApprove}</span>
-                  </div>
-                  <div>
-                    tokeId: <span className="text-sm">{data.tokenId}</span>
-                  </div>
-                  <br />
+
                   <div>
                     {account != data.owner && account != data.seller ? (
                       <button
@@ -387,15 +380,15 @@ export default function NFTPage(props) {
                       </button>
                     ) : data.currentlyListed == false ? (
                       <>
-                        <div className="mb-6">
+                        <div className="mb-2 mt-10  ">
                           <label
-                            className="block text-primary-500 text-sm font-bold mb-2"
+                            className="text-xl  mt-10  text-slate-700"
                             htmlFor="price"
                           >
                             Price (in ETH)
                           </label>
                           <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
                             type="number"
                             placeholder="Min 0.01 ETH"
                             step="0.01"
@@ -409,7 +402,7 @@ export default function NFTPage(props) {
                           ></input>
                         </div>
                         <button
-                          className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm "
+                          className=" mt-1 enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm "
                           onClick={() => {
                             resale(tokenId);
                           }}
@@ -419,7 +412,7 @@ export default function NFTPage(props) {
                       </>
                     ) : (
                       <button
-                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm mt-10 content-center"
                         onClick={() => {
                           removeToken(tokenId);
                         }}
@@ -436,17 +429,16 @@ export default function NFTPage(props) {
               <div className="grid gap-x-6 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-12"></div>
             </section>
           </div>
-          {historyNFT && (
-            <div className="flex ml-0 mt-1 pb-10 w-full">
-              <div className="text-xl ml-5 mr-5 space-y-8 text-primary-500 shadow-2xl rounded-2xl border-1 p-5">
-                <NFTHistory data={historyNFT} />
-              </div>
-            </div>
-          )}
+
           <br />
           <br />
         </div>
+        {historyNFT && (
+          <div className="flex ml-10 mt-10 mb-0 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 w-4/5 border-slate-300 pb-10">
+            <NFTHistory data={historyNFT} />
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }

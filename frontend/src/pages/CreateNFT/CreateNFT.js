@@ -118,13 +118,13 @@ export default function SellNFT() {
 
   //uploads the metadata to IPFS
   async function uploadMetadataToIPFS() {
-    const { name, description, price } = formParams;
+    const { name, description, price, address } = formParams;
 
     //Make sure that none of the fields are empty
     if (
       !name ||
       !description ||
-      !price ||
+      (!price && !address) ||
       !fileURL
       // !fileS
     ) {

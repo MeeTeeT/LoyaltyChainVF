@@ -2,7 +2,7 @@ import Navbar from "../../components/Navbar";
 import { useLocation, useParams } from "react-router-dom";
 import MarketplaceJSON from "../../LoyaltyMarketplace.json";
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import NFTTile from "../../components/NFTTile";
 import { GetIpfsUrlFromPinata } from "../../utils";
 import { WalletContext } from "../../contexts/walletProvider";
@@ -22,6 +22,10 @@ export default function Profile() {
   const [dataFetched, updateFetched] = useState(false);
   // const [address, updateAddress] = useState("0x");
   const [totalPrice, updateTotalPrice] = useState("0");
+
+  useEffect(() => {
+    getNFTData();
+  }, [account, provider]);
 
   async function getNFTData() {
     const ethers = require("ethers");
