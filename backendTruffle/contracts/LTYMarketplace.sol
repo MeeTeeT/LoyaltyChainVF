@@ -31,7 +31,7 @@ contract LTYMarketplace is ERC721URIStorage {
     address payable public owner;
 
     //The fee charged by the marketplace to be allowed to list an NFT
-    uint256 public listPrice = 0.01 ether;
+    uint256 public listPrice = 0.01 ether; //not use in this version - Economic Model in construction
     
     //Structure to store info about an NFT
     struct ListedToken {
@@ -409,6 +409,7 @@ contract LTYMarketplace is ERC721URIStorage {
         uint256 price = idToListedToken[_tokenId].price;
         address seller = idToListedToken[_tokenId].seller;
 
+
         require(
             msg.value == price,
             "You need to set the asking price in order to purchase"
@@ -423,9 +424,9 @@ contract LTYMarketplace is ERC721URIStorage {
         //transfer the NFT to the new owner
         _transfer(address(this), msg.sender, _tokenId);
         //approve the marketplace to sell NFTs for user
-        approve(address(this), _tokenId); // a verif l'utilité
+        approve(address(this), _tokenId); 
         //Transfer the listing fee to the marketplace
-        payable(owner).transfer(listPrice);
+        //payable(owner).transfer(listPrice);
         //Transfer the buying price to the seller of the NFT
         payable(seller).transfer(msg.value);
 
