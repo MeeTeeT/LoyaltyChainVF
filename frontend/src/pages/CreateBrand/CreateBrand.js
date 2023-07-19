@@ -89,7 +89,7 @@ export default function CreateBrand() {
       //upload the file to IPFS
       disableButton();
       notifyInfo("Uploading image.. please wait...");
-      //updateMessage("Uploading image.. please dont click anything!");
+      updateMessage("Uploading image.. please dont click anything!");
       const response = await uploadFileToIPFS(file);
       if (response.success === true) {
         enableButton();
