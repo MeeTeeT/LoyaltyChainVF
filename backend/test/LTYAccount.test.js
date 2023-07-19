@@ -71,6 +71,40 @@ contract("LTYAccount", (accounts) => {
         result = await LTYAccountInstance.getBrandFromId(1, {
           from: _account1,
         });
+
+        brandMapping = await LTYAccountInstance.userAccounts(_account1, {
+          from: _account1,
+        });
+      });
+
+      //description : we register a Brand, then we call this brand and check brand storage in mapping
+      it("createUserAccount() => check UserAccount storage isABrand ", async () => {
+        expect(brandMapping.isABrand).to.be.true;
+      });
+
+      //description : we register a Brand, then we call this brand and check brand storage in mapping
+      it("createUserAccount() => check UserAccount storage isABrand ", async () => {
+        expect(brandMapping.isBrandRegisterOnPlatform).to.be.true;
+      });
+
+      //description : we register a Brand, then we call this brand and check brand storage in mapping
+      it("createUserAccount() => check UserAccount storage isABrand ", async () => {
+        expect(brandMapping.isAddressAlreadyCreatedAccount).to.be.true;
+      });
+
+      //description : we register a Brand, then we call this brand and check brand storage in mapping
+      it("createUserAccount() => check UserAccount storage isABrand ", async () => {
+        expect(brandMapping.name).to.be.equal(_brandName);
+      });
+
+      //description : we register a Brand, then we call this brand and check brand storage in mapping
+      it("createUserAccount() => check UserAccount storage isABrand ", async () => {
+        expect(brandMapping.description).to.be.equal(_brandDescription);
+      });
+
+      //description : we register a Brand, then we call this brand and check brand storage in mapping
+      it("createUserAccount() => check UserAccount storage isABrand ", async () => {
+        expect(brandMapping.image).to.be.equal(_brandImage);
       });
 
       //description : we register a Brand, then we call this brand and check if is a brand is true
@@ -78,37 +112,37 @@ contract("LTYAccount", (accounts) => {
         expect(result.isABrand).to.be.true;
       });
 
-      //description : we register a Brand, then we call this brand and check if it regstered on plateform is true
+      //description : we register a Brand, then we call this brand and check if it regstered on plateform is true in array
       it("createUserAccount() => check UserAccount storage isBrandRegisterOnPlatform ", async () => {
         expect(result.isBrandRegisterOnPlatform).to.be.true;
       });
 
-      //description : we register a Brand, then we call this brand and check if it isAddressAlreadyCreatedAccount on plateform is true
+      //description : we register a Brand, then we call this brand and check if it isAddressAlreadyCreatedAccount on plateform is true in array
       it("createUserAccount() => check UserAccount storage isAddressAlreadyCreatedAccount ", async () => {
         expect(result.isAddressAlreadyCreatedAccount).to.be.true;
       });
 
-      //description : we register a Brand, then we call this brand and check if name is set
+      //description : we register a Brand, then we call this brand and check if name is set in array
       it("createUserAccount() => check UserAccount storage name ", async () => {
         assert.equal(result.name, _brandName);
       });
 
-      //description : we register a Brand, then we call this brand and check if description is set
+      //description : we register a Brand, then we call this brand and check if description is set in array
       it("createUserAccount() => check UserAccount storage description ", async () => {
         assert.equal(result.description, _brandDescription);
       });
 
-      //description : we register a Brand, then we call this brand and check if image is set
+      //description : we register a Brand, then we call this brand and check if image is set in array
       it("createUserAccount() => check UserAccount storage brand ", async () => {
         assert.equal(result.image, _brandImage);
       });
 
-      //description : we register a Brand, then we call this brand and check if image is set
+      //description : we register a Brand, then we call this brand and check if image is set in array
       it("createUserAccount() => check UserAccount storage brandid ", async () => {
         assert.equal(result.brandId, 1);
       });
 
-      //description : we register a Brand, then we call this brand and check if brandId is set
+      //description : we register a Brand, then we call this brand and check if brandId is set in array
       it("createUserAccount() => check UserAccount storage brandId ", async () => {
         assert.equal(result.brandId, new BN(1));
       });
@@ -233,6 +267,59 @@ contract("LTYAccount", (accounts) => {
         expect(_brandImage).to.equal(brand.image);
 
         expect(1).to.equal(Number(brand.brandId));
+
+        const brand2 = await LTYAccountInstance.getBrandFromId(new BN(2), {
+          from: _account1,
+        });
+
+        //assert.equal(_brandName,brand.brandName);
+        expect("brand2").to.equal(brand2.name);
+        expect("brand2 description").to.equal(brand2.description);
+        expect("brand2 image").to.equal(brand2.image);
+
+        expect(2).to.equal(Number(brand2.brandId));
+
+        const brand3 = await LTYAccountInstance.getBrandFromId(new BN(3), {
+          from: _account1,
+        });
+
+        //assert.equal(_brandName,brand.brandName);
+        expect("brand3").to.equal(brand3.name);
+        expect("brand3 description").to.equal(brand3.description);
+        expect("brand3 image").to.equal(brand3.image);
+
+        expect(3).to.equal(Number(brand3.brandId));
+      });
+    });
+  });
+
+  //Check function setIsBrandRegisterOnPlatform()
+  describe("Check function getIsBrandRegisterOnPlatform()", function () {
+    let resultFunction;
+    beforeEach(async function () {
+      LTYAccountInstance = await LTYAccount.new({ from: _owner });
+
+      await LTYAccountInstance.createUserAccount(
+        _brandName,
+        _brandDescription,
+        _brandImage,
+        { from: _account1 }
+      );
+
+      resultFunction = await LTYAccountInstance.getIsBrandRegisterOnPlatform(
+        _account1
+      );
+    });
+
+    context("getIsBrandRegisterOnPlatform() => Check function", function () {
+      //check well execution of setIsBrandRegisterOnPlatform
+      it("getIsBrandRegisterOnPlatform() => check storage true", async () => {
+        const brand = await LTYAccountInstance.getBrandFromId(1);
+        expect(brand.isBrandRegisterOnPlatform).to.be.true;
+      });
+      it("getIsBrandRegisterOnPlatform() => check storage false", async () => {
+        const brand = await LTYAccountInstance.getBrandFromId(2);
+        expect(brand.isBrandRegisterOnPlatform).to.be.false;
       });
     });
   });
@@ -257,9 +344,17 @@ contract("LTYAccount", (accounts) => {
 
     context("setIsBrandRegisterOnPlatform() => Check function", function () {
       //check well execution of setIsBrandRegisterOnPlatform
-      it("setIsBrandRegisterOnPlatform() => check storage", async () => {
+      it("setIsBrandRegisterOnPlatform() => check storage array", async () => {
         const brand = await LTYAccountInstance.getBrandFromId(1);
         expect(brand.isBrandRegisterOnPlatform).to.be.true;
+      });
+
+      it("setIsBrandRegisterOnPlatform() => check storage mapping", async () => {
+        brandMapping = await LTYAccountInstance.userAccounts(_account1, {
+          from: _account1,
+        });
+
+        expect(brandMapping.isBrandRegisterOnPlatform).to.be.true;
       });
     });
 
@@ -292,9 +387,17 @@ contract("LTYAccount", (accounts) => {
 
     context("setUserIsABrand() => Check function", function () {
       //check well execution of setUserIsABrand
-      it("setUserIsABrand() => check storage", async () => {
+      it("setUserIsABrand() => check storage array", async () => {
         const brand = await LTYAccountInstance.getBrandFromId(1);
         expect(brand.isBrandRegisterOnPlatform).to.be.true;
+      });
+
+      it("setUserIsABrand() => check storage mapping", async () => {
+        brandMapping = await LTYAccountInstance.userAccounts(_account1, {
+          from: _account1,
+        });
+
+        expect(brandMapping.isBrandRegisterOnPlatform).to.be.true;
       });
     });
 
@@ -317,17 +420,7 @@ contract("LTYAccount", (accounts) => {
     });
 
     context("getAllBrands() => Check function", function () {
-      //check well execution of setUserIsABrand
       it("getAllBrands() => check storage", async () => {
-        /*  LTYAccountInstance.idToListedBrand(1).isBrandRegisterOnPlatform = true;
-        LTYAccountInstance.idToListedBrand(1).name = "Brand 1";
-
-        LTYAccountInstance.idToListedBrand(2).isBrandRegisterOnPlatform = false;
-        LTYAccountInstance.idToListedBrand(2).name = "Brand 2";
-
-        LTYAccountInstance.idToListedBrand(3).isBrandRegisterOnPlatform = true;
-        LTYAccountInstance.idToListedBrand(3).name = "Brand 3";
-*/
         await LTYAccountInstance.createUserAccount(
           _brandName,
           _brandDescription,
@@ -350,13 +443,17 @@ contract("LTYAccount", (accounts) => {
         );
 
         const brands = await LTYAccountInstance.getAllBrands();
-        expect(brands.length).to.equal(3);
+        expect(Number(brands[1].brandId)).to.equal(2);
+        expect(brands[1].name).to.equal("brand2");
         expect(brands[1].name).to.equal("brand2");
         expect(brands[1].description).to.equal("brand2 description");
         expect(brands[1].image).to.equal("brand2 image");
         expect(brands[2].name).to.equal("brand3");
         expect(brands[2].description).to.equal("brand3 description");
         expect(brands[2].image).to.equal("brand3 image");
+
+        expect(brands[1].isBrandRegisterOnPlatform).to.be.true;
+        expect(brands[2].isBrandRegisterOnPlatform).to.be.true;
       });
     });
   });

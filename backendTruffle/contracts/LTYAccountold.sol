@@ -4,18 +4,13 @@ pragma solidity ^0.8.19;
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
  
-/// @title LTYAccount
-/// @author Thibaut Pauget
-/// @notice Loyalty NFT Marketplace : Contract to deal with Account (Brand)
-/// @dev This is a PMV non usable in production environment
-contract LTYAccount is Ownable{ 
+contract LTYAccount is Ownable{
 
     using Counters for Counters.Counter;
 
     //_Brandids variable has the most recent minted tokenId
     Counters.Counter private _brandsIds;
 
-    //struct of an account
     struct UserAccount {
         uint brandId;
         string name;
@@ -51,7 +46,8 @@ contract LTYAccount is Ownable{
     /// @param _name of the brand
     /// @param _description of the brand
     /// @param _image (logo) of the brand
-    function createUserAccount( 
+    function createUserAccount(
+
         string memory _name,
         string memory _description,
         string memory _image
@@ -92,8 +88,6 @@ contract LTYAccount is Ownable{
     ///TO DO  a mettre Ownable
     function setIsBrandRegisterOnPlatform(address _addr) public{
         userAccounts[_addr].isBrandRegisterOnPlatform = true;  
-
-        idToListedBrand[getIdBrandFromAddress(_addr)].isBrandRegisterOnPlatform = true;
         emit EventBrandRegisterOnPlatform(_addr);
     }
 
@@ -108,7 +102,6 @@ contract LTYAccount is Ownable{
     ///TO DO  a mettre Ownable
     function setUserIsABrand(address _addr) public{
         userAccounts[_addr].isABrand = true;
-        idToListedBrand[getIdBrandFromAddress(_addr)].isABrand = true;
         emit EventUserIsABrand(_addr);
     }
 
