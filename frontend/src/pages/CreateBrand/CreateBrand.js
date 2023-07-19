@@ -27,7 +27,7 @@ export default function CreateBrand() {
   const notifyInfo = (message) =>
     (toastId.current = toast.info(message, {
       position: "top-right",
-      autoClose: 0,
+      autoClose: false,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
