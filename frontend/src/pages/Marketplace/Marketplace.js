@@ -111,9 +111,9 @@ export default function Marketplace() {
         //let meta = await axios.get(i.image);
         // meta = meta.data;
         //console.log("image from pinata",imageFromPinataURL);
-        const totalValue = await TotalValueByBrand(toNumber(i.brandId));
+        const totalValue = await TotalValueByBrand(i.brandId);
         //let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-        var brandId = toNumber(i.brandId);
+        let brandId = toNumber(i.brandId);
         let item = {
           brandId: brandId,
           name: i.name,

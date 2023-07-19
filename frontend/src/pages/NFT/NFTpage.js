@@ -242,44 +242,56 @@ export default function NFTPage(props) {
   //if (!dataHistoryFetched) getHistory(tokenId);
 
   useEffect(() => {
-    const fetchEventHistory = async () => {
-      const startBlockNumber = 0;
-      const currentBlockNumber = await provider.getBlockNumber();
-      // currentBlockNumber.wait();
-      const filter =
-        await contractLTYMarketplace.filters.EventTokenTransaction();
+    try {
+      const fetchEventHistory = async () => {
+        const startBlockNumber = 0;
 
-      const events = await contractLTYMarketplace.queryFilter(
-        filter,
-        startBlockNumber,
-        currentBlockNumber
-      );
+        const currentBlockNumber = await provider.getBlockNumber();
+        // currentBlockNumber.wait();
+        const filter =
+          await contractLTYMarketplace.filters.EventTokenTransaction();
 
-      const items = await Promise.all(
-        events.map(async (i) => {
-          if (i.args.tokenId == tokenId) {
-            let item = {
-              tokenId: i.args.tokenId,
-              ownerFrom: i.args.ownerFrom,
-              ownerTo: i.args.ownerTo,
-              sellerFrom: i.args.sellerFrom,
-              sellerTo: i.args.sellerTo,
-              price: i.args.price,
-              transactionType: i.args.transactionType,
-            };
-            // console.log("item : ", item);
+        const events = await contractLTYMarketplace.queryFilter(
+          filter,
+          startBlockNumber,
+          currentBlockNumber
+        );
+        let items;
+        try {
+          items = await Promise.all(
+            events.map(async (i) => {
+              if (i.args.tokenId == tokenId) {
+                let item = {
+                  tokenId: i.args.tokenId,
+                  ownerFrom: i.args.ownerFrom,
+                  ownerTo: i.args.ownerTo,
+                  sellerFrom: i.args.sellerFrom,
+                  sellerTo: i.args.sellerTo,
+                  price: i.args.price,
+                  transactionType: i.args.transactionType,
+                };
+                // console.log("item : ", item);
 
-            return item;
-          }
-        })
-      );
-      //updateDataHistoryFetched(true);
-      console.log("items", items);
-      setHistoryNFT(items);
-      console.log("historyNFT 1 : ", historyNFT);
-    };
-    fetchEventHistory();
-    console.log("historyNFT 2: ", historyNFT);
+                return item;
+              }
+            })
+          );
+        } catch (e) {
+          console.log(e);
+          items = null;
+        }
+        //updateDataHistoryFetched(true);
+        console.log("items", items);
+        setHistoryNFT(items);
+        console.log("historyNFT 1 : ", historyNFT);
+      };
+      //if (historyNFT != null) {
+      fetchEventHistory();
+      // }
+      console.log("historyNFT 2: ", historyNFT);
+    } catch (e) {
+      console.log(e);
+    }
   }, [data]);
 
   return (
