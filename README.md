@@ -41,12 +41,6 @@ Front :
 
 ```
 
-## Coverage des tests unitaires :\*\*
-
-```
-
-```
-
 ## Pour démarrer
 
 ```bash

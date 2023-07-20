@@ -84,6 +84,7 @@ contract LTYMarketplace is ERC721URIStorage {
 
     /// @notice Update listing price fees
     /// @param _listPrice Price of the listing fees
+    /// @dev not use in PMV
     ///TO DO  a mettre Ownable
     function updateListPrice(uint256 _listPrice) public payable {
         require(owner == msg.sender, "Only owner can update listing price");
@@ -212,7 +213,7 @@ contract LTYMarketplace is ERC721URIStorage {
         //Update the mapping of tokenId to Token details
         idToListedToken[_tokenId] = ListedToken(
             _tokenId,
-            LTYAccountContract.getIdBrandFromAddress(msg.sender), //brandId -> faire une fonction qui recup l'id de la brand a partir de l'adresse
+            LTYAccountContract.getIdBrandFromAddress(msg.sender), 
             payable(address(this)),
             payable(msg.sender),
             _price,
