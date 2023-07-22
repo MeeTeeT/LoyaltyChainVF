@@ -2,6 +2,7 @@ export function NFTHistory({ data }) {
   console.log("---data : ", JSON.stringify(data));
   // alert(JSON.stringify(data));
   //const data = JSON.stringify(data);
+  let compt = 0;
   return (
     <>
       <div className="overflow-x-auto h-400">
@@ -10,7 +11,7 @@ export function NFTHistory({ data }) {
           <thead>
             <tr>
               <th></th>
-              <th>Action</th>
+              <th>Event</th>
               <th>From</th>
               <th>To</th>
             </tr>
@@ -19,10 +20,11 @@ export function NFTHistory({ data }) {
             {data
               ? data.map((item, i) => {
                   if (item) {
+                    compt++;
                     return (
                       <>
                         <tr key={i}>
-                          <th>{i}</th>
+                          <th>{compt}</th>
                           <td>{item.transactionType}</td>
                           <td>{item.ownerFrom}</td>
                           <td>{item.ownerTo}</td>
@@ -35,17 +37,6 @@ export function NFTHistory({ data }) {
           </tbody>
         </table>
       </div>
-      {/*event EventTokenTransaction(
-        uint256 indexed tokenId,
-        address ownerFrom,
-        address ownerTo,
-        address sellerFrom,
-        address sellerTo,
-        uint256 price,
-        string transactionType
-    );
-    
-      toto*/}
     </>
   );
 }

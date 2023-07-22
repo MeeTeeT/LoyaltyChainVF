@@ -62,6 +62,7 @@ export default function MarketplaceBrand({ dataBrand }) {
   const [viewNfts, setViewNfts] = useState(false);
   const [CollectionId, setCollectionId] = useState(null);
   const [totalValue, setTotalValue] = useState(0);
+  const [lowest, setLowest] = useState(0);
 
   async function getNFTsByBrand(idBrand) {
     const ethers = require("ethers");
@@ -76,7 +77,7 @@ export default function MarketplaceBrand({ dataBrand }) {
     //create an NFT Token
     try {
       let transaction = await contractLTYMarketplace.getNFTsByBrand(idBrand);
-
+      var lowestTmp = 100000000000000;
       //Fetch all the details of every NFT from the contract and display
       const items = await Promise.all(
         transaction.map(async (i) => {
@@ -89,7 +90,11 @@ export default function MarketplaceBrand({ dataBrand }) {
           let price = ethers.utils.formatUnits(i.price.toString(), "ether");
           console.log("price", price);
           totalValueTmp += Number(price);
-          console.log("totalValueTmp", totalValueTmp);
+
+          if (lowestTmp > Number(price)) {
+            lowestTmp = Number(price);
+          }
+
           let item = {
             price,
             tokenId: i.tokenId.toNumber(),
@@ -103,6 +108,10 @@ export default function MarketplaceBrand({ dataBrand }) {
           return item;
         })
       );
+      if (lowestTmp != 100000000000000) {
+        setLowest(lowestTmp);
+      }
+
       setTotalValue(totalValueTmp);
       updateFetched(true);
       updateData(items);
@@ -161,116 +170,71 @@ export default function MarketplaceBrand({ dataBrand }) {
 */
 
   return (
-    <div className="min-h-screen ">
-      <section className="mb-32  bg-base-200 min-h-screen rounded-lg p-8">
-        <div className="md:text-xl font-bold text-primary-500 pl-10">
-          {" "}
-          <Link to={{ pathname: "/marketplace" }}>See All Brands </Link>
-        </div>
-        <br />
+    <div className="min-h-screen flex flex-col content-center self-center bg-base-200 pt-5 w-auto">
+      <div className="md:text-xl font-bold text-primary-500 pl-10">
+        {" "}
+        <Link to={{ pathname: "/marketplace" }}>See All Brands </Link>
+      </div>
+      <br />
 
-        <section class="mb-2 text-center lg:text-left">
-          <div class="py-6 md:px-6 md:px-6">
-            <div class="container mx-auto xl:px-32">
-              <div class="flex grid items-center lg:grid-cols-2">
-                <div class="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
-                  <div class="relative z-[1] block rounded-lg bg-primary px-6 py-8 shadow-[0_2px_15px_-3px_#ad45ee12,0_10px_20px_-2px_#8599de0a] opacity-80 backdrop-blur-[25px] dark:bg-secondary dark:shadow-black/20 md:px-12 lg:-mr-16">
-                    <h2 class="mb-2 text-3xl font-bold text-white dark:text-primary-400">
-                      {datasBrand ? datasBrand.name : ""} Loyalty NFT
-                      marketplace
-                    </h2>
+      <div class="content-center flex flex-col  item-center w-4/5 self-center place-content-center border border-slate-200 rounded-3xl">
+        <div class="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
+          <div class="relative flex flex-col   rounded-3xl  bg-white px-8 py-8  ">
+            <div class="flex flex-row justify-between">
+              <div class="flex flex-col">
+                <h2 class="mb-2 text-3xl font-bold text-slate-700 dark:text-primary-400">
+                  {datasBrand ? datasBrand.name : ""} Loyalty NFT marketplace
+                </h2>
 
-                    <p class="mb-6 text-neutral-500 dark:text-neutral-300">
-                      {datasBrand ? datasBrand.description : ""}
-                    </p>
-                    <p class="text-neutral-500 dark:text-neutral-300">
-                      Total Value {totalValue} ETH
-                    </p>
+                <p class="mb-0 text-slate-700 dark:text-slate-700">
+                  {datasBrand ? datasBrand.description : ""}
+                </p>
+                <div className="flex text-center flex-col mt-0 ">
+                  <div className="stats shadow m-8 bg-base-200">
+                    <div className="stat">
+                      <div className="stat-title text-xs">Items listed</div>
+                      <div className="stat-value text-lg">{data.length}</div>
+                    </div>
+
+                    <div className="stat">
+                      <div className="stat-title text-xs">Lowest (ETH)</div>
+                      <div className="stat-value text-lg">{lowest}</div>
+                    </div>
+
+                    <div className="stat">
+                      <div className="stat-figure text-secondary"></div>
+
+                      <div className="stat-title text-xs">
+                        Total value (ETH)
+                      </div>
+                      <div className="stat-value text-lg">{totalValue}</div>
+                      <div className="stat-desc text-secondary"></div>
+                    </div>
                   </div>
                 </div>
-                <div class="md:mb-12 lg:mb-0 px-10">
-                  <img
-                    src={datasBrand ? datasBrand.image : null}
-                    class="lg:rotate-[6deg] w-72 rounded-lg shadow-lg dark:shadow-black/20"
-                    alt="image"
-                  />
-                </div>
+              </div>
+              <div class="md:mb-12 lg:mb-0 pl-20">
+                <img
+                  src={datasBrand ? datasBrand.image : null}
+                  class=" max-w-sm rounded-3xl  object-fill  border border-slate-700 aspect-square object-contain h-60 w-60"
+                  alt="image"
+                />
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col place-items-center mt-20">
+        <section
+          id="Projects"
+          className="w-fit mx-auto grid grid-cols-1 3xl:grid-cols-5  xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-7 mt-10 mb-5"
+        >
+          {data.map((value, index) => {
+            return <NFTTile data={value} key={index}></NFTTile>;
+          })}
         </section>
-
-        {/*
-            <section className="mb-32">
-    <div className="flex flex-wrap">
-      <div className="mb-12 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-3/12">
-        <div className="flex lg:py-8">
-          {datasBrand ?
-          <img src={datasBrand.image}  className="z-[10] w-full rounded-lg shadow-lg dark:shadow-black/20 lg:ml-[50px] h-100 w-100" alt="image"/>
-          :
-          null
-          
-          }
-           
-        </div>
       </div>
-
-      <div className="w-full shrink-0 grow-0 basis-auto lg:w-9/12">
-        <div
-          className="flex h-full items-center rounded-lg bg-primary p-6 text-center text-white lg:pl-12 lg:text-left">
-           <div className="lg:pl-12">
-            <h2 className="mb-8 text-3xl font-bold">{ datasBrand ? datasBrand.name : ""} Loyalty NFT marketplace</h2>
-            
-
-            <div className="mx-auto mb-8 flex flex-col md:flex-row md:justify-around xl:justify-start">
-              <p className="mx-auto mb-4 flex items-center md:mx-0 md:mb-2 lg:mb-0 xl:mr-20">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                  stroke="currentColor" className="mr-2 h-5 w-5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Best team
-              </p>
-
-              <p className="mx-auto mb-4 flex items-center md:mx-0 md:mb-2 lg:mb-0 xl:mr-20">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                  stroke="currentColor" className="mr-2 h-5 w-5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Best quality
-              </p>
-
-              <p className="mx-auto mb-2 flex items-center md:mx-0 lg:mb-0">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                  stroke="currentColor" className="mr-2 h-5 w-5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Best experience
-              </p>
-            </div>
-
-            <p>
-            { datasBrand ? datasBrand.description : ""} 
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>  
-  </section>
-  */}
-        <div className="flex flex-col place-items-center mt-20">
-          <section
-            id="Projects"
-            className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5"
-          >
-            {data.map((value, index) => {
-              return <NFTTile data={value} key={index}></NFTTile>;
-            })}
-          </section>
-        </div>
-      </section>
     </div>
   );
 }

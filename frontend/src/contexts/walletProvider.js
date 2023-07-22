@@ -21,13 +21,12 @@ const WalletProvider = ({ children }) => {
 
   let currentAccount = null;
 
-  //EVENTS METAMASK
   useEffect(() => {
     connect();
     try {
       window.ethereum.on("accountsChanged", handleAccountsChanged);
       window.ethereum.on("chainChanged", handleChainChanged);
-      //Faire ici le return pour remove les listeners
+
       return () => {
         window.ethereum.removeListener(
           "accountsChanged",

@@ -27,44 +27,6 @@ export default function Marketplace() {
   const [viewNfts, setViewNfts] = useState(false);
   const [CollectionId, setCollectionId] = useState(null);
 
-  /*
-        console.log("viewNFT : ",viewNfts);
-    async function  getAllNFTs() {
-        const ethers = require("ethers");
-        //After adding your Hardhat network to your metamask, this code will get providers and signers
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        //Pull the deployed contract instance
-        let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
-        //create an NFT Token
-        let transaction = await contract.getAllNFTs()
-    
-        //Fetch all the details of every NFT from the contract and display
-        const items = await Promise.all(transaction.map(async i => {
-            var tokenURI = await contract.tokenURI(i.tokenId);
-            console.log("getting this tokenUri", tokenURI);
-            tokenURI = GetIpfsUrlFromPinata(tokenURI);
-            let meta = await axios.get(tokenURI);
-            meta = meta.data;
-    
-            let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-            let item = {
-                price,
-                tokenId: i.tokenId.toNumber(),
-                seller: i.seller,
-                owner: i.owner,
-                image: meta.image,
-                name: meta.name,
-                description: meta.description,
-            }
-            return item;
-        }))
-    
-        updateFetched(true);
-        updateData(items);
-    }
-*/
-
   async function TotalValueByBrand(idBrand) {
     const ethers = require("ethers");
     var totalValueTmp = 0;
@@ -87,48 +49,45 @@ export default function Marketplace() {
 
   async function getAllBrands() {
     const ethers = require("ethers");
-    //After adding your Hardhat network to your metamask, this code will get providers and signers
 
-    /*const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        //Pull the deployed contract instance
-        //let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
-        
-        let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
-        */
     //get all brands
-    let transaction = await contractLTYAccount.getAllBrands();
+    try {
+      let transaction = await contractLTYAccount.getAllBrands();
 
-    console.log("transaction brand", transaction);
-    //Fetch all the details of every Brands from the contract and display
-    const items = await Promise.all(
-      transaction.map(async (i) => {
-        console.log("image : ", i.image);
-        //var tokenURI = await contract.tokenURI(i.tokenId);
-        //console.log("getting this tokenUri", tokenURI);
-        //tokenURI = GetIpfsUrlFromPinata(i.image);
-        //var imageFromPinataURL = GetIpfsUrlFromPinata(i.image);
-        //let meta = await axios.get(i.image);
-        // meta = meta.data;
-        //console.log("image from pinata",imageFromPinataURL);
-        const totalValue = await TotalValueByBrand(i.brandId);
-        //let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-        let brandId = i.brandId;
-        let item = {
-          brandId: brandId,
-          name: i.name,
-          description: i.description,
-          image: i.image,
-          totalValue: totalValue,
-        };
-        console.log("item : ", item);
-        return item;
-      })
-    );
+      console.log("transaction brand", transaction);
+      //Fetch all the details of every Brands from the contract and display
+      const items = await Promise.all(
+        transaction.map(async (i) => {
+          console.log("image : ", i.image);
 
-    updateFetched(true);
-    updateData(items);
+          const totalValue = await TotalValueByBrand(i.brandId);
+          let brandId = i.brandId;
+          let item = {
+            brandId: brandId,
+            name: i.name,
+            description: i.description,
+            image: i.image,
+            totalValue: totalValue,
+          };
+          console.log("item : ", item);
+          return item;
+        })
+      );
+
+      updateFetched(true);
+      updateData(items);
+    } catch (e) {
+      /*alert(
+        "impossible to get Data... Please check blockChain Network or Account"
+      );
+      */
+
+      console.log("check network or account ", e);
+    }
   }
+  useEffect(() => {
+    getAllBrands();
+  }, [account, provider]);
 
   if (!dataFetched) {
     getAllBrands();
@@ -139,7 +98,7 @@ export default function Marketplace() {
       <div className="flex flex-col place-items-center mt-0">
         <section
           id="Projects"
-          class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-2 md:grid-cols-1 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5"
+          class="w-fit mx-auto grid grid-cols-1 2xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 justify-items-center justify-center gap-y-4 gap-x-4 mt-10 mb-5"
         >
           {data.map((value, index) => {
             return (

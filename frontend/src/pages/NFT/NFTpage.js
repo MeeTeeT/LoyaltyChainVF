@@ -295,22 +295,7 @@ export default function NFTPage(props) {
   }, [data]);
 
   return (
-    <div className="bg-base-200">
-      {/*
-      <div className="navbar bg-neutral text-neutral-content">
-        <div className="text-sm breadcrumbs">
-          <ul>
-            <li>
-              <a>Home</a>
-            </li>
-            <li>
-              <a>Documents</a>
-            </li>
-            <li>Add Document</li>
-          </ul>
-        </div>
-      </div>
-      */}
+    <div className="bg-base-200 flex flex-col content-center self-center place-content-center">
       <div
         className="md:text-xl pt-5 font-bold  pl-10 text-primary-500"
         onClick={() => {
@@ -319,68 +304,42 @@ export default function NFTPage(props) {
       >
         Back{" "}
       </div>
-      {/*
-      <div class="w-screen h-screen bg-white flex flex-row flex-wrap p-3">
-        <div class="mx-auto w-2/3">
-          <div class="rounded-lg shadow-lg bg-gray-600 w-full flex flex-row flex-wrap p-3 antialiased">
-            <div class="md:w-1/3 w-full">
-              <img class="rounded-lg shadow-lg antialiased" src={data.image} />
-            </div>
-            <div class="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
-              <div class="w-full text-right text-gray-700 font-semibold relative pt-3 md:pt-0">
-                <div class="text-2xl text-white leading-tight">Admin User</div>
-                <div class="text-normal text-gray-300 hover:text-gray-400 cursor-pointer">
-                  <span class="border-b border-dashed border-gray-500 pb-1">
-                    Administrator
-                  </span>
-                </div>
-                <div class="text-sm text-gray-300 hover:text-gray-400 cursor-pointer md:absolute pt-3 md:pt-0 bottom-0 right-0">
-                  Last Seen: <b>2 days ago</b>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      */}
 
-      <div>
-        <div className="flex ml-10 mt-5 mb-5 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 w-4/5 border-slate-300 ">
-          <div className="hero-content flex-col min-h-[50%] lg:flex-row w-full pt-5 pb-0 content-center">
+      <div class="content-center flex flex-col  item-center self-center place-content-center">
+        <div className="flex mx-10  mt-5  shadow appearance-none bg-base-100 border rounded-3xl  w-auto border-slate-300  ">
+          <div className="px-5 py-5 flex  justify-self-start min-h-[50%] lg:flex-row sm:flex-col  content-center">
             <img
               src={data.image}
-              className="max-w-sm rounded-lg s object-fill w-1/2 aspect-square object-contain"
+              className="max-w-sm rounded-3xl  object-fill  aspect-square object-contain h-96 w-96"
             />
-            <section className=" rounded-lg p-3  min-h-[50%] w-1/2">
+
+            <section className=" rounded-lg p-3  min-h-[50%] w-1/2 px-10 ml-10">
               <div className="flex justify-center">
                 <div className=" mr-20 space-y-2 text-secondary  rounded-2xl  p-5">
-                  <div className="text-4xl   text-slate-700 ">
+                  <div className="text-4xl   text-slate-700 font-bold mb-10">
                     {data.name} #{data.tokenId}
                   </div>
 
-                  <div className="text-lg  text-slate-700 pb-6">
+                  <div className="text-lg  text-slate-700 pb-6 mb-10">
                     {data.description}
                   </div>
-                  <div className="text-xl  mt-10  text-slate-700 ">Price</div>
-                  <div className="text-m  text-slate-700 pb-4">
-                    {data.price + " ETH"}
-                  </div>
-                  <div className="text-2xl  mt-10  text-slate-700 ">Seller</div>
-                  <div className="text-m text-slate-700 pb-4">
-                    {data.seller}
+                  <div className="text-xs  mt-20  text-slate-700 ">Price</div>
+                  <div className="text-xl  text-slate-700 pb-4 font-bold">
+                    {data.price}
+                    <span class="text-sm text-slate-700"> ETH</span>
                   </div>
 
                   <div>
                     {account != data.owner && account != data.seller ? (
                       <button
-                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm"
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl text-sm"
                         onClick={() => buyNFT(tokenId)}
                       >
                         Buy this NFT
                       </button>
                     ) : data.currentlyListed == false ? (
                       <>
-                        <div className="mb-2 mt-10  ">
+                        <div className="mt-10 mt-10  ">
                           <label
                             className="text-xl  mt-10  text-slate-700"
                             htmlFor="price"
@@ -402,7 +361,7 @@ export default function NFTPage(props) {
                           ></input>
                         </div>
                         <button
-                          className=" mt-1 enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm "
+                          className=" mt-1 enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl text-sm "
                           onClick={() => {
                             resale(tokenId);
                           }}
@@ -412,7 +371,7 @@ export default function NFTPage(props) {
                       </>
                     ) : (
                       <button
-                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded text-sm mt-10 content-center"
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl text-sm mt-10 content-center"
                         onClick={() => {
                           removeToken(tokenId);
                         }}
@@ -433,11 +392,29 @@ export default function NFTPage(props) {
           <br />
           <br />
         </div>
-        {historyNFT && (
-          <div className="flex ml-10 mt-10 mb-0 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 w-4/5 border-slate-300 pb-10">
-            <NFTHistory data={historyNFT} />
+
+        <div class="flex   mr-10 justify-self-start min-h-[50%]   flex-row lg:flex-row md:flex-col sm:flex-col  content-center">
+          {historyNFT && (
+            <div className="flex ml-10 mt-5 mb-0 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 border-slate-300 pb-10">
+              <NFTHistory data={historyNFT} />
+            </div>
+          )}
+          <div className="flex-row   ml-5 mb-5 pb-5 shadow appearance-none bg-base-100 border rounded-3xl   px-5 border-slate-300 mt-5 ">
+            <table className="table table-pin-rows">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>Owner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{data.seller}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

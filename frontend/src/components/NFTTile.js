@@ -1,51 +1,50 @@
 //import axie from "../tile.jpeg";
-import {
-    BrowserRouter as Router,
-    Link,
-  } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import { GetIpfsUrlFromPinata } from "../utils";
 
-function NFTTile (data) {
-    const newTo = {
-        pathname:"/nftPage/"+data.data.tokenId
-    }
+function NFTTile(data) {
+  const newTo = {
+    pathname: "/nftPage/" + data.data.tokenId,
+  };
 
-    const IPFSUrl = GetIpfsUrlFromPinata(data.data.image);
+  const IPFSUrl = GetIpfsUrlFromPinata(data.data.image);
 
-    return (
-
-
-        <Link to={newTo}>
-
-        
-      <div class="mb-6 lg:mb-0">
-        <div class="relative block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-primary-700">
+  return (
+    <Link to={newTo}>
+      <div class="mb-6 lg:mb-0 max-w-xs">
+        <div class="relative block  border-slate-300 border rounded-xl bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-primary-700">
           <div class="flex">
-            <div class="relative mx-4 -mt-4 w-full overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
-              data-te-ripple-init data-te-ripple-color="light">
-              <img src={IPFSUrl} class="w-full" />
+            <div
+              class="relative mx-4 -mt-4 w-full overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
+              data-te-ripple-init
+              data-te-ripple-color="light"
+            >
+              <img
+                src={IPFSUrl}
+                class="object-fill w-full aspect-square object-contain border-slate-300 border rounded-xl"
+              />
               <a href="#!">
-                <div
-                  class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100"></div>
+                <div class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.15)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100"></div>
               </a>
             </div>
           </div>
-          <div class="p-6">
-            <h5 class="mb-4 text-lg font-bold">{data.data.name}</h5>
-            <p class="mb-6">
-            {data.data.description}
-            </p>
-            <p class="mb-6">
-            {data.data.price} ETH
-            </p>
-            <a href="#!" data-te-ripple-init data-te-ripple-color="light"
-              class="inline-block rounded-full bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-              View details</a>
+          <div class="pl-6 pt-2">
+            <h5 class="mb-2 text-lg font-bold">{data.data.name}</h5>
+            <p class="mb-4 text-sm font-light">{data.data.description}</p>
+            <hr class="my-3 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-slate-300 to-transparent opacity-25 dark:opacity-100" />
+            <div class="flex justify-between">
+              <div class="mb-4 mt-1  text-sm font-light">Asking Price</div>
+
+              <div class="mb-2 text-lg font-bold mr-6">
+                {data.data.price}{" "}
+                <span class="mb-2 text-xs font-light">ETH</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    
-            {/*
+
+      {/*
             <div class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
         <a href="#">
             <img src={IPFSUrl}
@@ -68,14 +67,8 @@ function NFTTile (data) {
         </a>
     </div>
     */}
-
-      
-
-
-        </Link>
-
-
-    )
+    </Link>
+  );
 }
 
 export default NFTTile;

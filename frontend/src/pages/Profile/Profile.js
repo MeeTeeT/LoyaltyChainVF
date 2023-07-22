@@ -30,68 +30,41 @@ export default function Profile() {
   async function getNFTData() {
     const ethers = require("ethers");
     let sumPrice = 0;
-    //After adding your Hardhat network to your metamask, this code will get providers and signers
-    /* const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const addr = await signer.getAddress();
 
-        //Pull the deployed contract instance
-        let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
-*/
     //create an NFT Token
-    let transaction = await contractLTYMarketplace.getMyNFTs();
+    try {
+      let transaction = await contractLTYMarketplace.getMyNFTs();
 
-    /*
-     * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
-     * and creates an object of information that is to be displayed
-     */
-    const items = await Promise.all(
-      transaction.map(async (i) => {
-        var tokenURI = await contractLTYMarketplace.tokenURI(i.tokenId);
-        console.log("getting this tokenUri", tokenURI);
-        tokenURI = GetIpfsUrlFromPinata(tokenURI);
-        let meta = await axios.get(tokenURI);
-        meta = meta.data;
+      const items = await Promise.all(
+        transaction.map(async (i) => {
+          var tokenURI = await contractLTYMarketplace.tokenURI(i.tokenId);
+          console.log("getting this tokenUri", tokenURI);
+          tokenURI = GetIpfsUrlFromPinata(tokenURI);
+          let meta = await axios.get(tokenURI);
+          meta = meta.data;
 
-        let price = ethers.utils.formatUnits(i.price.toString(), "ether");
-        let item = {
-          price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          image: meta.image,
-          name: meta.name,
-          description: meta.description,
-        };
-        sumPrice += Number(price);
-        return item;
-      })
-    );
-    /*
-        const items = await Promise.all(transaction.map(async i => {
-            const tokenURI = await contract.tokenURI(i.tokenId);
-            let meta = await axios.get(tokenURI);
-            meta = meta.data;
+          let price = ethers.utils.formatUnits(i.price.toString(), "ether");
+          let item = {
+            price,
+            tokenId: i.tokenId.toNumber(),
+            seller: i.seller,
+            owner: i.owner,
+            image: meta.image,
+            name: meta.name,
+            description: meta.description,
+          };
+          sumPrice += Number(price);
+          return item;
+        })
+      );
 
-            let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-            let item = {
-                price,
-                tokenId: i.tokenId.toNumber(),
-                seller: i.seller,
-                owner: i.owner,
-                image: meta.image,
-                name: meta.name,
-                description: meta.description,
-            }
-            sumPrice += Number(price);
-            return item;
-        }))
-        */
-
-    updateData(items);
-    updateFetched(true);
-    //updateAddress(account);
-    updateTotalPrice(sumPrice.toPrecision(3));
+      updateData(items);
+      updateFetched(true);
+      //updateAddress(account);
+      updateTotalPrice(sumPrice.toPrecision(3));
+    } catch (e) {
+      console.log("check network or account", e);
+    }
   }
 
   //const params = useParams();
@@ -113,7 +86,7 @@ export default function Profile() {
               </div>
 
               <div className="stat">
-                <div className="stat-title">No of NFT</div>
+                <div className="stat-title">Number of items</div>
                 <div className="stat-value text-secondary">{data.length}</div>
                 <div className="stat-desc">
                   {data.length > 0 && "Well Done !"}
@@ -133,13 +106,13 @@ export default function Profile() {
             <h2 className="font-bold">{data.length > 0 && "My NFTs"}</h2>
             <section
               id="Projects"
-              class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5"
+              class="w-fit mx-auto grid grid-cols-1 3xl:grid-cols-5  xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-7 mt-10 mb-5"
             >
               {data.map((value, index) => {
                 return <NFTTile data={value} key={index}></NFTTile>;
               })}
             </section>
-            <div className="mt-10 text-xl">
+            <div className="mt-10 text-lg">
               {data.length == 0
                 ? "It seems you don't have any Loyalty NFT"
                 : ""}
