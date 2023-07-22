@@ -1,11 +1,12 @@
 import Navbar from "../../components/Navbar";
 import { useState, useContext, useRef } from "react";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "../../pinata";
-import Marketplace from "../../LoyaltyMarketplace.json";
+//import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
 import { WalletContext } from "../../contexts/walletProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GetIpfsUrlFromPinata } from "../../utils";
 
 export default function CreateBrand() {
   const toastId = useRef(null);
@@ -67,6 +68,8 @@ export default function CreateBrand() {
   const [message, updateMessage] = useState("");
   const location = useLocation();
 
+  const [IPFSUrl, setIPFSUrl] = useState(null);
+
   async function disableButton() {
     const listButton = document.getElementById("list-button");
     listButton.disabled = true;
@@ -97,60 +100,21 @@ export default function CreateBrand() {
         dismiss();
         console.log("Uploaded image to Pinata: ", response.pinataURL);
         setFileURL(response.pinataURL);
+
+        const IPFSUrl = await GetIpfsUrlFromPinata(response.pinataURL);
+        setIPFSUrl(IPFSUrl);
       }
     } catch (e) {
       notifyError("Error during file upload!");
       //  console.log("Error during file upload", e);
     }
   }
-  /*
-    //This function uploads the metadata to IPFS
-    async function uploadMetadataToIPFS() {
-        const {name, description, price} = formParams;
-        //Make sure that none of the fields are empty
-        if( !name || !description || !price || !fileURL)
-        {
-            updateMessage("Please fill all the fields!")
-            return -1;
-        }
-
-        const nftJSON = {
-            name, description, price, image: fileURL
-        }
-
-        try {
-            //upload the metadata JSON to IPFS
-            const response = await uploadJSONToIPFS(nftJSON);
-            if(response.success === true){
-                console.log("Uploaded JSON to Pinata: ", response)
-                return response.pinataURL;
-            }
-        }
-        catch(e) {
-            console.log("error uploading JSON metadata:", e)
-        }
-    }
-    */
 
   async function createAccount(e) {
     e.preventDefault();
     console.log("contract account", contractLTYAccount);
     //Upload data to IPFS
     try {
-      /*
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            disableButton();
-            updateMessage("Uploading Logo (can takes few minutes).. please dont click anything!")
-
-            let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-*/
-      //massage the params to be sent to the create NFT request
-      // const price = ethers.utils.parseUnits(formParams.price, 'ether')
-      // let listingPrice = await contract.getListPrice()
-      // listingPrice = listingPrice.toString()
-
-      //actually create the NFT
       let transaction = await contractLTYAccount.createUserAccount(
         formParams.name,
         formParams.description,
@@ -169,129 +133,114 @@ export default function CreateBrand() {
       // alert("Upload error" + e);
     }
   }
-  /*
-    async function listNFT(e) {
-        e.preventDefault();
-
-        //Upload data to IPFS
-        try {
-            const metadataURL = await uploadMetadataToIPFS();
-            if(metadataURL === -1)
-                return;
-            //After adding your Hardhat network to your metamask, this code will get providers and signers
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            disableButton();
-            updateMessage("Uploading NFT(takes 5 mins).. please dont click anything!")
-
-            //Pull the deployed contract instance
-            let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-
-            //massage the params to be sent to the create NFT request
-            const price = ethers.utils.parseUnits(formParams.price, 'ether')
-            let listingPrice = await contract.getListPrice()
-            listingPrice = listingPrice.toString()
-
-            //actually create the NFT
-            let transaction = await contract.createToken(metadataURL, price, { value: listingPrice })
-            await transaction.wait()
-
-            alert("Successfully listed your NFT!");
-            enableButton();
-            updateMessage("");
-            updateFormParams({ name: '', description: '', price: ''});
-            window.location.replace("/")
-        }
-        catch(e) {
-            alert( "Upload error"+e )
-        }
-    }
-
-    */
 
   console.log("Working", process.env);
   return (
-    <div className="flex flex-col w-full lg:flex-row">
-      <div className="grid flex-grow h-500  card  rounded-box place-items-center">
-        <div className="flex flex-col place-items-center mt-10" id="nftForm">
-          <form className="text-center mb-4  px-20 dark:bg-primary-100 lg:text-left rounded-xl shadow-xl p-3  border border-white  bg-base-100">
-            <h3 className="text-center font-bold text-primary-500 mb-8">
-              Create your brand account
-            </h3>
-            <div className="mb-4">
-              <label
-                className="block text-primary-500 text-sm font-bold mb-2"
-                htmlFor="name"
-              >
-                Brand name
-              </label>
-              <input
-                className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                id="name"
-                type="text"
-                placeholder="Airplane company"
-                onChange={(e) =>
-                  updateFormParams({ ...formParams, name: e.target.value })
-                }
-                value={formParams.name}
-              ></input>
-            </div>
-            <div className="mb-6">
-              <label
-                className="block text-primary-500 text-sm font-bold mb-2"
-                htmlFor="description"
-              >
-                Description
-              </label>
-              <textarea
-                className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                cols="40"
-                rows="5"
-                id="description"
-                type="text"
-                placeholder="We offer a large collection of advantages"
-                value={formParams.description}
-                onChange={(e) =>
-                  updateFormParams({
-                    ...formParams,
-                    description: e.target.value,
-                  })
-                }
-              ></textarea>
-            </div>
-
+    <div className="grid flex-grow h-500  card  rounded-box place-items-center ">
+      <div className="flex flex-col place-items-center mt-10" id="nftForm">
+        <form className="text-center mb-4  px-20 dark:bg-primary-100 lg:text-left rounded-xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] p-3   bg-base-100 border border-slate-200">
+          <h3 className="text-center font-bold text-primary-500 mb-8">
+            Create your brand account
+          </h3>
+          <div class="flex grid items-start gap-6 lg:grid-cols-2 align-top">
             <div>
-              <label
-                className="block text-primary-500 text-sm font-bold mb-2"
-                htmlFor="image"
-              >
-                Upload your logo (&lt;200 KB)
-              </label>
-              <input
-                type={"file"}
-                onChange={OnChangeFile}
-                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-              />
+              <div className="mb-4">
+                <label
+                  className="block text-primary-500 text-sm font-bold mb-2"
+                  htmlFor="name"
+                >
+                  Brand name
+                </label>
+                <input
+                  className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                  id="name"
+                  type="text"
+                  placeholder="Airplane company"
+                  onChange={(e) =>
+                    updateFormParams({ ...formParams, name: e.target.value })
+                  }
+                  value={formParams.name}
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label
+                  className="block text-primary-500 text-sm font-bold mb-2"
+                  htmlFor="description"
+                >
+                  Description
+                </label>
+                <textarea
+                  className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                  cols="40"
+                  rows="5"
+                  id="description"
+                  type="text"
+                  placeholder="We offer a large collection of advantages"
+                  value={formParams.description}
+                  onChange={(e) =>
+                    updateFormParams({
+                      ...formParams,
+                      description: e.target.value,
+                    })
+                  }
+                ></textarea>
+              </div>
             </div>
-            <br></br>
-            <div className="text-red-500 text-center">{message}</div>
-            <button
-              onClick={createAccount}
-              className="font-bold mt-10 w-full btn-primary text-white rounded-xl p-2 shadow-lg"
-              id="list-button"
-            >
-              Create my account
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <div className="grid flex-grow h-500 card rounded-box place-items-center">
-        {" "}
-        <img
-          src="https://i.guim.co.uk/img/media/ef8492feb3715ed4de705727d9f513c168a8b196/37_0_1125_675/master/1125.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=d456a2af571d980d8b2985472c262b31"
-          className="max-w-sm rounded-lg shadow-2xl"
-        />
+            <div class="flex items-center justify-center w-full align-top mt-7">
+              <label
+                for="dropzone-file"
+                class="flex flex-col items-center justify-center w-60  border-2 border-slate-200 border-dashed rounded-3xl cursor-pointer bg-slate-100  dark:bg-blue-gray-200  dark:border-slate-200 dark:hover:bg-slate-300 "
+              >
+                <div class="flex flex-col items-center justify-center pt-5 pb-6 w-60 h-60">
+                  {IPFSUrl == null ? (
+                    <svg
+                      class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                  ) : (
+                    <img
+                      src={IPFSUrl}
+                      class="object-fill w-60 h-60 aspect-square object-contain rounded-3xl"
+                    />
+                  )}
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span class="font-semibold">
+                      {fileURL == null && "Click to upload your logo"}
+                    </span>{" "}
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    {fileURL == null && "SVG, PNG, JPG or GIF (MAX. 400Ko)"}
+                  </p>
+                </div>
+                <input
+                  id="dropzone-file"
+                  type={"file"}
+                  onChange={OnChangeFile}
+                  class="hidden"
+                />
+              </label>
+            </div>
+          </div>
+          <div className="text-error text-xs pb-4 text-center">{message}</div>
+          <button
+            onClick={createAccount}
+            className="font-bold mt-2 w-full btn-primary text-white rounded-xl p-2 shadow-lg"
+            id="list-button"
+          >
+            Create my account
+          </button>
+        </form>
       </div>
     </div>
   );

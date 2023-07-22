@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
-import Marketplace from "../LoyaltyMarketplace.json";
+//import Marketplace from "../LoyaltyMarketplace.json";
 import LTYMarketplace from "../LTYMarketplace.json";
 import LTYAccount from "../LTYAccount.json";
 
@@ -54,8 +54,8 @@ const WalletProvider = ({ children }) => {
       //updateMessage("Loading contract")
 
       let contract = new ethers.Contract(
-        Marketplace.address,
-        Marketplace.abi,
+        LTYMarketplace.address,
+        LTYMarketplace.abi,
         signer
       );
       setContractMarketplace(contract);

@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 //import axie from "../../tile.jpeg";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import MarketplaceJSON from "../../LoyaltyMarketplace.json";
+//import MarketplaceJSON from "../../LoyaltyMarketplace.json";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
 import { GetIpfsUrlFromPinata } from "../../utils";

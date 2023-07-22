@@ -1,7 +1,16 @@
 .App {
   text-align: center;
 }
-
+.container {
+  font-family: Roboto;
+  color: white;
+  background: url(assets/images/bg.jpg) no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

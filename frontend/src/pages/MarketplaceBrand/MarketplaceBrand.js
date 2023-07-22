@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 import NFTTile from "../../components/NFTTile";
 import BrandTile from "../../components/BrandTile";
-import MarketplaceJSON from "../../LoyaltyMarketplace.json";
+//import MarketplaceJSON from "../../LoyaltyMarketplace.json";
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
@@ -170,14 +170,14 @@ export default function MarketplaceBrand({ dataBrand }) {
 */
 
   return (
-    <div className="min-h-screen flex flex-col content-center self-center bg-base-200 pt-5 w-auto">
+    <div className="min-h-screen flex flex-col content-center self-center bg-slate-50 pt-5 w-auto">
       <div className="md:text-xl font-bold text-primary-500 pl-10">
         {" "}
         <Link to={{ pathname: "/marketplace" }}>See All Brands </Link>
       </div>
       <br />
 
-      <div class="content-center flex flex-col  item-center w-4/5 self-center place-content-center border border-slate-200 rounded-3xl">
+      <div class="content-center flex flex-col  item-center w-4/5 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] self-center place-content-center border border-slate-200 rounded-3xl">
         <div class="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
           <div class="relative flex flex-col   rounded-3xl  bg-white px-8 py-8  ">
             <div class="flex flex-row justify-between">
@@ -225,7 +225,7 @@ export default function MarketplaceBrand({ dataBrand }) {
         </div>
       </div>
 
-      <div className="flex flex-col place-items-center mt-20">
+      <div className="flex flex-col place-items-center mt-10">
         <section
           id="Projects"
           className="w-fit mx-auto grid grid-cols-1 3xl:grid-cols-5  xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-7 mt-10 mb-5"

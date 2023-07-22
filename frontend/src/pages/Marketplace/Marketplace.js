@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 import NFTTile from "../../components/NFTTile";
 import BrandTile from "../../components/BrandTile";
-import MarketplaceJSON from "../../LoyaltyMarketplace.json";
+//import MarketplaceJSON from "../../LoyaltyMarketplace.json";
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { GetIpfsUrlFromPinata } from "../../utils";
@@ -94,7 +94,7 @@ export default function Marketplace() {
   }
 
   return (
-    <section className="mb-32  bg-base-200 min-h-screen rounded-lg p-8">
+    <section className="mb-32  bg-slate-50 min-h-screen rounded-lg p-8">
       <div className="flex flex-col place-items-center mt-0">
         <section
           id="Projects"

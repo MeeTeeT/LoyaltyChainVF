@@ -109,6 +109,23 @@ module.exports = async (deployer) => {
       console.error("Erreur :", error); // Afficher les erreurs éventuelles dans les logs
       callback(error); // Terminer le script Truffle avec une erreur
     }
+    /*
+    try {
+      const accounts = await web3.eth.getAccounts();
+      const uri = {
+        name: "test 2",
+        description: "sdd",
+        price: "4",
+        image:
+          "https://gateway.pinata.cloud/ipfs/QmdJV7KimzPyB76knR2CJacieuJfTieuMM9VAC7JzoLrd7",
+      };
+      await ltyMarketplaceDeployed.createTokenToMarketplace(uri, 4, {
+        from: accounts[1],
+      });
+    } catch (e) {
+      console.log("erreur dans la creation des nfts", e);
+    }
+    */
   }
 };
 

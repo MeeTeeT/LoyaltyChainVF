@@ -5,12 +5,13 @@ import {
   uploadJSONToIPFS,
   uploadNFTOnIPFS,
 } from "../../pinata";
-import Marketplace from "../../LoyaltyMarketplace.json";
+//import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
 import { Toast } from "../../components/Toast";
 import { WalletContext } from "../../contexts/walletProvider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GetIpfsUrlFromPinata } from "../../utils";
 const fs = require("fs");
 
 export default function SellNFT() {
@@ -74,6 +75,8 @@ export default function SellNFT() {
   const [message, updateMessage] = useState("");
   const location = useLocation();
 
+  const [IPFSUrl, setIPFSUrl] = useState(null);
+
   async function disableButton() {
     const listButton = document.getElementById("list-button");
     listButton.disabled = true;
@@ -110,6 +113,9 @@ export default function SellNFT() {
         //updateMessage("");
         console.log("Uploaded image to Pinata: ", response.pinataURL);
         setFileURL(response.pinataURL);
+
+        const IPFSUrl = await GetIpfsUrlFromPinata(response.pinataURL);
+        setIPFSUrl(IPFSUrl);
       }
     } catch (e) {
       console.log("Error during file upload", e);
@@ -161,23 +167,13 @@ export default function SellNFT() {
       notifyInfo("Generating Loyalty NFT.. Please wait");
       const metadataURL = await uploadMetadataToIPFS();
       if (metadataURL === -1) return;
-      //After adding your Hardhat network to your metamask, this code will get providers and signers
-      /* const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            disableButton();
-            updateMessage("Uploading NFT(takes 5 mins).. please dont click anything!")
 
-            //Pull the deployed contract instance
-            let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-*/
-      //massage the params to be sent to the create NFT request
       const price = ethers.utils.parseUnits(formParams.price, "ether");
       console.log("avant exec getListPrice");
       let listingPrice = await contractLTYMarketplace.getListPrice();
       listingPrice = listingPrice.toString();
       console.log(listingPrice);
 
-      //actually create the NFT
       let transaction = await contractLTYMarketplace.createTokenToMarketplace(
         metadataURL,
         price,
@@ -235,11 +231,11 @@ export default function SellNFT() {
   console.log("Working", process.env);
   return (
     <div className="">
-      <section class="mb-32 bg-white text-center dark:bg-white-100 lg:text-left rounded-xl shadow-lg p-3  border border-white  bg-white">
-        <div class="px-6 py-12 md:px-12">
-          <div class="flex grid items-center gap-6 lg:grid-cols-2">
-            <div class="mt-12 lg:mt-0">
-              <h1 class="mb-12 text-5xl font-bold leading-tight tracking-tight">
+      <section class="mb-6 bg-white text-center dark:bg-white-100 lg:text-left rounded-3xl  p-3  border border-white  bg-white">
+        <div class="px-6 py-4 md:px-12">
+          <div class="flex grid items-center gap-6 lg:grid-cols-5">
+            <div class="mt-2 lg:mt-0 lg:col-span-2">
+              <h1 class="mb-2 text-5xl font-bold leading-tight tracking-tight">
                 Create <br />
                 <span class="text-primary"> your loyalty NFT</span>
               </h1>
@@ -248,10 +244,10 @@ export default function SellNFT() {
                 to a customer's wallet.
               </p>
             </div>
-            <div class="mb-12 lg:mb-0">
-              <div class="block rounded-lg bg-white px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-primary-800 md:px-12">
+            <div class="mb-0 lg:mb-0 lg:col-span-3 ">
+              <div class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] px-6 py-6 dark:bg-primary-800 align-top border border-slate-200 md:px-12">
                 <div
-                  className="flex flex-col place-items-center mt-10"
+                  className="flex flex-col place-items-center mt-0"
                   id="nftForm"
                 >
                   <form className="bg-white ">
@@ -281,117 +277,155 @@ export default function SellNFT() {
                         </ul>
                       </div>
                     </h3>
-                    <div className="mb-4">
-                      <label
-                        className="block text-primary-500 text-sm font-bold mb-2"
-                        htmlFor="name"
-                      >
-                        NFT Loyalty Name
-                      </label>
-                      <input
-                        className=" h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                        id="name"
-                        type="text"
-                        placeholder="Promo 10% on everything"
-                        onChange={(e) =>
-                          updateFormParams({
-                            ...formParams,
-                            name: e.target.value,
-                          })
-                        }
-                        value={formParams.name}
-                      ></input>
-                    </div>
-                    <div className="mb-6">
-                      <label
-                        className="block text-primary-500 text-sm font-bold mb-2"
-                        htmlFor="description"
-                      >
-                        Loyalty Description
-                      </label>
-                      <textarea
-                        className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
-                        cols="40"
-                        rows="5"
-                        id="description"
-                        type="text"
-                        placeholder="This campains allows you a full discount of 10% on every product"
-                        value={formParams.description}
-                        onChange={(e) =>
-                          updateFormParams({
-                            ...formParams,
-                            description: e.target.value,
-                          })
-                        }
-                      ></textarea>
-                    </div>
-                    {nftDestination == "to the marketplace" ? (
-                      <div className="mb-6">
-                        <label
-                          className="block text-primary-500 text-sm font-bold mb-2"
-                          htmlFor="price"
-                        >
-                          Price (in ETH)
-                        </label>
-                        <input
-                          className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
-                          type="number"
-                          placeholder="Min 0.01 ETH"
-                          step="0.01"
-                          value={formParams.price}
-                          onChange={(e) =>
-                            updateFormParams({
-                              ...formParams,
-                              price: e.target.value,
-                            })
-                          }
-                        ></input>
+                    <div class="flex grid items-start gap-6 lg:grid-cols-2 align-top">
+                      <div>
+                        <div className="mb-4">
+                          <label
+                            className="block text-primary-500 text-sm font-bold mb-2"
+                            htmlFor="name"
+                          >
+                            NFT Loyalty Name
+                          </label>
+                          <input
+                            className=" h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                            id="name"
+                            type="text"
+                            placeholder="Promo 10% on everything"
+                            onChange={(e) =>
+                              updateFormParams({
+                                ...formParams,
+                                name: e.target.value,
+                              })
+                            }
+                            value={formParams.name}
+                          ></input>
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            className="block text-primary-500 text-sm font-bold mb-2"
+                            htmlFor="description"
+                          >
+                            Loyalty Description
+                          </label>
+                          <textarea
+                            className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
+                            cols="40"
+                            rows="5"
+                            id="description"
+                            type="text"
+                            placeholder="This campains allows you a full discount of 10% on every product"
+                            value={formParams.description}
+                            onChange={(e) =>
+                              updateFormParams({
+                                ...formParams,
+                                description: e.target.value,
+                              })
+                            }
+                          ></textarea>
+                        </div>
+                        {nftDestination == "to the marketplace" ? (
+                          <div className="mb-6">
+                            <label
+                              className="block text-primary-500 text-sm font-bold mb-2"
+                              htmlFor="price"
+                            >
+                              Price (in ETH)
+                            </label>
+                            <input
+                              className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
+                              type="number"
+                              placeholder="Min 0.01 ETH"
+                              step="0.01"
+                              value={formParams.price}
+                              onChange={(e) =>
+                                updateFormParams({
+                                  ...formParams,
+                                  price: e.target.value,
+                                })
+                              }
+                            ></input>
+                          </div>
+                        ) : (
+                          <div className="mb-6">
+                            <label
+                              className="block text-primary-500 text-sm font-bold mb-2"
+                              htmlFor="address"
+                            >
+                              Address of customer
+                            </label>
+                            <input
+                              className=" h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                              type="text"
+                              placeholder="0x21....4CD5"
+                              value={formParams.address}
+                              onChange={(e) =>
+                                updateFormParams({
+                                  ...formParams,
+                                  address: e.target.value,
+                                })
+                              }
+                            ></input>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <div className="mb-6">
+                      <div class="flex items-center justify-center w-full align-top mt-7">
                         <label
-                          className="block text-primary-500 text-sm font-bold mb-2"
-                          htmlFor="address"
+                          for="dropzone-file"
+                          class="flex flex-col items-center justify-center w-full  border-2 border-slate-200 border-dashed rounded-3xl cursor-pointer bg-slate-100  dark:bg-blue-gray-200  dark:border-slate-200 dark:hover:bg-slate-300 "
                         >
-                          Address of customer
+                          <div class="flex flex-col items-center justify-center pt-5 pb-6 w-60 h-60">
+                            {IPFSUrl == null ? (
+                              <svg
+                                class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 20 16"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                />
+                              </svg>
+                            ) : (
+                              <img
+                                src={IPFSUrl}
+                                class="object-fill w-60 h-60 aspect-square object-contain rounded-3xl"
+                              />
+                            )}
+                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span class="font-semibold">
+                                {fileURL == null && "Click to upload"}
+                              </span>{" "}
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                              {fileURL == null &&
+                                "SVG, PNG, JPG or GIF (MAX. 400Ko)"}
+                            </p>
+                          </div>
+                          <input
+                            id="dropzone-file"
+                            type={"file"}
+                            onChange={OnChangeFile}
+                            class="hidden"
+                          />
                         </label>
-                        <input
-                          className=" h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                          type="text"
-                          placeholder="0x21....4CD5"
-                          value={formParams.address}
-                          onChange={(e) =>
-                            updateFormParams({
-                              ...formParams,
-                              address: e.target.value,
-                            })
-                          }
-                        ></input>
                       </div>
-                    )}
-                    <div>
-                      <label
-                        className="block text-primary-500 text-sm font-bold mb-2"
-                        htmlFor="image"
-                      >
-                        Upload Image (&lt;500 KB)
-                      </label>
-                      <input
-                        type={"file"}
-                        onChange={OnChangeFile}
-                        className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                      />
                     </div>
 
-                    <br></br>
-                    <div className="text-red-500 text-center">{message}</div>
+                    <div className="text-error text-xs pb-4 text-center">
+                      {message}
+                    </div>
                     <button
                       onClick={
                         nftDestination == "to the marketplace"
                           ? listNFT
                           : listNFTtoAddress
                       }
-                      className="font-bold mt-10 w-full btn-primary text-white rounded-xl p-2 shadow-lg"
+                      className="font-bold mt-0 w-full btn-primary text-white rounded-xl p-2 shadow-lg"
                       id="list-button"
                     >
                       {nftDestination == "to the marketplace"

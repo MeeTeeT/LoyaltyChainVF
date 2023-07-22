@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar";
 import { useLocation, useParams } from "react-router-dom";
-import MarketplaceJSON from "../../LoyaltyMarketplace.json";
+import MarketplaceJSON from "../../LTYMarketplace.json";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
 import NFTTile from "../../components/NFTTile";
@@ -74,19 +74,19 @@ export default function Profile() {
 
   return (
     <>
-      <div className="profileClass" style={{ "min-height": "100vh" }}>
+      <div className="profileClass" style={{ "min-height": "80vh" }}>
         <div className="profileClass ">
-          <div className="flex text-center flex-col mt-11 md:text-2xl text-primary-500">
-            <div className="stats shadow m-8 bg-base-200">
+          <div className="flex text-center flex-col mt-2 md:text-2xl text-primary-500 ">
+            <div className="stats shadow m-8 bg-slace-200 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
               <div className="stat">
-                <div className="stat-title">Wallet</div>
+                <div className="stat-title text-lg">Wallet</div>
                 <div className="stat-value text-primary">
                   {account.substring(0, 3) + "..." + account.slice(-3)}
                 </div>
               </div>
 
               <div className="stat">
-                <div className="stat-title">Number of items</div>
+                <div className="stat-title text-lg">Number of items</div>
                 <div className="stat-value text-secondary">{data.length}</div>
                 <div className="stat-desc">
                   {data.length > 0 && "Well Done !"}
@@ -96,23 +96,22 @@ export default function Profile() {
               <div className="stat">
                 <div className="stat-figure text-secondary"></div>
                 <div className="stat-value">{totalPrice}</div>
-                <div className="stat-title">Total value (ETH)</div>
+                <div className="stat-title text-lg">Total value (ETH)</div>
                 <div className="stat-desc text-secondary"></div>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col text-center items-center mt-11 text-primary-500">
-            <h2 className="font-bold">{data.length > 0 && "My NFTs"}</h2>
+          <div className="flex flex-col text-center items-center mt-2 text-primary-500">
             <section
               id="Projects"
-              class="w-fit mx-auto grid grid-cols-1 3xl:grid-cols-5  xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-7 mt-10 mb-5"
+              class="w-fit mx-auto grid grid-cols-1 3xl:grid-cols-5  xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-10 gap-x-7 mt-4 mb-5"
             >
               {data.map((value, index) => {
                 return <NFTTile data={value} key={index}></NFTTile>;
               })}
             </section>
-            <div className="mt-10 text-lg">
+            <div className="mt-10 text-xs text-alert">
               {data.length == 0
                 ? "It seems you don't have any Loyalty NFT"
                 : ""}

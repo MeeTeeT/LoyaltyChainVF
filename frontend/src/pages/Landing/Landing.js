@@ -1,8 +1,9 @@
 import Navbar from "../../components/Navbar";
+import "../../App.css";
 import { useState, useContext } from "react";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "../../pinata";
 import { useNavigate, Link } from "react-router-dom";
-import Marketplace from "../../LoyaltyMarketplace.json";
+//import Marketplace from "../../LoyaltyMarketplace.json";
 import { useLocation } from "react-router";
 import { WalletContext } from "../../contexts/walletProvider";
 
