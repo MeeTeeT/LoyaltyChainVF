@@ -1,5 +1,5 @@
 {
-  "address": "0x5f426c1D7E237FE5fBb591cF40b223D2e27814A5",
+  "address": "0xED6cca12F58EcA9C0e7cF129e8099f07620EF8b9",
   "abi": [
     {
       "inputs": [
@@ -167,11 +167,17 @@
           "internalType": "string",
           "name": "transactionType",
           "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
         }
       ],
       "name": "EventTokenTransaction",
       "type": "event",
-      "signature": "0x231c208b7b1769d9c4323b37c99fd1115e1e0651124347c214424dae3204c372"
+      "signature": "0x161fee6493e0be0860bfd047d4b685a9d774c3898d7afcfb7097adb3745cb07b"
     },
     {
       "anonymous": false,

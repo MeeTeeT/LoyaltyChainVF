@@ -60,7 +60,8 @@ contract LTYMarketplace is ERC721URIStorage {
         address sellerFrom,
         address sellerTo,
         uint256 price,
-        string transactionType
+        string transactionType,
+        uint256 timestamp
     );
 
     //the event emit when listing price is updated
@@ -144,7 +145,8 @@ contract LTYMarketplace is ERC721URIStorage {
             msg.sender,
             msg.sender,
             0,
-            "mint"
+            "mint",
+            block.timestamp
         );
 
         //update Global variables, list NFT on marketplace,  and emit an event
@@ -186,7 +188,8 @@ contract LTYMarketplace is ERC721URIStorage {
             msg.sender,
             msg.sender,
             0,
-            "mint"
+            "mint",
+            block.timestamp
         );
 
         //update Global variables, send NFT to his new Owner,  and emit an event
@@ -230,7 +233,8 @@ contract LTYMarketplace is ERC721URIStorage {
             msg.sender,
             msg.sender,
             _price,
-            "Send to marketplace"
+            "Send to marketplace",
+            block.timestamp
         );
 
         //Emit the event for successful transfer. The frontend listen to this message
@@ -283,7 +287,8 @@ contract LTYMarketplace is ERC721URIStorage {
             address(this),
             _addr,
             0,
-            "Send to customer"
+            "Send to customer",
+            block.timestamp
         );
 
         //Emit the event for successful transfer. The frontend listen to this message
@@ -391,7 +396,8 @@ contract LTYMarketplace is ERC721URIStorage {
             msg.sender,
             msg.sender,
             0,
-            "Remove from marketplace"
+            "Remove from marketplace",
+            block.timestamp
         );
 
         //Emit the event for successful transfer. The frontend listen to this message
@@ -438,7 +444,8 @@ contract LTYMarketplace is ERC721URIStorage {
             seller,
             msg.sender,
             price,
-            "Buy NFT"
+            "Buy NFT",
+            block.timestamp
         );
     }
 
@@ -471,7 +478,8 @@ contract LTYMarketplace is ERC721URIStorage {
             msg.sender,
             msg.sender,
             _price,
-            "List on Marketplace"
+            "List on Marketplace",
+            block.timestamp
         );
 
         emit EventTokenListedSuccess(

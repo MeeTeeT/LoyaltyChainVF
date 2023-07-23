@@ -164,7 +164,6 @@ export default function SellNFT() {
     console.log("contractLTYMarketplace", contractLTYMarketplace);
     //Upload data to IPFS
     try {
-      notifyInfo("Generating Loyalty NFT.. Please wait");
       const metadataURL = await uploadMetadataToIPFS();
       if (metadataURL === -1) return;
 
@@ -173,7 +172,7 @@ export default function SellNFT() {
       let listingPrice = await contractLTYMarketplace.getListPrice();
       listingPrice = listingPrice.toString();
       console.log(listingPrice);
-
+      notifyInfo("Generating Loyalty NFT.. Please wait");
       let transaction = await contractLTYMarketplace.createTokenToMarketplace(
         metadataURL,
         price,

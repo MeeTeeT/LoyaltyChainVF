@@ -35,6 +35,18 @@ export default function NFTPage(props) {
       theme: "light",
     });
 
+  const copyClipBoard = (message) =>
+    toast.info(message, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
   const {
     account,
     provider,
@@ -56,18 +68,15 @@ export default function NFTPage(props) {
 
   const [formParams, updateFormParams] = useState({ price: "" });
 
+  async function copyTextToClipboard(text) {
+    if ("clipboard" in navigator) {
+      return await navigator.clipboard.writeText(text);
+    } else {
+      return document.execCommand("copy", true, text);
+    }
+  }
+
   async function getNFTData(tokenId) {
-    /* const ethers = require("ethers");
-        //After adding your Hardhat network to your metamask, this code will get providers and signers
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const addr = await signer.getAddress();
-
-        
-
-        //Pull the deployed contract instance
-        let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer)
-        */
     //create an NFT Token
     var tokenURI = await contractLTYMarketplace.tokenURI(tokenId);
     const listedToken = await contractLTYMarketplace.getListedTokenForId(
@@ -79,6 +88,7 @@ export default function NFTPage(props) {
     //console.log(listedToken);
 
     let item = {
+      tokenURI: tokenURI,
       price: (listedToken.price / 1e18).toString(),
       tokenId: tokenId,
       seller: listedToken.seller,
@@ -95,24 +105,12 @@ export default function NFTPage(props) {
     //console.log("address seller", listedToken.seller);
     updateCurrAddress(account);
 
-    const addressApproveTmp = await contractLTYMarketplace.getApproved(tokenId);
-    setAddressApprove(addressApproveTmp);
+    //const addressApproveTmp = await contractLTYMarketplace.getApproved(tokenId);
+    //setAddressApprove(addressApproveTmp);
   }
 
   async function removeToken(tokenId) {
     try {
-      /*
-            const ethers = require("ethers");
-            
-            //After adding your Hardhat network to your metamask, this code will get providers and signers
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-    
-            //Pull the deployed contract instance
-            let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
-            */
-      // const salePrice = ethers.utils.parseUnits(data.price, 'ether')
-      // updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
       //run the removeTokenFromMarket function
       let transaction = await contractLTYMarketplace.removeTokenFromMarket(
         tokenId
@@ -139,14 +137,7 @@ export default function NFTPage(props) {
     }
     try {
       const ethers = require("ethers");
-      /*
-            //After adding your Hardhat network to your metamask, this code will get providers and signers
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-    
-            //Pull the deployed contract instance
-            let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
-            */
+
       const price = ethers.utils.parseUnits(formParams.price, "ether");
       console.log("price : ", price);
       //updateMessage("Buying the NFT... Please Wait (Upto 5 mins)")
@@ -192,6 +183,7 @@ export default function NFTPage(props) {
           sellerTo: i.args.sellerTo,
           price: i.args.price,
           transactionType: i.args.transactionType,
+          timestamp: i.args.timestamp,
         };
         // console.log("item : ", item);
 
@@ -206,16 +198,9 @@ export default function NFTPage(props) {
   async function buyNFT(tokenId) {
     try {
       const ethers = require("ethers");
-      /*
-            //After adding your Hardhat network to your metamask, this code will get providers and signers
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-    
-            //Pull the deployed contract instance
-            let contract = new ethers.Contract(MarketplaceJSON.address, MarketplaceJSON.abi, signer);
-            */
+
       const salePrice = ethers.utils.parseUnits(data.price, "ether");
-      updateMessage("Buying the Loyalty NFT... Please Wait (Up to 5 mins)");
+      //updateMessage("Buying the Loyalty NFT... Please Wait (Up to 5 mins)");
       //run the executeSale function
       let transaction = await contractLTYMarketplace.executeSale(tokenId, {
         value: salePrice,
@@ -227,7 +212,7 @@ export default function NFTPage(props) {
       updateMessage("");
       updateDataFetched(false);
     } catch (e) {
-      notifyError("Error while removing Loyalty NFT from marketplace");
+      notifyError("Error while buying Loyalty NFT");
       //alert("Upload Error" + e);
     }
   }
@@ -269,6 +254,7 @@ export default function NFTPage(props) {
                   sellerTo: i.args.sellerTo,
                   price: i.args.price,
                   transactionType: i.args.transactionType,
+                  timestamp: Number(i.args.timestamp),
                 };
                 // console.log("item : ", item);
 
@@ -332,14 +318,14 @@ export default function NFTPage(props) {
                   <div>
                     {account != data.owner && account != data.seller ? (
                       <button
-                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl text-sm"
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl font-bold py-4 px-8 w-full rounded-2xl  text-sm"
                         onClick={() => buyNFT(tokenId)}
                       >
                         Buy this NFT
                       </button>
                     ) : data.currentlyListed == false ? (
-                      <>
-                        <div className="mt-10 mt-10  ">
+                      <div class="flex flex-row">
+                        <div className="mt-10  ">
                           <label
                             className="text-xl  mt-10  text-slate-700"
                             htmlFor="price"
@@ -347,7 +333,7 @@ export default function NFTPage(props) {
                             Price (in ETH)
                           </label>
                           <input
-                            className="h-full w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
+                            className="h-xs w-full rounded-[7px] border border-blue-gray-200   px-3 py-5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all    focus:border-2 focus:border-primary  focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50 "
                             type="number"
                             placeholder="Min 0.01 ETH"
                             step="0.01"
@@ -361,17 +347,17 @@ export default function NFTPage(props) {
                           ></input>
                         </div>
                         <button
-                          className=" mt-1 enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl text-sm "
+                          className=" mt-1  mt-16 enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-4 px-8 w-full rounded-2xl ml-5 text-sm "
                           onClick={() => {
                             resale(tokenId);
                           }}
                         >
                           Sell
                         </button>
-                      </>
+                      </div>
                     ) : (
                       <button
-                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-2 px-4 rounded-2xl text-sm mt-10 content-center"
+                        className="enableEthereumButton btn-primary hover:btn-primary-500 text-white font-bold py-4 px-4 rounded-2xl text-sm mt-4 content-center"
                         onClick={() => {
                           removeToken(tokenId);
                         }}
@@ -395,24 +381,95 @@ export default function NFTPage(props) {
 
         <div class="flex   mr-10 justify-self-start min-h-[50%]   flex-row lg:flex-row md:flex-col sm:flex-col  content-center">
           {historyNFT && (
-            <div className="flex ml-10 mt-5 mb-0 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 border-slate-300 pb-10">
+            <div className="flex ml-10 mt-5 mb-0 pb-10 shadow appearance-none bg-base-100 border rounded-3xl py-2 px-3 border-slate-300 pb-10 w-5/6">
               <NFTHistory data={historyNFT} />
             </div>
           )}
-          <div className="flex-row   ml-5 mb-5 pb-5 shadow appearance-none bg-base-100 border rounded-3xl   px-5 border-slate-300 mt-5 ">
-            <table className="table table-pin-rows">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th>Owner</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{data.seller}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="flex-row  w-2/5 ">
+            <div class="flex flex-col ml-5 mb-5 pb-5 shadow appearance-none bg-base-100 border rounded-3xl   px-5 border-slate-300 mt-5 ">
+              <div>
+                <table className="table table-pin-rows">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th>Owner</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{data.seller}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="flex-row   ml-5 mb-5 pb-5 shadow appearance-none bg-base-100 border rounded-3xl   px-5 border-slate-300 mt-5 ">
+              <div>
+                <table className="table table-pin-rows">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="truncate text-ellipsis">CONTRACT ADDRESS</td>
+                      <td
+                        class="truncate text-ellipsis max-w-[10rem]"
+                        onClick={() => {
+                          copyTextToClipboard(contractLTYMarketplace.address);
+                          copyClipBoard("Contract address copied");
+                        }}
+                      >
+                        {contractLTYMarketplace.address}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="truncate text-ellipsis">IPFS JSON</td>
+                      <td class="truncate text-ellipsis  max-w-[10rem]">
+                        <a
+                          href={data && data.tokenURI}
+                          target="_blank"
+                          rel="noreferrer"
+                          class="truncate text-ellipsis"
+                        >
+                          <span class="truncate text-ellipsis">
+                            {data && data.tokenURI}
+                          </span>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="flex-row   ml-5 mb-5 pb-5 shadow appearance-none bg-base-100 border rounded-3xl   px-5 border-slate-300 mt-5 ">
+              <div>
+                <table className="table table-pin-rows">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th>Properties</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="truncate text-ellipsis">NAME</td>
+                      <td class="truncate text-ellipsis max-w-[15rem]">
+                        {data.name}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="truncate text-ellipsis">DESCRIPTION</td>
+                      <td class="truncate text-ellipsis  max-w-[15rem]">
+                        {data.description}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -17870,8 +17870,8 @@
         }
       },
       "links": {},
-      "address": "0x8436C6Bd7a3e68af1DF59ca90B342cbB3c08Fc3d",
-      "transactionHash": "0xc792386ef354563e233dddfeb320c46f9d1bde4d5fb5603b7d68cf40aeeea60d"
+      "address": "0x8cf1eDb896d55a39aD548Bfeb760b0154633E61d",
+      "transactionHash": "0x24b97dd5876d2e457b5c8b368d7c7d8df89d9bd14d2045feda2fbd9aad272b7c"
     },
     "1689336269771": {
       "events": {
@@ -18287,10 +18287,176 @@
       "links": {},
       "address": "0x69b6da0438A7977930cBB2E927e38d3C5DaEbf75",
       "transactionHash": "0x92e491d4433c558ba55c8a9b985bbb999405ad5e7af120424c5511b2159feffb"
+    },
+    "1690099206154": {
+      "events": {
+        "0xf3b01f304a6fefd18b9d8bc9829e5d5d38204f8c3227ca5f1b0119f3bb6c940a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_addr",
+              "type": "address"
+            }
+          ],
+          "name": "EventBrandRegisterOnPlatform",
+          "type": "event"
+        },
+        "0xe00519c095c5ff5bf8367c25679e5f06b1116d5b6e15c077a4fb7eda610214c1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "brandId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "image",
+              "type": "string"
+            }
+          ],
+          "name": "EventUserAccountCreated",
+          "type": "event"
+        },
+        "0x36ffaad55cc247449809f68d9e11c0e594b038d81969bc8df55b1fc07db84700": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_addr",
+              "type": "address"
+            }
+          ],
+          "name": "EventUserIsABrand",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xa9009C2Cc6039fC815B669D3A9b782c1c3A7F350",
+      "transactionHash": "0x9544c3840c937215d08509c176b8ad04c7ad559fed5d0ad87684762b3d410c6c"
+    },
+    "1690105490385": {
+      "events": {
+        "0xf3b01f304a6fefd18b9d8bc9829e5d5d38204f8c3227ca5f1b0119f3bb6c940a": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_addr",
+              "type": "address"
+            }
+          ],
+          "name": "EventBrandRegisterOnPlatform",
+          "type": "event"
+        },
+        "0xe00519c095c5ff5bf8367c25679e5f06b1116d5b6e15c077a4fb7eda610214c1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "brandId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "image",
+              "type": "string"
+            }
+          ],
+          "name": "EventUserAccountCreated",
+          "type": "event"
+        },
+        "0x36ffaad55cc247449809f68d9e11c0e594b038d81969bc8df55b1fc07db84700": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_addr",
+              "type": "address"
+            }
+          ],
+          "name": "EventUserIsABrand",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x9e2c566Dd40435bD0020DdB0D6D1ab62652bb158",
+      "transactionHash": "0x8073a4b132297038835c019e708d65950734c1747baa93dd51ad9ffd6fd05867"
     }
   },
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-22T23:52:25.610Z",
+  "updatedAt": "2023-07-23T11:20:54.312Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Thibaut Pauget",

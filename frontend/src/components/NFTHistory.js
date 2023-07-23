@@ -14,20 +14,47 @@ export function NFTHistory({ data }) {
               <th>Event</th>
               <th>From</th>
               <th>To</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
             {data
               ? data.map((item, i) => {
                   if (item) {
+                    const timestamp = item.timestamp * 1000;
+                    console.log(timestamp);
+                    const date = new Date(timestamp);
+                    //console.log(date.toString());
+
+                    //console.log();
+                    const jour = date.getDate();
+                    if (date.getDate().length === 2) {
+                      jour = date.getDate();
+                    } else if (date.getDate().length === 1) {
+                      jour = "0" + date.getDate();
+                    }
+                    const mois = date.getMonth() + 1;
+                    const annee = date.getFullYear();
+                    const heure = date.getHours();
+                    const minute = date.getMinutes();
+                    console.log(mois);
+                    console.log(jour);
+                    console.log(annee);
                     compt++;
                     return (
                       <>
                         <tr key={i}>
                           <th>{compt}</th>
                           <td>{item.transactionType}</td>
-                          <td>{item.ownerFrom}</td>
-                          <td>{item.ownerTo}</td>
+                          <td class="truncate text-ellipsis  max-w-[10rem]">
+                            {item.ownerFrom}
+                          </td>
+                          <td class="truncate text-ellipsis  max-w-[10rem]">
+                            {item.ownerTo}
+                          </td>
+                          <td>
+                            {jour}/{mois}/{annee} {heure}:{minute}{" "}
+                          </td>
                         </tr>
                       </>
                     );

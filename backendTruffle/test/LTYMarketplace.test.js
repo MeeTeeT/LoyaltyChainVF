@@ -4,6 +4,7 @@ const { BN, expectRevert, expectEvent } = require("@openzeppelin/test-helpers");
 const { expect } = require("chai");
 const truffleAssert = require("truffle-assertions");
 const BigNumber = require("bignumber.js");
+const { latestBlock } = require("@openzeppelin/test-helpers/src/time");
 
 contract("LTYMarketplace", (accounts) => {
   const _owner = accounts[0];
@@ -312,6 +313,9 @@ contract("LTYMarketplace", (accounts) => {
             from: _account2,
           }
         );
+        const blockNumber = await web3.eth.getBlockNumber();
+        const block = await web3.eth.getBlock(blockNumber);
+        const blockTimestamp = block.timestamp;
 
         expectEvent(result, "EventTokenTransaction", {
           tokenId: new BN(1),
@@ -321,6 +325,7 @@ contract("LTYMarketplace", (accounts) => {
           sellerTo: _account2,
           price: new BN(0),
           transactionType: "mint",
+          timestamp: blockTimestamp.toString(),
         });
       });
 
@@ -340,6 +345,9 @@ contract("LTYMarketplace", (accounts) => {
             from: _account2,
           }
         );
+        const blockNumber = await web3.eth.getBlockNumber();
+        const block = await web3.eth.getBlock(blockNumber);
+        const blockTimestamp = block.timestamp;
 
         expectEvent(result, "EventTokenTransaction", {
           tokenId: new BN(1),
@@ -349,6 +357,7 @@ contract("LTYMarketplace", (accounts) => {
           sellerTo: _account2,
           price: new BN(10000000000000),
           transactionType: "Send to marketplace",
+          timestamp: blockTimestamp.toString(),
         });
       });
 
@@ -465,6 +474,9 @@ contract("LTYMarketplace", (accounts) => {
             from: _account2,
           }
         );
+        const blockNumber = await web3.eth.getBlockNumber();
+        const block = await web3.eth.getBlock(blockNumber);
+        const blockTimestamp = block.timestamp;
 
         expectEvent(result, "EventTokenTransaction", {
           tokenId: new BN(1),
@@ -474,6 +486,7 @@ contract("LTYMarketplace", (accounts) => {
           sellerTo: _account2,
           price: new BN(0),
           transactionType: "mint",
+          timestamp: blockTimestamp.toString(),
         });
       });
 
@@ -492,7 +505,9 @@ contract("LTYMarketplace", (accounts) => {
             from: _account3,
           }
         );
-
+        const blockNumber = await web3.eth.getBlockNumber();
+        const block = await web3.eth.getBlock(blockNumber);
+        const blockTimestamp = block.timestamp;
         expectEvent(result, "EventTokenTransaction", {
           tokenId: new BN(1),
           ownerFrom: LTYMarketplaceInstance.address,
@@ -501,6 +516,7 @@ contract("LTYMarketplace", (accounts) => {
           sellerTo: _account3,
           price: new BN(0),
           transactionType: "Send to customer",
+          timestamp: blockTimestamp.toString(),
         });
       });
 
@@ -736,6 +752,9 @@ contract("LTYMarketplace", (accounts) => {
               from: _account1,
             }
           );
+          const blockNumber = await web3.eth.getBlockNumber();
+          const block = await web3.eth.getBlock(blockNumber);
+          const blockTimestamp = block.timestamp;
 
           expectEvent(result, "EventTokenTransaction", {
             tokenId: new BN(1),
@@ -745,6 +764,7 @@ contract("LTYMarketplace", (accounts) => {
             sellerTo: _account1,
             price: new BN(0),
             transactionType: "Remove from marketplace",
+            timestamp: blockTimestamp.toString(),
           });
         });
       });
@@ -880,6 +900,10 @@ contract("LTYMarketplace", (accounts) => {
           value: NFTPrice,
         });
 
+        const blockNumber = await web3.eth.getBlockNumber();
+        const block = await web3.eth.getBlock(blockNumber);
+        const blockTimestamp = block.timestamp;
+
         expectEvent(result, "EventTokenTransaction", {
           tokenId: new BN(1),
           ownerFrom: LTYMarketplaceInstance.address,
@@ -888,6 +912,7 @@ contract("LTYMarketplace", (accounts) => {
           sellerTo: _account2,
           price: NFTPrice,
           transactionType: "Buy NFT",
+          timestamp: blockTimestamp.toString(),
         });
       });
     });
@@ -1004,6 +1029,9 @@ contract("LTYMarketplace", (accounts) => {
               from: _account1,
             }
           );
+          const blockNumber = await web3.eth.getBlockNumber();
+          const block = await web3.eth.getBlock(blockNumber);
+          const blockTimestamp = block.timestamp;
 
           expectEvent(result, "EventTokenTransaction", {
             tokenId: new BN(1),
@@ -1013,6 +1041,7 @@ contract("LTYMarketplace", (accounts) => {
             sellerTo: _account1,
             price: new BN(10000000000),
             transactionType: "List on Marketplace",
+            timestamp: blockTimestamp.toString(),
           });
         });
       });
