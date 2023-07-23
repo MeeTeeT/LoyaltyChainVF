@@ -189,9 +189,9 @@ export default function CreateBrand() {
             <div class="flex items-center justify-center w-full align-top mt-7">
               <label
                 for="dropzone-file"
-                class="flex flex-col items-center justify-center w-60  border-2 border-slate-200 border-dashed rounded-3xl cursor-pointer bg-slate-100  dark:bg-blue-gray-200  dark:border-slate-200 dark:hover:bg-slate-300 "
+                class="flex flex-col items-center justify-center w-60 h-60 border-2 border-slate-200 border-dashed rounded-3xl cursor-pointer bg-slate-100  dark:bg-blue-gray-200  dark:border-slate-200 dark:hover:bg-slate-300 "
               >
-                <div class="flex flex-col items-center justify-center pt-5 pb-6 w-60 h-60">
+                <div class="flex flex-col items-center justify-center  w-60 h-60">
                   {IPFSUrl == null ? (
                     <svg
                       class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
@@ -211,10 +211,10 @@ export default function CreateBrand() {
                   ) : (
                     <img
                       src={IPFSUrl}
-                      class="object-fill w-60 h-60 aspect-square object-contain rounded-3xl"
+                      class="object-fill w-60 h-60 aspect-square object-contain rounded-3xl border-2 border-slate-200 border-dotted"
                     />
                   )}
-                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <p class=" text-sm text-gray-500 dark:text-gray-400">
                     <span class="font-semibold">
                       {fileURL == null && "Click to upload your logo"}
                     </span>{" "}
