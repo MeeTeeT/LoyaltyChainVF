@@ -5,7 +5,7 @@
 Projet LoyaltyChain
 
 - Déploiement de la dApp sur Vercel : https://loyalty-chain-vf.vercel.app/
-- Lien vers la vidéo de démo de dApp : https://www.loom.com/share/761d6f14633949e797f9ade2710dd3d8?sid=a900969f-aaba-4725-b179-3e6313028e33
+- Lien vers la vidéo de démo de dApp : https://www.loom.com/share/93d718adec194a3f89da78dddf0e4549?sid=de1998e1-0f9a-4fad-ab6a-333f961861fe
 
 ## Environnement
 
