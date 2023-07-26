@@ -21,17 +21,17 @@ contract LTYMarketplace is ERC721URIStorage {
     //_tokenIds variable has the most recent minted tokenId
     Counters.Counter private _tokenIds;
 
-    //Keeps track of the number of items sold on the marketplace
+    //Number of items sold on the marketplace
     Counters.Counter private _itemsSold;
 
     //_Brandids variable has the most recent minted tokenId
-    Counters.Counter private _brandsIds;
+    //Counters.Counter private _brandsIds;
 
     //owner of the contract
     address payable public owner;
 
     //The fee charged by the marketplace to be allowed to list an NFT
-    uint256 public listPrice = 0.01 ether; //not use in this version - Economic Model in construction
+    uint256 public listPrice = 0.01 ether; //not use in PMV - Economic Model in construction
     
     //Structure to store info about an NFT
     struct ListedToken {
@@ -226,6 +226,7 @@ contract LTYMarketplace is ERC721URIStorage {
         //Transfer NFT to the marketplace
         _transfer(msg.sender, address(this), _tokenId);
 
+        //emit event for history in front
         emit EventTokenTransaction(
             _tokenId,
             address(this),
@@ -237,7 +238,7 @@ contract LTYMarketplace is ERC721URIStorage {
             block.timestamp
         );
 
-        //Emit the event for successful transfer. The frontend listen to this message
+        //Emit the event for successful transfer.
         emit EventTokenListedSuccess(
             _tokenId,
             address(this),
